@@ -9,12 +9,13 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.join(__dirname, '..');
-require(path.join(ROOT, 'keywords.js'));
-const matcher = require(path.join(ROOT, 'matcher.js'));
+const EXT = path.join(ROOT, 'extension');
+require(path.join(EXT, 'keywords.js'));
+const matcher = require(path.join(EXT, 'matcher.js'));
 const K = globalThis.G6S.KEYWORDS;
 
-const kwLines = fs.readFileSync(path.join(ROOT, 'keywords.js'), 'utf8').split('\n');
-const mtLines = fs.readFileSync(path.join(ROOT, 'matcher.js'), 'utf8').split('\n');
+const kwLines = fs.readFileSync(path.join(EXT, 'keywords.js'), 'utf8').split('\n');
+const mtLines = fs.readFileSync(path.join(EXT, 'matcher.js'), 'utf8').split('\n');
 
 // ── Repérage des lignes ────────────────────────────────────────────────
 function findLine(lines, re, from) {

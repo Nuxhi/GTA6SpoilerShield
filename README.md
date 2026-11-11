@@ -84,7 +84,7 @@ This extension is **free and distributed directly from GitHub**: there is no sto
 2. **Unzip** it into a folder you will **keep** (for example `Documents\GTA6SpoilerShield`). ⚠️ Chrome reads the extension from this folder every time it starts: **do not delete or move it** afterwards.
 3. Open **`chrome://extensions`** in the address bar (Edge: `edge://extensions`).
 4. Turn on **Developer mode** (switch at the top right).
-5. Click **Load unpacked** and select the unzipped folder, the one that **directly contains `manifest.json`** (not a parent folder).
+5. Click **Load unpacked** and select the **`extension`** folder inside the unzipped folder, the one that **directly contains `manifest.json`** (not a parent folder).
 6. Click the puzzle icon in the toolbar and **pin** the extension. Then **reload the tabs** that were already open (F5).
 
 **To update:** download the new ZIP, replace the contents of your folder, click the circular arrow (↻) on the extension's card in `chrome://extensions`, then reload your tabs. Your settings are kept.
@@ -215,7 +215,7 @@ Cette extension est **gratuite et distribuée directement depuis GitHub** : pas 
 2. **Décompressez** l'archive dans un dossier que vous allez **garder** (par exemple `Documents\GTA6SpoilerShield`). ⚠️ Chrome relit l'extension depuis ce dossier à chaque démarrage : **ne le supprimez pas et ne le déplacez pas** ensuite.
 3. Ouvrez **`chrome://extensions`** dans la barre d'adresse (Edge : `edge://extensions`).
 4. Activez le **Mode développeur** (interrupteur en haut à droite).
-5. Cliquez sur **Charger l'extension non empaquetée** et choisissez le dossier décompressé, celui qui contient **directement `manifest.json`** (pas un dossier parent).
+5. Cliquez sur **Charger l'extension non empaquetée** et choisissez le dossier **`extension`** qui se trouve dans le dossier décompressé, celui qui contient **directement `manifest.json`** (pas un dossier parent).
 6. Cliquez sur l'icône puzzle de la barre d'outils et **épinglez** l'extension. Puis **rechargez les onglets** déjà ouverts (F5).
 
 **Pour mettre à jour :** téléchargez le nouveau ZIP, remplacez le contenu de votre dossier, cliquez sur la flèche circulaire (↻) de la carte de l'extension dans `chrome://extensions`, puis rechargez vos onglets. Vos réglages sont conservés.

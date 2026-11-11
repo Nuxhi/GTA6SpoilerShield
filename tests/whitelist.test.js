@@ -3,7 +3,7 @@
  */
 'use strict';
 const assert = require('assert');
-const W = require('../whitelist.js');
+const W = require('../extension/whitelist.js');
 let n = 0;
 const eq = (a, b, m) => { assert.deepStrictEqual(a, b, m); n++; };
 

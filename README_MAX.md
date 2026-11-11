@@ -11,7 +11,7 @@ Extension Chrome (Manifest V3) qui **masque automatiquement tout contenu pouvant
 
 1. Ouvrez `chrome://extensions`.
 2. Activez **Mode développeur** (en haut à droite).
-3. Cliquez **Charger l'extension non empaquetée** et choisissez ce dossier (celui qui contient `manifest.json`).
+3. Cliquez **Charger l'extension non empaquetée** et choisissez le dossier `extension/` (celui qui contient `manifest.json`).
 4. Épinglez l'icône « 6 » dans la barre d'outils pour accéder à la popup.
 5. **Rechargez les onglets déjà ouverts** : l'extension ne s'injecte que dans les pages chargées après son installation.
 
@@ -119,27 +119,29 @@ Le DOM réel a été inspecté là où il est accessible sans compte : **YouTube
 ## Structure du projet
 
 ```
-manifest.json          MV3 : un content script (document_start) + service worker + popup
-keywords.js            ★ Listes de mots-clés (jeu, personnages, lieux, spoils par langue) + réglages par défaut
+extension/             ★ L'extension elle-même (dossier à charger dans Chrome)
+  manifest.json          MV3 : un content script (document_start) + service worker + popup
+  keywords.js            ★ Listes de mots-clés (jeu, personnages, lieux, spoils par langue) + réglages par défaut
+  themes/                Thèmes de la popup (variables CSS) ; themes/backup/ = popup d'origine intacte
+  theme-init.js          Applique le thème avant l'affichage de la popup
+  matcher.js             Normalisation + détection, deux modes (sans DOM, testable avec Node)
+  util.js                Extraction de texte, heuristiques DOM partagées
+  whitelist.js           Liste blanche : identifiants, URL, normalisation (partagé content script / popup)
+  content.js             Moteur : analyse, overlay (Shadow DOM), pause des médias, MutationObserver, SPA
+  styles.css             Règles de page injectées au plus tôt (état masqué)
+  sites/generic.js       Repli générique (p, li, blockquote, titres, petits articles)
+  sites/x.js             X / Twitter
+  sites/reddit.js        Reddit (new + old)
+  sites/youtube.js       YouTube (+ Shorts, /watch)
+  sites/tiktok.js        TikTok web
+  sites/instagram.js     Instagram (fil, grilles, Reels, stories, profil)
+  sites/facebook.js      Facebook (posts, commentaires, Marketplace, Reels)
+  sites/google.js        Google (résultats, aperçus IA, annonces, Actualités…)
+  background.js          Compteur total + badge de l'icône
+  popup.html/.css/.js    Interface
+  icons/, fonts/         Icônes et police de la popup
 KEYWORDS.md            Liste exhaustive des mots-clés (générée), par catégorie / langue / mode, avec lignes
 tools/generate-keywords-md.js   Régénère KEYWORDS.md
-themes/                Thèmes de la popup (variables CSS) ; themes/backup/ = popup d'origine intacte
-theme-init.js          Applique le thème avant l'affichage de la popup
-matcher.js             Normalisation + détection, deux modes (sans DOM, testable avec Node)
-util.js                Extraction de texte, heuristiques DOM partagées
-whitelist.js           Liste blanche : identifiants, URL, normalisation (partagé content script / popup)
-content.js             Moteur : analyse, overlay (Shadow DOM), pause des médias, MutationObserver, SPA
-styles.css             Règles de page injectées au plus tôt (état masqué)
-sites/generic.js       Repli générique (p, li, blockquote, titres, petits articles)
-sites/x.js             X / Twitter
-sites/reddit.js        Reddit (new + old)
-sites/youtube.js       YouTube (+ Shorts, /watch)
-sites/tiktok.js        TikTok web
-sites/instagram.js     Instagram (fil, grilles, Reels, stories, profil)
-sites/facebook.js      Facebook (posts, commentaires, Marketplace, Reels)
-sites/google.js        Google (résultats, aperçus IA, annonces, Actualités…)
-background.js          Compteur total + badge de l'icône
-popup.html/.css/.js    Interface
 tests/matcher.test.js  Tests unitaires du moteur de détection
 tests/whitelist.test.js Tests unitaires de la liste blanche (identifiants, URL, sécurité)
 tests/e2e/whitelist/   Page de test locale + jeu de cas de la liste blanche (navigateur réel), voir son README

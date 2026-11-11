@@ -36,7 +36,7 @@ const server = https.createServer(
   const hosts = Object.keys(pages);
   const browser = await puppeteer.launch({
     executablePath: BROWSER, headless: 'new', ignoreDefaultArgs: ['--disable-extensions'],
-    args: [`--load-extension=${ROOT}`, `--host-resolver-rules=${hosts.map((h) => `MAP ${h} 127.0.0.1`).join(',')}`,
+    args: [`--load-extension=${path.join(ROOT, 'extension')}`, `--host-resolver-rules=${hosts.map((h) => `MAP ${h} 127.0.0.1`).join(',')}`,
       '--ignore-certificate-errors', '--no-sandbox', '--hide-scrollbars'],
   });
   const swT = await browser.waitForTarget((t) => t.type() === 'service_worker', { timeout: 15000 });
