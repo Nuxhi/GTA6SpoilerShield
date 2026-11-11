@@ -54,6 +54,7 @@
   const G = self.G6S;
   const util = G.util;
   const matcher = G.matcher;
+  const W = G.whitelist;
 
   const ARTICLE = 'div[role="article"]';
   const MAX_NODE_TEXT = 3000;
@@ -78,6 +79,46 @@
   const NOT_A_POST = '[role="option"],[role="tab"],[role="menuitem"],[role="treeitem"],[role="gridcell"],[role="row"],[role="radio"]';
 
   const NO_SCAN = 'input, textarea, select, [contenteditable=""], [contenteditable="true"], [role="textbox"]';
+
+  // ── Liste blanche ──────────────────────────────────────────────────────
+  // DOM réel relevé : l'auteur d'une publication est dans [data-ad-rendering-role="profile_name"] > a, avec une
+  // URL absolue à paramètres (https://www.facebook.com/NASA?__cft__[0]=…), normalisée par idFromHref. Un
+  // commentateur a un lien /people/Nom/123 (non reconnu → bloqué).
+  const idsOf = (root) => {
+    const set = new Set();
+    for (const a of root.querySelectorAll('a[href]')) {
+      const id = W.idFromHref('facebook', a.getAttribute('href'));
+      if (id) set.add(id);
+    }
+    return set;
+  };
+
+  function fbIdentify(el) {
+    if (el.matches(COMMENT_SEL)) return fbCommentIdentify(el);
+    let single = null;
+    for (const name of el.querySelectorAll('[data-ad-rendering-role="profile_name"]')) {
+      if (name.closest(COMMENT_SEL)) continue; // en-têtes de commentaires : filtrés à part
+      const ids = idsOf(name);
+      if (!ids.size) return null; // un en-tête dont on ne sait pas lire l'auteur → ambigu
+      for (const id of ids) {
+        if (single && single !== id) return null; // plusieurs auteurs (publication partagée…) → reste bloqué
+        single = id;
+      }
+    }
+    return single ? { platform: 'facebook', ids: [single] } : null;
+  }
+
+  /** Commentaire : le premier lien est l'auteur, et il doit être le SEUL compte lié (mentions = ambigu). */
+  function fbCommentIdentify(el) {
+    const own = [...el.querySelectorAll('a[href]')].filter((a) => a.closest(ARTICLE) === el);
+    const ids = new Set();
+    let firstId = null;
+    for (const a of own) {
+      const id = W.idFromHref('facebook', a.getAttribute('href'));
+      if (id) { ids.add(id); if (!firstId) firstId = id; }
+    }
+    return ids.size === 1 && firstId ? { platform: 'facebook', ids: [firstId] } : null;
+  }
 
   // ── Remontée vers le conteneur de publication ──────────────────────────
   /** Élément d'une liste d'éléments frères « de même gabarit » (heuristique de mise en page). */
@@ -177,6 +218,7 @@
         // Stratégie 1 : publications (fil, pages, groupes, profils, recherche, sponsorisées).
         name: 'post',
         selectors: POST_SELS,
+        identify: fbIdentify,
         accept(el) {
           if (el.matches(COMMENT_SEL) || el.closest(COMMENT_SEL)) return false; // règle « comment »
           if (el.hasAttribute('aria-posinset') && !el.matches(ARTICLE)) {
@@ -191,6 +233,7 @@
         // Stratégie 2 : commentaires et réponses, jugés un par un.
         name: 'comment',
         selectors: COMMENT_SELS,
+        identify: fbIdentify,
         textOptions: { skip: COMMENT_SEL },
       },
       {
@@ -227,6 +270,7 @@
         // qui a déjà pris un élément en charge n'est jamais contredite par celle-ci.
         name: 'text-fallback',
         prehide: false,
+        identify: fbIdentify,
         find: fallbackContainers,
         textOptions: { skip: COMMENT_SEL },
       },

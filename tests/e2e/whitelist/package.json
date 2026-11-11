@@ -1,0 +1,11 @@
+{
+  "name": "g6s-whitelist-e2e",
+  "private": true,
+  "description": "Test de la liste blanche (dev uniquement, hors extension)",
+  "scripts": {
+    "test": "node run.js"
+  },
+  "devDependencies": {
+    "puppeteer-core": "^24.0.0"
+  }
+}

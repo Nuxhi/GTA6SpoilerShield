@@ -71,6 +71,51 @@ Le texte analysé comprend : texte visible, `alt`, `aria-label`, `title` (miniat
 
 ---
 
+## Liste blanche de comptes
+
+Les contenus publiés par les comptes de la liste blanche ne sont **pas bloqués** (ex. la chaîne YouTube officielle de Rockstar). Elle s'applique dans les deux modes (il n'existe pas de mode « Extrême Ultra » dans cette extension : seulement Extrême et Intermédiaire).
+
+### Règle de sécurité (jamais inversée)
+
+1. Le contenu est d'abord **bloqué normalement**, quel que soit son auteur (aucun masquage retardé, aucune analyse sautée).
+2. Ensuite seulement, l'auteur est identifié.
+3. Auteur **identifié avec certitude** ET dans la liste → débloqué (la vidéo ne reprend lecture et son qu'à ce moment).
+4. Tout autre cas reste bloqué : auteur introuvable, ambigu, pas encore chargé, erreur, collaboration, contenu d'un autre auteur impossible à isoler.
+
+### Identification des comptes
+
+Jamais par le **nom affiché** (n'importe qui peut le copier) : uniquement par un identifiant extrait d'un **lien (`href`)** à l'intérieur du conteneur du post, normalisé (minuscules, sans `@`, sans paramètres d'URL, sans slash final). Un lien vers un autre domaine (`https://exemple.com/RockstarGames`) ne vaut rien. Les liens présents dans le texte (mentions, description) ne comptent pas.
+
+| Plateforme | Identifiant | Où il est lu |
+| --- | --- | --- |
+| X | `x.com/<handle>` | 1er `[data-testid="User-Name"]` du tweet (= auteur **original** pour un repost) |
+| YouTube | `@handle` **et** `UC…` (même chaîne) | `ytd-channel-name a`, `#channel-info a`, `a#author-text` |
+| TikTok | `@user` | liens `/@user` hors légende, son et commentaires |
+| Instagram | `instagram.com/<user>` | 1er lien de profil du `<header>` du post (collaboration : auteur principal) |
+| Facebook | nom de page ou `profile.php?id=` | `[data-ad-rendering-role="profile_name"] a` |
+| Reddit | `u/user` (+ `r/subreddit` en option) | attributs `author` et `subreddit-prefixed-name` (Reddit n'expose pas de lien d'auteur) |
+
+Le DOM réel a été inspecté là où il est accessible sans compte : **YouTube** (cartes : `ytd-channel-name a[href="/@RockstarGames"]` ; page de chaîne : URL `/@RockstarGames` + `canonical` `/channel/UC6VcWc1rAoWdBCM0JxrRQ3A`), **Facebook** (page publique : `profile_name`, URL absolue avec `?__cft__=…`) et **Reddit** (attribut `author`). Pour X, TikTok et Instagram (compte requis), les extracteurs reposent sur les sélecteurs documentés dans `sites/*.js` et sont testés sur des pages simulées : à valider sur le site réel.
+
+**YouTube : handle ↔ ID `UC…`.** Une chaîne ajoutée par `@handle` est reconnue aussi via son ID `UC…` (et inversement) dès que les deux ont été vus ensemble sur **la page de la chaîne** (URL `/@handle` + lien canonique et `meta itemprop="identifier"` d'accord entre eux, observés de façon stable). L'équivalence est mémorisée localement. Sans cela, une carte qui n'expose que l'ID `UC…` reste bloquée : l'extension ne fait aucune requête réseau pour résoudre un handle. Ajoutez la chaîne par son URL `/channel/UC…` pour couvrir les deux d'emblée (la suggestion « Rockstar Games — YouTube » ajoute déjà les deux identifiants).
+
+### Cas particuliers
+
+- **Repost / retweet** : c'est l'auteur du contenu **original** qui compte. Un compte autorisé qui reposte un inconnu ne débloque rien.
+- **Citation** : le post autorisé est débloqué, la partie citée reste analysée et bloquée séparément (si elle ne peut pas être isolée, tout reste bloqué).
+- **Commentaires / réponses** : toujours filtrés normalement (sur Instagram, les commentaires d'autres comptes sous un post autorisé restent bloqués).
+- **Collaboration** (plusieurs auteurs) : YouTube et TikTok = ambigu donc bloqué ; Instagram = débloqué seulement si l'auteur **principal** est autorisé.
+- **Publicités** : débloquées seulement si l'annonceur est identifié (lien de chaîne / profil) et autorisé.
+- **Shorts, Reels, TikTok** : même logique, lecture et son rétablis seulement une fois débloqué.
+- **Reddit** : un crosspost (contenu d'un autre auteur) reste bloqué même si l'auteur est autorisé.
+- Un élément déjà débloqué est **revérifié** à chaque passage : si le site le recycle pour un autre compte, il est re-bloqué.
+
+### Ergonomie
+
+- **Écran noir** : « Publié par @compte » et bouton **Toujours autoriser ce compte** → confirmation (ce compte pourrait aussi publier des spoils ; le focus est sur « Annuler »). Après confirmation, tous les posts de ce compte de la page sont débloqués **sans rechargement**.
+- **Popup → onglet « Liste blanche »** : champ unique (URL de profil, plateforme détectée automatiquement, **ou** `@handle` + menu de plateforme), liste classée par plateforme avec icônes et bouton de suppression, **recherche**, **interrupteur de pause**, **suggestions de comptes officiels Rockstar non cochées par défaut** (seul le compte YouTube a été vérifié ; TikTok et Reddit sont marqués « à vérifier »), **import / export JSON** (l'import fusionne et ignore les identifiants invalides).
+- **Stockage** : `chrome.storage.sync`, clés `whitelist` (par plateforme) et `whitelistEnabled` ; 200 comptes maximum. Les changements s'appliquent à tous les onglets ouverts sans rechargement : un **ajout** débloque à chaud ce qui est masqué ; un **retrait** ou la **pause** ré-analysent tout (bloquer d'abord, autoriser ensuite).
+
 ## Structure du projet
 
 ```
@@ -82,6 +127,7 @@ themes/                Thèmes de la popup (variables CSS) ; themes/backup/ = po
 theme-init.js          Applique le thème avant l'affichage de la popup
 matcher.js             Normalisation + détection, deux modes (sans DOM, testable avec Node)
 util.js                Extraction de texte, heuristiques DOM partagées
+whitelist.js           Liste blanche : identifiants, URL, normalisation (partagé content script / popup)
 content.js             Moteur : analyse, overlay (Shadow DOM), pause des médias, MutationObserver, SPA
 styles.css             Règles de page injectées au plus tôt (état masqué)
 sites/generic.js       Repli générique (p, li, blockquote, titres, petits articles)
@@ -95,6 +141,8 @@ sites/google.js        Google (résultats, aperçus IA, annonces, Actualités…
 background.js          Compteur total + badge de l'icône
 popup.html/.css/.js    Interface
 tests/matcher.test.js  Tests unitaires du moteur de détection
+tests/whitelist.test.js Tests unitaires de la liste blanche (identifiants, URL, sécurité)
+tests/e2e/whitelist/   Page de test locale + jeu de cas de la liste blanche (navigateur réel), voir son README
 tests/demo.html        Page de démo pour le repli générique
 ```
 
@@ -126,6 +174,14 @@ Pour chaque plateforme, rechargez l'onglet après avoir réglé la popup.
 ```
 node tests/matcher.test.js
 ```
+
+### Liste blanche
+
+```
+node tests/whitelist.test.js        # identifiants, URL, faux domaines, décision d'autorisation
+```
+
+Test de bout en bout (page de test locale et jeu de cas : compte autorisé, non autorisé, faux compte au même nom affiché, repost, citation, commentaire, auteur introuvable, YouTube `@handle` puis `UC…`, etc.) : voir `tests/e2e/whitelist/README.md`.
 
 ### Page de démo (repli générique)
 
@@ -200,6 +256,7 @@ Changer le mode, activer/désactiver ou ajouter un mot-clé dans la popup met à
 - **Non couvert** : Google Discover (flux mobile / nouvel onglet), images dans les images (voir évolutions futures), iframes (vidéos intégrées, widgets) — le script ne s'exécute que dans le cadre principal.
 - **Facebook** : le fil d'actualité **connecté** n'a pas pu être inspecté (compte requis) ; la structure a été relevée sur une page publique (publication = `div[role="article"][aria-posinset]` sous un pagelet `TimelineFeedUnit_N`, commentaire = article imbriqué avec `aria-label="Commentaire de…"`, pas de `role="feed"` sur une page) et complétée par le secours par le texte. Le texte coupé par « Voir plus » n'est lu que s'il est dans le DOM ; Facebook brouille parfois des mots avec des caractères cachés ; les publications « virtualisées » (contenu retiré hors écran) sont ré-analysées quand leur contenu revient.
 - **Commentaires Instagram / TikTok** : sur Instagram, un commentaire spoil masque tout le post (les commentaires font partie du `<article>`).
+- **Liste blanche** : une collaboration YouTube / TikTok, un auteur introuvable, un crosspost Reddit ou une citation impossible à isoler restent bloqués (prudence voulue). Les extracteurs X, TikTok et Instagram n'ont pas été relevés sur le site réel. Sur X, si l'en-tête du tweet est dans une carte cliquable (`role="link"`), l'auteur est jugé ambigu et le tweet reste bloqué.
 - **Bio des auteurs** : lue uniquement lorsque vous visitez le profil (aucune requête réseau).
 - **Faux positifs en mode extrême** : voulus (Rockstar, Jason, Lucia, Vice City, Ocean Beach, Ambrosia…). Utilisez le mode intermédiaire pour les réduire.
 - Couper le son d'un lecteur peut, selon le site, être mémorisé comme préférence « muet » ; le son est rétabli dès que vous cliquez sur « Afficher quand même ».

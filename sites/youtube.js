@@ -32,15 +32,56 @@
   'use strict';
   const G = self.G6S;
   const util = G.util;
+  const W = G.whitelist;
+
+  // ── Liste blanche : identité de la chaîne (liens /@handle ou /channel/UC…) ──
+  // DOM réel relevé : une carte vidéo contient <ytd-channel-name><a href="/@RockstarGames"> et
+  // #channel-info a[href="/@RockstarGames"] ; une pub n'a aucun lien de chaîne (donc reste bloquée).
+  const AUTHOR_LINKS = 'ytd-channel-name a[href], #channel-name a[href], #channel-info a[href], a#author-text[href], ' +
+    '.ytReelChannelBarViewModelChannelName a[href], yt-content-metadata-view-model a[href^="/@"], ' +
+    'yt-content-metadata-view-model a[href^="/channel/"]';
+  const NOT_AUTHOR = '#description-text, .metadata-snippet-container, ytd-expander, #content-text, yt-attributed-string';
+
+  /** Une seule chaîne distincte dans le bloc, sinon null (collaboration, ambiguïté, introuvable). */
+  function ytIdentify(root) {
+    if (!root) return null;
+    const ids = new Set();
+    for (const a of root.querySelectorAll(AUTHOR_LINKS)) {
+      if (a.closest(NOT_AUTHOR)) continue; // liens placés dans une description / un texte : pas l'auteur
+      const id = W.idFromHref('youtube', a.getAttribute('href'));
+      if (id) ids.add(id);
+    }
+    return ids.size === 1 ? { platform: 'youtube', ids: [...ids] } : null;
+  }
+
+  /**
+   * Apprentissage @handle ↔ ID UC… : uniquement sur la page de la chaîne (URL /@handle, lien canonique
+   * /channel/UC… ET meta itemprop="identifier" d'accord entre eux). Vérifié sur le site réel :
+   * youtube.com/@RockstarGames → canonical /channel/UC6VcWc1rAoWdBCM0JxrRQ3A. La page d'une vidéo, elle,
+   * n'expose que le @handle. Le moteur ne retient la paire que si elle est stable (voir content.js).
+   */
+  function ytLearn() {
+    const m = /^\/(@[^/]+)/.exec(location.pathname);
+    if (!m) return [];
+    const canon = document.querySelector('link[rel="canonical"]');
+    const meta = document.querySelector('meta[itemprop="identifier"]');
+    const uc = canon && W.idFromHref('youtube', canon.getAttribute('href'));
+    const metaId = meta && W.normalizeId('youtube', meta.getAttribute('content'));
+    const handle = W.normalizeId('youtube', m[1]);
+    if (!uc || !metaId || uc !== metaId || !handle || !/^uc/.test(uc)) return [];
+    return [{ platform: 'youtube', a: handle, b: uc }];
+  }
 
   G.registerSite({
     id: 'youtube',
     label: 'YouTube',
     hosts: /(^|\.)youtube\.com$/,
+    learn: ytLearn,
 
     rules: [
       {
         name: 'card',
+        identify: ytIdentify,
         selectors: [
           'ytd-rich-item-renderer', 'ytd-video-renderer', 'ytd-compact-video-renderer',
           'yt-lockup-view-model', 'ytd-grid-video-renderer', 'ytd-playlist-renderer',
@@ -54,6 +95,7 @@
       },
       {
         name: 'comment',
+        identify: ytIdentify,
         selectors: ['ytd-comment-view-model', 'ytd-comment-renderer'],
       },
       {
@@ -64,12 +106,14 @@
         // Un Short = tout le lecteur recouvert + pause + son coupé.
         name: 'short',
         kind: 'player',
+        identify: ytIdentify,
         selectors: ['ytd-reel-video-renderer', 'ytm-reel-item-renderer'],
       },
       {
         // Page /watch : on masque le lecteur si le titre / la description / la chaîne matchent.
         name: 'watch',
         kind: 'player',
+        identify: (el) => ytIdentify(el.querySelector('ytd-watch-metadata')),
         prehide: false,
         find() {
           if (location.pathname !== '/watch') return [];

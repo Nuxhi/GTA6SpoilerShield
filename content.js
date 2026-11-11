@@ -24,10 +24,11 @@
 (function () {
   'use strict';
   const G = self.G6S;
-  if (!G || !G.matcher || !G.util || G.__engine) return;
+  if (!G || !G.matcher || !G.util || !G.whitelist || G.__engine) return;
   G.__engine = true;
 
   const { matcher, util } = G;
+  const W = G.whitelist;
   const DEFAULTS = G.DEFAULT_SETTINGS;
 
   // ── Site courant & règles ───────────────────────────────────────────────
@@ -45,6 +46,7 @@
   const byTarget = new WeakMap();    // cible de l'overlay -> état
   const firstSeen = new WeakMap();   // élément -> date de première vue (texte vide)
   const totalSeen = new WeakMap();   // élément -> signature déjà comptée au total
+  const aliases = {};                // équivalences apprises (YouTube : @handle ↔ UC…)
   const flaggedAuthors = new Map();  // "site:pseudo" -> libellé (profils liés à GTA 6)
   let pageCount = 0;
   let newlyBlocked = 0;
@@ -89,7 +91,11 @@
     button.cancel { border-color: #fff; }
     .compact .pill { padding: 3px 8px; font-size: 11px; }
     .tiny .pill { padding: 0 6px; font-size: 10px; line-height: 1.5; }
-    .tiny .long, .tiny .keep, .tiny .why { display: none; }
+    .who { font-size: 12px; opacity: .9; }
+    button.allow { border-style: dashed; font-size: 11px; opacity: .85; }
+    .compact .who { font-size: 11px; }
+    .compact button.allow { padding: 2px 6px; font-size: 10px; }
+    .tiny .long, .tiny .keep, .tiny .why, .tiny .who, .tiny .allow { display: none; }
     .tiny .short { display: inline; }
     .tiny button { white-space: nowrap; }
     .tiny .msg { font-size: 11px; }
@@ -163,8 +169,8 @@
   }
 
   /**
-   * (Re)construit le contenu de l'overlay selon l'état :
-   * masqué / gardé masqué, éventuellement avec un compte à rebours en cours.
+   * (Re)construit le contenu de l'overlay selon l'état : masqué / gardé masqué, avec un éventuel
+   * compte à rebours, la ligne « Publié par … » et la confirmation « Toujours autoriser ».
    */
   function render(st) {
     const wrap = st.wrap;
@@ -173,10 +179,26 @@
     const kept = st.status === 'kept';
     const actions = mkEl('div', 'actions');
 
+    // Confirmation avant d'ajouter un compte à la liste blanche (il pourrait aussi publier des spoils).
+    if (st.confirming && st.who) {
+      const who = W.display(st.who.platform, st.who.ids[0]);
+      wrap.appendChild(mkMsg('Toujours autoriser ' + who + ' ?', 'Autoriser ?'));
+      wrap.appendChild(mkEl('div', 'why',
+        'Ce compte pourrait aussi publier des spoils : ses contenus ne seront plus bloqués (' + W.LABELS[st.who.platform] + ').'));
+      actions.appendChild(mkButton('Confirmer', 'primary', () => { st.confirming = false; whitelistAdd(st.who); }));
+      st.cancelBtn = mkButton('Annuler', 'cancel', () => { st.confirming = false; render(st); });
+      actions.appendChild(st.cancelBtn);
+      wrap.appendChild(actions);
+      updateSize(st);
+      st.cancelBtn.focus({ preventScroll: true }); // le choix le plus sûr a le focus : Entrée par réflexe n'ajoute rien
+      return;
+    }
+
     wrap.appendChild(kept
       ? mkMsg('Contenu masqué', 'Masqué')
       : mkMsg('Contenu lié à GTA 6 – spoil possible', 'Spoil GTA 6'));
     if (!kept) wrap.appendChild(mkEl('div', 'why', 'Détecté : ' + st.res.label));
+    if (st.who) wrap.appendChild(mkEl('div', 'who', 'Publié par ' + W.display(st.who.platform, st.who.ids[0])));
 
     if (st.countdown) {
       // Décompte en cours : un « bouton » d'état (non cliquable) + Annuler.
@@ -196,6 +218,9 @@
       st.revealBtn = mkButton('Afficher quand même', 'primary', () => requestReveal(st), 'Afficher');
       actions.appendChild(st.revealBtn);
       actions.appendChild(mkButton('Garder masqué', 'keep', () => keep(st)));
+    }
+    if (st.who && !st.countdown) {
+      actions.appendChild(mkButton('Toujours autoriser ce compte', 'allow', () => { st.confirming = true; render(st); }));
     }
     wrap.appendChild(actions);
     updateSize(st);
@@ -372,7 +397,12 @@
 
   /** Annule complètement un blocage (changement de contenu, de réglage…). */
   function clearBlock(st) {
-    if (!st || !st.blocked) return;
+    if (!st) return;
+    if (st.parts && st.parts.length) {
+      for (const p of st.parts) { clearBlock(p); states.delete(p.el); }
+      st.parts = [];
+    }
+    if (!st.blocked) return;
     removeOverlay(st);
     if (st.target.getAttribute('data-g6s-state')) st.target.removeAttribute('data-g6s-state');
     restoreMedia(st, false);
@@ -397,7 +427,7 @@
       el, rule, sig, res,
       target: resolveTarget(el, rule),
       status: rule.mode === 'collapse' ? 'collapsed' : 'hidden',
-      blocked: true, counted: true,
+      blocked: true, counted: true, totalCounted: false, who: null, confirming: false, parts: [],
       media: new Map(), restore: {}, host: null, wrap: null,
     };
     st.guard = (e) => {
@@ -409,13 +439,130 @@
     states.set(el, st);
     live.add(el);
     pageCount++;
-    if (totalSeen.get(el) !== sig) { totalSeen.set(el, sig); newlyBlocked++; }
+    if (totalSeen.get(el) !== sig) { totalSeen.set(el, sig); newlyBlocked++; st.totalCounted = true; }
 
     if (st.status === 'collapsed') st.target.setAttribute('data-g6s-state', 'collapsed');
     else mountOverlay(st);
     guardMedia(st);
     scheduleReport();
     return st;
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════
+  // Liste blanche de comptes
+  //
+  // RÈGLE DE SÉCURITÉ (ne jamais inverser) :
+  //   1. le contenu est d'abord bloqué NORMALEMENT (applyBlock), quel que soit son auteur ;
+  //   2. ensuite seulement on identifie l'auteur (rule.identify, d'après des liens / attributs) ;
+  //   3. auteur identifié avec CERTITUDE ET en liste blanche → on débloque ;
+  //   4. tout autre cas (introuvable, ambigu, pas encore chargé, exception) → reste bloqué.
+  // L'identification ne retarde jamais le masquage : tout se passe dans la même tâche, avant l'affichage.
+  // ═══════════════════════════════════════════════════════════════════════
+  /** Identité de l'auteur ({platform, ids}) ou null. Toute erreur = null = reste bloqué. */
+  function identifyFor(el, rule) {
+    if (!rule || typeof rule.identify !== 'function') return null;
+    const who = safe(() => rule.identify(el), null);
+    if (!who || !who.platform || !Array.isArray(who.ids) || !who.ids.length) return null;
+    const ids = who.ids.map((id) => W.normalizeId(who.platform, id)).filter(Boolean);
+    if (ids.length !== who.ids.length) return null;
+    // `alt` : identifiants servant UNIQUEMENT à la comparaison (ex. sous-reddit), jamais ajoutés à la liste.
+    const alt = (who.alt || []).map((id) => W.normalizeId(who.platform, id)).filter(Boolean);
+    return { platform: who.platform, ids, alt };
+  }
+
+  const whoKeyOf = (w) => w.ids.concat(w.alt || []).join();
+
+  function whitelistActive() {
+    return settings.enabled && settings.whitelistEnabled && W.count(settings.whitelist) > 0;
+  }
+
+  /** @returns {boolean} true si le contenu a été débloqué */
+  function tryAllow(st) {
+    if (!st || !st.blocked || !isActiveBlock(st)) return false;
+    const who = identifyFor(st.el, st.rule);
+    if (who && (!st.who || st.who.ids.join() !== who.ids.join())) {
+      st.who = who; // affiché sur l'écran noir (« Publié par … ») + bouton « Toujours autoriser »
+      if (st.wrap && !st.confirming) render(st);
+    }
+    if (!who || !whitelistActive() || !W.isAllowed(settings.whitelist, who.platform, who.ids.concat(who.alt || []), aliases)) return false;
+
+    // Contenu d'AUTRES auteurs à l'intérieur (citation, commentaires…) : on doit pouvoir l'isoler,
+    // sinon on ne débloque pas (non-tableau = « impossible d'isoler »).
+    let parts = [];
+    if (st.rule.parts) {
+      parts = safe(() => st.rule.parts(st.el, who), false);
+      if (!Array.isArray(parts)) return false;
+    }
+    allow(st, parts);
+    return true;
+  }
+
+  function allow(st, parts) {
+    const { el, rule, sig } = st;
+    restoreMedia(st, true); // la vidéo ne reprend lecture et son qu'une fois débloquée
+    if (st.totalCounted) { newlyBlocked = Math.max(0, newlyBlocked - 1); totalSeen.delete(el); }
+    clearBlock(st);
+    const ok = { rule, sig, status: 'allowed', blocked: false, parts: [], whoKey: st.who ? whoKeyOf(st.who) : '' };
+    states.set(el, ok);
+    markChecked(el);
+
+    // Les parties d'autres auteurs restent analysées (et bloquées) séparément.
+    for (const part of parts) {
+      if (!part || !part.el || !part.el.isConnected) continue;
+      const text = safe(() => util.extractText(part.el), '') || '';
+      const res = matcher.evaluate(text);
+      if (!res) continue;
+      const pst = applyBlock(part.el, { name: (rule.name || 'post') + '-part', kind: rule.kind, identify: part.identify }, util.hash(text), res);
+      ok.parts.push(pst);
+      tryAllow(pst);
+    }
+    // Contenus imbriqués gérés par d'autres règles (commentaires, posts imbriqués) : plus couverts
+    // par le parent → on les analyse maintenant, normalement.
+    scanPass([{ el, deep: true }], false);
+  }
+
+  /** Débloque à chaud ce qui est déjà masqué pour les comptes désormais autorisés (sans rechargement). */
+  function lightAllow() {
+    if (!settings.enabled) return;
+    for (const el of [...live]) {
+      const st = states.get(el);
+      if (st && st.blocked) tryAllow(st);
+    }
+    checkProfile();
+  }
+
+  /** « Toujours autoriser ce compte » (après confirmation sur l'écran noir). */
+  function whitelistAdd(who) {
+    const cur = settings.whitelist || W.empty();
+    const next = W.sanitize(Object.assign({}, cur, { [who.platform]: [...(cur[who.platform] || []), ...who.ids] }));
+    settings.whitelist = next;
+    settings.whitelistEnabled = true;
+    safe(() => chrome.storage.sync.set({ whitelist: next, whitelistEnabled: true }));
+    lightAllow();
+  }
+
+  // Équivalences apprises (YouTube : le @handle et l'ID UC… d'une même chaîne, vus ensemble sur sa page).
+  const pendingAlias = new Map();
+  function learnAliases() {
+    if (!site || !site.learn || !ready || !settings.enabled) return;
+    const pairs = safe(() => site.learn(), []) || [];
+    let changed = false;
+    for (const p of pairs) {
+      const a = W.normalizeId(p.platform, p.a), b = W.normalizeId(p.platform, p.b);
+      if (!a || !b || a === b) continue;
+      // Une paire n'est retenue que si elle est observée de façon STABLE (même URL, 1,5 s d'écart) :
+      // pendant une navigation SPA, les balises <head> peuvent encore appartenir à la page précédente.
+      const key = p.platform + '|' + a + '|' + b + '|' + location.href;
+      const seen = pendingAlias.get(key);
+      if (!seen) { pendingAlias.set(key, Date.now()); continue; }
+      if (Date.now() - seen < 1500) continue;
+      if (W.addAlias(aliases, p.platform, a, b)) changed = true;
+    }
+    if (pendingAlias.size > 50) pendingAlias.clear();
+    if (changed) {
+      safe(() => chrome.storage.local.set({ aliases }));
+      lightAllow();
+    }
   }
 
   // ═══════════════════════════════════════════════════════════════════════
@@ -486,9 +633,16 @@
 
     const prev = states.get(el);
     if (prev && prev.sig === sig) {
-      if (prev.blocked && isActiveBlock(prev)) guardMedia(prev); // vidéo apparue entre-temps
-      markChecked(el);
-      return;
+      if (prev.status === 'allowed') {
+        // Élément autorisé : on REVÉRIFIE l'auteur à chaque passage (un site peut recycler un élément pour
+        // un autre compte au texte identique). Auteur changé / introuvable → ré-analyse complète.
+        const w = identifyFor(el, rule);
+        if (w && whitelistActive() && whoKeyOf(w) === prev.whoKey) { markChecked(el); return; }
+      } else {
+        if (prev.blocked && isActiveBlock(prev)) guardMedia(prev); // vidéo apparue entre-temps
+        markChecked(el);
+        return;
+      }
     }
     if (prev) clearBlock(prev);
 
@@ -496,8 +650,10 @@
     if (!res && flagged) {
       res = { category: 'profile', term: author.id, spoil: null, label: 'profil de « ' + author.id + ' » lié à GTA 6' };
     }
-    if (res) applyBlock(el, rule, sig, res);
-    else states.set(el, { rule, sig, status: 'ok', blocked: false });
+    if (res) {
+      const st = applyBlock(el, rule, sig, res); // 1. bloqué normalement, quel que soit l'auteur
+      tryAllow(st);                             // 2. puis seulement : auteur identifié ET en liste blanche → débloqué
+    } else states.set(el, { rule, sig, status: 'ok', blocked: false });
     markChecked(el);
   }
 
@@ -583,6 +739,7 @@
     dirtyShallow.clear();
     scanPass(roots, false);
     checkProfile();
+    learnAliases();
   }
 
   function schedulePass() {
@@ -676,6 +833,11 @@
     if (text == null) return; // en-tête pas encore chargé
 
     const key = site.id + ':' + info.id;
+    // Compte en liste blanche (identifiant tiré de l'URL) : profil ni signalé ni recouvert.
+    if (whitelistActive() && W.isAllowed(settings.whitelist, site.id, [info.id], aliases)) {
+      dropProfileCover();
+      return;
+    }
     const res = matcher.evaluate(text);
     if (!res) {
       if (flaggedAuthors.delete(key)) saveFlagged();
@@ -735,6 +897,8 @@
       customKeywords: Array.isArray(s.customKeywords)
         ? s.customKeywords.filter((k) => typeof k === 'string' && k.trim()).map((k) => k.trim())
         : [],
+      whitelistEnabled: s.whitelistEnabled !== false,
+      whitelist: W.sanitize(s.whitelist),
       // Délai avant révélation : entier 0–30 s (0 = immédiat).
       revealDelay: Number.isFinite(Number(s.revealDelay))
         ? Math.min(30, Math.max(0, Math.round(Number(s.revealDelay))))
@@ -764,12 +928,13 @@
       try { chrome.storage.sync.get(DEFAULTS, resolve); } catch (e) { resolve(null); }
     });
     const localP = new Promise((resolve) => {
-      try { chrome.storage.local.get({ flaggedAuthors: {} }, resolve); } catch (e) { resolve(null); }
+      try { chrome.storage.local.get({ flaggedAuthors: {}, aliases: {} }, resolve); } catch (e) { resolve(null); }
     });
     const timeout = new Promise((resolve) => setTimeout(() => resolve('timeout'), 600));
     return Promise.race([Promise.all([syncP, localP]), timeout]).then((out) => {
       if (Array.isArray(out)) {
         if (out[0]) settings = sanitize(out[0]);
+        if (out[1] && out[1].aliases && typeof out[1].aliases === 'object') Object.assign(aliases, out[1].aliases);
         if (out[1] && out[1].flaggedAuthors) {
           for (const [k, v] of Object.entries(out[1].flaggedAuthors)) flaggedAuthors.set(k, v);
         }
@@ -799,7 +964,7 @@
   const observer = new MutationObserver(onMutations);
   observer.observe(document, {
     childList: true, subtree: true, characterData: true,
-    attributes: true, attributeFilter: ['alt', 'aria-label', 'title'],
+    attributes: true, attributeFilter: ['alt', 'aria-label', 'title', 'href'],
   });
 
   loadState().then(() => {
@@ -820,26 +985,41 @@
     safe(() => self.navigation.addEventListener('navigatesuccess', checkUrl));
   }
   setInterval(checkUrl, 600); // dernier recours : history.pushState n'est pas observable d'ici
+  if (site && site.learn) setInterval(learnAliases, 1000);
   // Onglet masqué = le contenu n'est plus « à l'écran » : on annule aussi les décomptes.
   document.addEventListener('visibilitychange', () => { if (document.hidden) cancelAllCountdowns(); });
 
   // Réglages modifiés depuis la popup.
   try {
     chrome.storage.onChanged.addListener((changes, area) => {
+      if (area === 'local' && changes.aliases && changes.aliases.newValue) {
+        // Équivalence apprise dans un autre onglet.
+        Object.assign(aliases, changes.aliases.newValue);
+        lightAllow();
+        return;
+      }
       if (area !== 'sync') return;
+      const before = whitelistActive() ? W.flatten(settings.whitelist) : new Set();
       const next = Object.assign({}, settings);
       for (const k of Object.keys(DEFAULTS)) if (changes[k]) next[k] = changes[k].newValue;
       const clean = sanitize(next);
       const detectionChanged = clean.mode !== settings.mode ||
         JSON.stringify(clean.customKeywords) !== JSON.stringify(settings.customKeywords);
-      const needsRefresh = detectionChanged || clean.enabled !== settings.enabled;
+      const enabledChanged = clean.enabled !== settings.enabled;
       settings = clean;
       if (detectionChanged) {
         flaggedAuthors.clear();
         safe(() => chrome.storage.local.remove('flaggedAuthors'));
       }
+      if (detectionChanged || enabledChanged) { refreshAll(); return; }
+      // Liste blanche modifiée : si on n'a fait qu'AJOUTER des comptes, on débloque à chaud ce qui est
+      // déjà masqué ; sinon (retrait, mise en pause) on ré-analyse tout : bloquer d'abord, autoriser ensuite.
+      const after = whitelistActive() ? W.flatten(settings.whitelist) : new Set();
+      if (before.size !== after.size || [...before].some((x) => !after.has(x))) {
+        if ([...before].every((x) => after.has(x))) lightAllow();
+        else refreshAll();
+      }
       // Délai de révélation ou thème modifiés : rien à ré-analyser (évite tout clignotement).
-      if (needsRefresh) refreshAll();
     });
 
     chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {

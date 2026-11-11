@@ -23,6 +23,41 @@
   'use strict';
   const G = self.G6S;
   const util = G.util;
+  const W = G.whitelist;
+
+  // ── Liste blanche ──
+  const profileId = (a) => W.idFromHref('instagram', a.getAttribute('href'));
+
+  /** Auteur principal = premier lien de profil du <header> du post (collaboration : le 1er = auteur principal). */
+  function igIdentify(el) {
+    const header = el.querySelector('header');
+    if (!header) return null;
+    for (const a of header.querySelectorAll('a[href]')) {
+      const id = profileId(a);
+      if (id) return { platform: 'instagram', ids: [id] };
+    }
+    return null;
+  }
+
+  /** Commentaires d'AUTRES comptes dans l'<article> : isolés pour rester filtrés. */
+  function igParts(el, who) {
+    const parts = [];
+    for (const li of el.querySelectorAll('ul li')) {
+      if (parts.some((p) => p.el.contains(li))) continue;
+      const a = li.querySelector('a[href]');
+      const id = a && profileId(a);
+      if (id && id === who.ids[0]) continue; // légende ou réponse de l'auteur lui-même
+      parts.push({ el: li, identify: () => (id ? { platform: 'instagram', ids: [id] } : null) });
+    }
+    return parts;
+  }
+
+  /** Reel / story : un seul profil distinct dans le bloc, sinon ambigu (mentions) → bloqué. */
+  function igSingleProfile(el) {
+    const ids = new Set();
+    for (const a of el.querySelectorAll('a[href]')) { const id = profileId(a); if (id) ids.add(id); }
+    return ids.size === 1 ? { platform: 'instagram', ids: [...ids] } : null;
+  }
 
   const RESERVED = new Set([
     'explore', 'reels', 'reel', 'stories', 'p', 'tv', 'direct', 'accounts', 'about', 'legal',
@@ -52,6 +87,8 @@
       {
         name: 'post',
         selectors: ['article'],
+        identify: igIdentify,
+        parts: igParts,
         author(el) {
           const a = el.querySelector('header a[href^="/"]');
           const id = a && handleFromPath(a.getAttribute('href'));
@@ -66,6 +103,7 @@
       {
         name: 'reel',
         kind: 'player',
+        identify: igSingleProfile,
         prehide: false,
         find() {
           return /^\/(reels?)\//.test(location.pathname) ? playerBlocks() : [];

@@ -9,7 +9,8 @@
 'use strict';
 
 // Garder cohérent avec keywords.js (DEFAULT_SETTINGS) et popup.js.
-const DEFAULT_SETTINGS = { enabled: true, mode: 'extreme', customKeywords: [], revealDelay: 5, theme: 'vicecity' };
+const DEFAULT_SETTINGS = { enabled: true, mode: 'extreme', customKeywords: [], revealDelay: 5, theme: 'vicecity',
+  whitelistEnabled: true, whitelist: { x: [], youtube: [], tiktok: [], instagram: [], facebook: [], reddit: [] } };
 
 chrome.runtime.onInstalled.addListener(async () => {
   // Ne complète que les clés absentes (ne réinitialise pas les réglages existants).

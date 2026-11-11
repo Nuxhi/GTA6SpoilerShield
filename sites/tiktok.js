@@ -21,6 +21,21 @@
   'use strict';
   const G = self.G6S;
   const util = G.util;
+  const W = G.whitelist;
+
+  // ── Liste blanche : liens /@user de l'auteur, hors légende / son / commentaires (mentions) ──
+  const NOT_AUTHOR = '[data-e2e="video-desc"], [data-e2e="browse-video-desc"], [data-e2e="video-music"], ' +
+    '[data-e2e="browse-music"], [data-e2e^="comment"]';
+  /** Un seul compte distinct, sinon null (collaboration / duo / ambigu → reste bloqué). */
+  function ttIdentify(el) {
+    const ids = new Set();
+    for (const a of el.querySelectorAll('a[href*="/@"]')) {
+      if (a.closest(NOT_AUTHOR)) continue;
+      const id = W.idFromHref('tiktok', a.getAttribute('href'));
+      if (id) ids.add(id);
+    }
+    return ids.size === 1 ? { platform: 'tiktok', ids: [...ids] } : null;
+  }
 
   const CAPTION = '[data-e2e="video-desc"], [data-e2e="browse-video-desc"]';
 
@@ -39,6 +54,7 @@
       {
         name: 'feed-video',
         kind: 'player',
+        identify: ttIdentify,
         selectors: ['[data-e2e="recommend-list-item-container"]', 'article[data-scroll-index]'],
         author(el) {
           const a = el.querySelector('a[href^="/@"]');
@@ -58,6 +74,7 @@
         // Page d'une vidéo isolée.
         name: 'video-page',
         kind: 'player',
+        identify: ttIdentify,
         prehide: false,
         find() {
           if (!/\/video\//.test(location.pathname)) return [];

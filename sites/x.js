@@ -21,6 +21,50 @@
   'use strict';
   const G = self.G6S;
   const util = G.util;
+  const W = G.whitelist;
+
+  // ── Liste blanche : identité de l'auteur (liens de profil uniquement, jamais le nom affiché) ──
+  /** Identifiants distincts des liens de profil d'un bloc. */
+  function profileIds(root) {
+    const set = new Set();
+    for (const a of root.querySelectorAll('a[href]')) {
+      const id = W.idFromHref('x', a.getAttribute('href'));
+      if (id) set.add(id);
+    }
+    return set;
+  }
+
+  /** Auteur du tweet AFFICHÉ = premier [data-testid="User-Name"] (pour un repost, c'est l'auteur ORIGINAL ;
+   *  le reposteur n'apparaît que dans « socialContext »). Citation = 2e User-Name, traité comme « partie ». */
+  function xIdentify(el) {
+    const first = el.querySelector('[data-testid="User-Name"]');
+    if (!first) return null;
+    const link = first.closest('[role="link"]');
+    if (link && link !== el && el.contains(link)) return null; // en-tête dans une carte cliquable : ressemble à une citation → ambigu
+    const ids = profileIds(first);
+    return ids.size === 1 ? { platform: 'x', ids: [...ids] } : null;
+  }
+
+  /** Contenus d'AUTRES auteurs dans le tweet (citations) : isolés pour rester analysés / bloqués. */
+  function xParts(el) {
+    const names = [...el.querySelectorAll('[data-testid="User-Name"]')].slice(1);
+    const parts = [];
+    for (const n of names) {
+      const box = n.closest('[role="link"]');
+      if (!box || box === el || !el.contains(box)) return false; // impossible d'isoler → on ne débloque pas
+      if (!parts.some((p) => p.el === box)) {
+        parts.push({
+          el: box,
+          identify: () => {
+            const u = box.querySelector('[data-testid="User-Name"]');
+            const ids = u ? profileIds(u) : new Set();
+            return ids.size === 1 ? { platform: 'x', ids: [...ids] } : null;
+          },
+        });
+      }
+    }
+    return parts;
+  }
 
   const RESERVED = new Set([
     'home', 'explore', 'notifications', 'messages', 'search', 'i', 'settings', 'compose',
@@ -43,6 +87,8 @@
       {
         name: 'post',
         selectors: ['article[data-testid="tweet"]'],
+        identify: xIdentify,
+        parts: xParts,
         // Auteur : premier lien du bloc User-Name (le 1er est l'auteur, pas la citation).
         author(el) {
           const a = el.querySelector('[data-testid="User-Name"] a[href^="/"]');

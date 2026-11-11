@@ -4,18 +4,18 @@
 > sans exception. Après avoir modifié `keywords.js`, relancez la commande pour le mettre à jour (numéros de ligne compris).
 > ➕ = terme ajouté par rapport à la liste de départ du cahier des charges.
 
-**107 mots-clés** dans les listes (hors mots-clés personnalisés et variantes générées automatiquement, voir §5 et §7).
+**111 mots-clés** dans les listes (hors mots-clés personnalisés et variantes générées automatiquement, voir §5 et §7).
 
 ## 1. Vue d'ensemble : quel mode utilise quoi ?
 
 | Catégorie | Nb | Mode extrême | Mode intermédiaire | Défini dans |
 | --- | ---: | --- | --- | --- |
-| Termes du jeu | 10 | **bloque seul** | compte comme « terme GTA » : bloque **avec un terme de spoil** | `keywords.js` L30-35 |
-| Lieux | 10 | **bloque seul** | compte comme « terme GTA » : bloque **avec un terme de spoil** | `keywords.js` L52-55 |
-| Personnages « spécifiques » | 10 | **bloque seul** | compte comme « terme GTA » : bloque **avec un terme de spoil** | `keywords.js` L44-48 |
-| Personnages « ambigus » (prénoms) | 2 | **bloque seul** | **ignorés** (ne comptent jamais seuls) | `keywords.js` L42 |
-| Termes de spoil « forts » (toutes langues) | 30 | non utilisés | **requis** (avec un terme GTA) | `keywords.js` L65-99, détail par langue au §6 |
-| Termes de spoil « normaux » (toutes langues) | 45 | non utilisés | **requis** (avec un terme GTA) | idem |
+| Termes du jeu | 12 | **bloque seul** | compte comme « terme GTA » : bloque **avec un terme de spoil** | `keywords.js` L33-38 |
+| Lieux | 10 | **bloque seul** | compte comme « terme GTA » : bloque **avec un terme de spoil** | `keywords.js` L55-58 |
+| Personnages « spécifiques » | 10 | **bloque seul** | compte comme « terme GTA » : bloque **avec un terme de spoil** | `keywords.js` L47-51 |
+| Personnages « ambigus » (prénoms) | 2 | **bloque seul** | **ignorés** (ne comptent jamais seuls) | `keywords.js` L45 |
+| Termes de spoil « forts » (toutes langues) | 30 | non utilisés | **requis** (avec un terme GTA) | `keywords.js` L68-102, détail par langue au §6 |
+| Termes de spoil « normaux » (toutes langues) | 47 | non utilisés | **requis** (avec un terme GTA) | idem |
 | Mots-clés personnalisés | — | **bloquent seuls** | **bloquent seuls** | popup → `chrome.storage.sync` (pas de fichier) |
 
 Règle de décision : `matcher.js` L130 (fonction `compute`). Le terme doit être un **mot entier** (« Jason » ne déclenche pas « Jasonne »).
@@ -23,31 +23,33 @@ Un terme de spoil seul (ex. « la fin du film ») ne bloque **jamais**, quel que
 
 ## 2. Termes du jeu
 
-Défini dans `keywords.js` L30-35. **Extrême** : bloque seul. **Intermédiaire** : avec un terme de spoil.
+Défini dans `keywords.js` L33-38. **Extrême** : bloque seul. **Intermédiaire** : avec un terme de spoil.
 
-`GTA 6` · `GTA VI` · `GTA6` · `GTAVI` · `Grand Theft Auto 6` · `Grand Theft Auto VI` · `Rockstar Games` · `Rockstar` · `#GTA6` · `#GTAVI`
+`GTA 6` · `GTA VI` · `GTA6` · `GTAVI` · `Grand Theft Auto 6` · `Grand Theft Auto VI` · `GrandTheftAutoVI` · `Grand Theft Auto` · `Rockstar Games` · `Rockstar` · `#GTA6` · `#GTAVI`
 
 Toutes les graphies de GTA 6 sont ramenées à un même jeton par la normalisation (§7) : `GTA6`, `GTA 6`, `GTA-6`, `GTA_6`, `G.T.A. 6`, `GTA VI`, `GTAVI`, `#GTA6`, `Grand Theft Auto Six`… sont toutes reconnues.
 
 ## 3. Personnages
 
-**Ambigus** — `keywords.js` L42. **Extrême** : bloquent seuls. **Intermédiaire** : ignorés (ils ne comptent qu'accompagnés d'un autre terme GTA, mais n'ouvrent jamais le blocage à eux seuls).
+**Ambigus** — `keywords.js` L45. **Extrême** : bloquent seuls. **Intermédiaire** : ignorés (ils ne comptent qu'accompagnés d'un autre terme GTA, mais n'ouvrent jamais le blocage à eux seuls).
 
 `Jason` · `Lucia`
 
-**Spécifiques** (noms propres au jeu) — `keywords.js` L44-48. **Extrême** : bloquent seuls. **Intermédiaire** : comptent comme termes GTA (bloquent avec un terme de spoil).
+**Spécifiques** (noms propres au jeu) — `keywords.js` L47-51. **Extrême** : bloquent seuls. **Intermédiaire** : comptent comme termes GTA (bloquent avec un terme de spoil).
 
 `Jason Duval` · `Lucia Caminos` · `Cal Hampton` · `Boobie Ike` · `Dre'Quan Priest` · `Dre Quan Priest` ➕ · `DreQuan Priest` ➕ · `Real Dimez` · `Raul Bautista` · `Brian Heder`
 
 ## 4. Lieux
 
-Défini dans `keywords.js` L52-55. **Extrême** : bloque seul. **Intermédiaire** : avec un terme de spoil.
+Défini dans `keywords.js` L55-58. **Extrême** : bloque seul. **Intermédiaire** : avec un terme de spoil.
 
 `Leonida` · `Vice City` · `Leonida Keys` · `Grassrivers` · `Grass Rivers` ➕ · `Port Gellhorn` · `Ambrosia` · `Mount Kalaga` · `Ocean Beach` · `Little Cuba`
 
 ## 5. Mots-clés personnalisés
 
 Saisis dans la popup (champ « Mots-clés personnalisés »), stockés dans `chrome.storage.sync` (clé `customKeywords`), donc **pas dans un fichier**. Ils bloquent seuls dans **les deux modes**. Compilés dans `matcher.js` L117 (`configure`).
+
+> La **liste blanche de comptes** (popup → onglet « Liste blanche ») est indépendante des mots-clés : elle ne contient que des comptes, jamais des mots, et ne modifie aucune de ces listes. Voir le README.
 
 ## 6. Termes de spoil, par langue
 
@@ -56,33 +58,33 @@ Utilisés **uniquement en mode intermédiaire**, où ils doivent apparaître dan
 
 ### Français (`fr`)
 
-- **Forts** — `keywords.js` L65-69 : `fin secrète` · `choix final` · `dernier choix` · `dernière mission` · `boss final` · `twist` · `retournement` · `spoil` · `spoils` ➕ · `divulgâcheur` · `divulgâcheurs` ➕
-- **Normaux** — `keywords.js` L70-73 : `fin` · `fins` ➕ · `fin du jeu` · `mort` · `meurt` · `décès` · `tué` · `révélation` · `trahison`
+- **Forts** — `keywords.js` L68-72 : `fin secrète` · `choix final` · `dernier choix` · `dernière mission` · `boss final` · `twist` · `retournement` · `spoil` · `spoils` ➕ · `divulgâcheur` · `divulgâcheurs` ➕
+- **Normaux** — `keywords.js` L73-76 : `fin` · `fins` ➕ · `fin du jeu` · `mort` · `meurt` · `décès` · `deces` · `tué` · `tue` · `révélation` · `trahison`
 
 ### Anglais (`en`)
 
-- **Forts** — `keywords.js` L76-79 : `secret ending` · `final choice` · `last mission` · `final mission` · `final boss` · `plot twist` · `spoiler` · `spoilers`
-- **Normaux** — `keywords.js` L80-83 : `ending` · `endings` ➕ · `ends` · `end game` · `dies` · `death` · `dead` · `killed` · `betrayal` · `reveal`
+- **Forts** — `keywords.js` L79-82 : `secret ending` · `final choice` · `last mission` · `final mission` · `final boss` · `plot twist` · `spoiler` · `spoilers`
+- **Normaux** — `keywords.js` L83-86 : `ending` · `endings` ➕ · `ends` · `end game` · `dies` · `death` · `dead` · `killed` · `betrayal` · `reveal`
 
 ### Espagnol (`es`)
 
-- **Forts** — `keywords.js` L86 : `elección final` · `última misión` · `spoiler`
-- **Normaux** — `keywords.js` L87 : `final` · `muere` · `muerte` · `muerto` · `giro` · `traición` · `revelación`
+- **Forts** — `keywords.js` L89 : `elección final` · `última misión` · `spoiler`
+- **Normaux** — `keywords.js` L90 : `final` · `muere` · `muerte` · `muerto` · `giro` · `traición` · `revelación`
 
 ### Italien (`it`)
 
-- **Forts** — `keywords.js` L90 : `scelta finale` · `ultima missione` · `colpo di scena`
-- **Normaux** — `keywords.js` L91 : `finale` · `muore` · `morte` · `morto` · `tradimento` · `rivelazione`
+- **Forts** — `keywords.js` L93 : `scelta finale` · `ultima missione` · `colpo di scena`
+- **Normaux** — `keywords.js` L94 : `finale` · `muore` · `morte` · `morto` · `tradimento` · `rivelazione`
 
 ### Allemand (`de`)
 
-- **Forts** — `keywords.js` L94 : `letzte Mission` · `Endkampf`
-- **Normaux** — `keywords.js` L95 : `Ende` · `stirbt` · `Tod` · `tot` · `Wendung` · `Verrat` · `Enthüllung`
+- **Forts** — `keywords.js` L97 : `letzte Mission` · `Endkampf`
+- **Normaux** — `keywords.js` L98 : `Ende` · `stirbt` · `Tod` · `tot` · `Wendung` · `Verrat` · `Enthüllung`
 
 ### Portugais (`pt`)
 
-- **Forts** — `keywords.js` L98 : `escolha final` · `última missão` · `reviravolta`
-- **Normaux** — `keywords.js` L99 : `final` · `morre` · `morte` · `morto` · `traição` · `revelação`
+- **Forts** — `keywords.js` L101 : `escolha final` · `última missão` · `reviravolta`
+- **Normaux** — `keywords.js` L102 : `final` · `morre` · `morte` · `morto` · `traição` · `revelação`
 
 ## 7. Variantes reconnues automatiquement (non listées dans keywords.js)
 
@@ -93,6 +95,7 @@ Le texte est **normalisé** avant comparaison (`matcher.js` L32, `normalize`) : 
 - **Apostrophes** (`matcher.js` L52, `compile`) : chaque terme avec apostrophe est aussi cherché sans (« Dre'Quan » → « DreQuan »).
 - **Hashtags collés** (`matcher.js` L99, `hashtagExtras`) : les termes à plusieurs mots sont reconnus collés dans un hashtag, avec ou sans suite (`#ViceCityLeaks`) :
 
+  - `#grandtheftauto` (jeu « Grand Theft Auto »)
   - `#rockstargames` (jeu « Rockstar Games »)
   - `#vicecity` (lieu « Vice City »)
   - `#leonidakeys` (lieu « Leonida Keys »)

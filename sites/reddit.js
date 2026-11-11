@@ -19,6 +19,23 @@
   'use strict';
   const G = self.G6S;
   const util = G.util;
+  const W = G.whitelist;
+
+  // ── Liste blanche ──
+  // Reddit n'expose pas de lien d'auteur dans le DOM d'un post : on lit l'attribut `author` (le NOM
+  // D'UTILISATEUR, unique — pas un nom affiché modifiable) et `subreddit-prefixed-name` (r/xxx).
+  // Relevé sur le site réel : author=PapaXan, subreddit-prefixed-name=r/gtaonline.
+  function redditIdentify(el, withSub) {
+    const a = el.getAttribute('author');
+    const user = a && W.normalizeId('reddit', 'u/' + a);
+    if (!user) return null;
+    const who = { platform: 'reddit', ids: [user] };
+    if (withSub) {
+      const sub = W.normalizeId('reddit', el.getAttribute('subreddit-prefixed-name') || '');
+      if (sub && sub.startsWith('r/')) who.alt = [sub]; // sous-reddit autorisé (option) : comparaison seulement
+    }
+    return who;
+  }
 
   const attr = (el, name) => el.getAttribute(name) || '';
 
@@ -31,6 +48,9 @@
       {
         name: 'post',
         selectors: ['shreddit-post'],
+        identify: (el) => redditIdentify(el, true),
+        // Crosspost : le contenu d'un autre auteur est dans le post et ne peut pas être isolé → reste bloqué.
+        parts: (el) => (el.getAttribute('post-type') === 'crosspost' || el.querySelector('shreddit-post') ? false : []),
         text(el) {
           return [attr(el, 'post-title'), attr(el, 'subreddit-prefixed-name'), attr(el, 'author'),
             util.extractText(el)].join('\n');
@@ -39,6 +59,7 @@
       {
         name: 'comment',
         selectors: ['shreddit-comment'],
+        identify: (el) => redditIdentify(el, false),
         target(el) { return el.querySelector(':scope > [slot="comment"]') || el; },
         text(el) {
           const body = el.querySelector(':scope > [slot="comment"]');

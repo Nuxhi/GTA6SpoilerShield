@@ -20,58 +20,124 @@
 
   <p id="status" class="status"></p>
 
-  <section>
-    <h2>Mode de blocage</h2>
-    <label class="radio">
-      <input type="radio" name="mode" value="extreme">
-      <span><strong>Extrême</strong><small>Bloque dès qu'un terme lié à GTA 6 apparaît (jeu, personnage, lieu, hashtag). Faux positifs possibles (Jason, Lucia, Rockstar…).</small></span>
-    </label>
-    <label class="radio">
-      <input type="radio" name="mode" value="intermediate">
-      <span><strong>Intermédiaire</strong><small>Bloque seulement si un terme GTA 6 et un terme de spoil (fin, mort, twist…) sont dans le même contenu.</small></span>
-    </label>
-  </section>
+  <nav class="tabs" role="tablist">
+    <button type="button" role="tab" id="tabBtnSettings" class="tab active" aria-selected="true" aria-controls="tabSettings">Réglages</button>
+    <button type="button" role="tab" id="tabBtnWhitelist" class="tab" aria-selected="false" aria-controls="tabWhitelist">Liste blanche</button>
+  </nav>
 
-  <section class="stats">
-    <div><span id="pageCount">0</span><small>sur cette page</small></div>
-    <div><span id="totalCount">0</span><small>au total</small></div>
-  </section>
+  <!-- ═══════════ Onglet Réglages ═══════════ -->
+  <div id="tabSettings" role="tabpanel">
+    <section>
+      <h2>Mode de blocage</h2>
+      <label class="radio">
+        <input type="radio" name="mode" value="extreme">
+        <span><strong>Extrême</strong><small>Bloque dès qu'un terme lié à GTA 6 apparaît (jeu, personnage, lieu, hashtag). Faux positifs possibles (Jason, Lucia, Rockstar…).</small></span>
+      </label>
+      <label class="radio">
+        <input type="radio" name="mode" value="intermediate">
+        <span><strong>Intermédiaire</strong><small>Bloque seulement si un terme GTA 6 et un terme de spoil (fin, mort, twist…) sont dans le même contenu.</small></span>
+      </label>
+    </section>
 
-  <section>
-    <h2>Affichage d'un contenu masqué</h2>
-    <div class="row">
-      <label for="delay">Délai avant affichage (secondes)</label>
-      <input type="number" id="delay" min="0" max="30" step="1" inputmode="numeric">
-    </div>
-    <p class="hint">Compte à rebours après « Afficher quand même », annulable. 0 = affichage immédiat.</p>
-  </section>
+    <section class="stats">
+      <div><span id="pageCount">0</span><small>sur cette page</small></div>
+      <div><span id="totalCount">0</span><small>au total</small></div>
+    </section>
 
-  <section>
-    <h2>Mots-clés personnalisés</h2>
-    <form id="kwForm">
-      <input type="text" id="kwInput" maxlength="60" placeholder="Ex. : Lester, Michael De Santa…" autocomplete="off">
-      <button type="submit">Ajouter</button>
-    </form>
-    <p class="hint">Ces mots masquent le contenu dans les deux modes.</p>
-    <ul id="kwList"></ul>
-  </section>
+    <section>
+      <h2>Affichage d'un contenu masqué</h2>
+      <div class="row">
+        <label for="delay">Délai avant affichage (secondes)</label>
+        <input type="number" id="delay" min="0" max="30" step="1" inputmode="numeric">
+      </div>
+      <p class="hint">Compte à rebours après « Afficher quand même », annulable. 0 = affichage immédiat.</p>
+    </section>
 
-  <section>
-    <h2>Apparence de la popup</h2>
-    <div class="row">
-      <label for="theme">Thème</label>
-      <select id="theme">
-        <option value="vicecity">Vice City (clair)</option>
-        <option value="dark">Sombre (noir et rouge)</option>
-      </select>
-    </div>
-  </section>
+    <section>
+      <h2>Mots-clés personnalisés</h2>
+      <form id="kwForm">
+        <input type="text" id="kwInput" maxlength="60" placeholder="Ex. : Lester, Michael De Santa…" autocomplete="off">
+        <button type="submit">Ajouter</button>
+      </form>
+      <p class="hint">Ces mots masquent le contenu dans les deux modes.</p>
+      <ul id="kwList"></ul>
+    </section>
+
+    <section>
+      <h2>Apparence de la popup</h2>
+      <div class="row">
+        <label for="theme">Thème</label>
+        <select id="theme">
+          <option value="vicecity">Vice City (clair)</option>
+          <option value="dark">Sombre (noir et rouge)</option>
+        </select>
+      </div>
+    </section>
+  </div>
+
+  <!-- ═══════════ Onglet Liste blanche ═══════════ -->
+  <div id="tabWhitelist" role="tabpanel" hidden>
+    <section>
+      <div class="row">
+        <label for="wlEnabled">Liste blanche active</label>
+        <label class="switch" title="Mettre toute la liste blanche en pause">
+          <input type="checkbox" id="wlEnabled">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <p class="hint">Les contenus de ces comptes ne sont pas bloqués. Le blocage s'applique d'abord à tout ; un compte n'est débloqué que s'il est identifié avec certitude (lien de profil, jamais le nom affiché). Dans le doute, le contenu reste bloqué. Valable dans les deux modes.</p>
+    </section>
+
+    <section>
+      <h2>Ajouter un compte</h2>
+      <form id="wlForm">
+        <input type="text" id="wlInput" placeholder="URL de profil ou @handle" autocomplete="off" aria-label="URL de profil ou @handle">
+        <button type="submit">Ajouter</button>
+      </form>
+      <div class="row wlplat">
+        <label for="wlPlatform">Plateforme (pour un @handle)</label>
+        <select id="wlPlatform">
+          <option value="">Auto (d'après l'URL)</option>
+          <option value="x">X / Twitter</option>
+          <option value="youtube">YouTube</option>
+          <option value="tiktok">TikTok</option>
+          <option value="instagram">Instagram</option>
+          <option value="facebook">Facebook</option>
+          <option value="reddit">Reddit (u/… ou r/…)</option>
+        </select>
+      </div>
+      <p id="wlMsg" class="hint" role="status"></p>
+    </section>
+
+    <section>
+      <h2>Comptes autorisés <span id="wlCount" class="count"></span></h2>
+      <input type="search" id="wlSearch" placeholder="Rechercher dans la liste" aria-label="Rechercher dans la liste" autocomplete="off">
+      <div id="wlList" class="wllist"></div>
+    </section>
+
+    <section>
+      <h2>Comptes officiels suggérés</h2>
+      <p class="hint">Aucun n'est coché par défaut : à vous de choisir. Vérifiez que le compte est bien l'officiel avant d'ajouter.</p>
+      <div id="wlSuggest" class="wlsuggest"></div>
+      <button type="button" id="wlAddSuggested">Ajouter la sélection</button>
+    </section>
+
+    <section>
+      <h2>Import / export (JSON)</h2>
+      <textarea id="wlJson" rows="4" spellcheck="false" aria-label="JSON de la liste blanche" placeholder="Collez ici un JSON à importer, ou cliquez sur Exporter."></textarea>
+      <div class="row">
+        <button type="button" id="wlExport">Exporter</button>
+        <button type="button" id="wlImport">Importer (fusionner)</button>
+      </div>
+    </section>
+  </div>
 
   <footer>
     <button type="button" id="resetTotal" class="link">Remettre le total à zéro</button>
     <span>Tout est traité localement.</span>
   </footer>
 
+  <script src="whitelist.js"></script>
   <script src="popup.js"></script>
 </body>
 </html>

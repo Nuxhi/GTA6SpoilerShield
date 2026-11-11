@@ -152,6 +152,8 @@ p();
 p('Saisis dans la popup (champ « Mots-clés personnalisés »), stockés dans `chrome.storage.sync` (clé `customKeywords`), donc **pas dans un fichier**. Ils bloquent seuls dans **les deux modes**. Compilés dans `matcher.js` ' + `L${mt.configure}` + ' (`configure`).');
 p();
 
+p('> La **liste blanche de comptes** (popup → onglet « Liste blanche ») est indépendante des mots-clés : elle ne contient que des comptes, jamais des mots, et ne modifie aucune de ces listes. Voir le README.');
+p();
 p('## 6. Termes de spoil, par langue');
 p();
 p('Utilisés **uniquement en mode intermédiaire**, où ils doivent apparaître dans le même contenu qu\'un terme GTA (jeu, lieu ou personnage spécifique).');
