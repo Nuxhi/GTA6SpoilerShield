@@ -84,6 +84,8 @@ const server = https.createServer(
   await page.close();
 
   console.log('Popup');
+  // Liste blanche affichée dans les captures de la popup (le faux fil X garde demo_studio, déjà rendu)
+  await setSync({ whitelist: { ...EMPTY, x: ['nuxhii'], youtube: ['demo_channel'] } });
   const pop = await browser.newPage();
   await pop.setViewport({ width: 340, height: 700, deviceScaleFactor: 2 }); // largeur réelle de la popup
   await pop.goto(`chrome-extension://${extId}/popup.html`);
