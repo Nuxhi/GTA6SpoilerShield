@@ -1,0 +1,22 @@
+/*
+ * styles.css — Règles de page injectées au plus tôt (document_start) par le manifeste.
+ *
+ * L'habillage visuel de l'écran noir (message, boutons) est dans un Shadow DOM créé
+ * par content.js : une feuille de style de page ne peut pas l'atteindre, et c'est
+ * justement le but (les CSS des sites ne peuvent pas le casser).
+ *
+ * Le pré-masquage des conteneurs « pas encore analysés » est généré dynamiquement
+ * par content.js (il dépend du site) via une feuille de style constructible.
+ */
+
+/* Contenu masqué (ou « gardé masqué ») : invisible, mais la mise en page est conservée.
+   L'overlay, lui, force visibility:visible en ligne et s'affiche par-dessus. */
+[data-g6s-state="hidden"],
+[data-g6s-state="kept"] {
+  visibility: hidden !important;
+}
+
+/* Petits éléments (suggestions, fins de vidéo) : retirés de l'affichage. */
+[data-g6s-state="collapsed"] {
+  display: none !important;
+}

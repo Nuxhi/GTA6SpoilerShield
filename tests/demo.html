@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Page de démo — GTA 6 Spoiler Shield</title>
+  <style>
+    body { font: 16px/1.5 system-ui, sans-serif; max-width: 720px; margin: 24px auto; padding: 0 16px; }
+    .box { border: 1px solid #ccc; border-radius: 8px; padding: 10px 14px; margin: 10px 0; }
+    code { background: #eee; padding: 1px 4px; border-radius: 3px; }
+  </style>
+</head>
+<body>
+  <h1>Page de démo (repli générique)</h1>
+  <p>
+    Pour que l'extension agisse sur cette page ouverte depuis le disque (<code>file://</code>), activez
+    « Autoriser l'accès aux URL de fichier » dans <code>chrome://extensions</code> → Détails de l'extension.
+    Ou servez le dossier : <code>npx serve tests</code> / <code>python -m http.server</code>.
+  </p>
+
+  <h2>Mode extrême : tout ce qui est marqué ⛔ doit être masqué</h2>
+  <div class="box"><p>✅ Une recette de gâteau au chocolat très simple.</p></div>
+  <div class="box"><p>⛔ Le trailer de GTA 6 est sorti hier !</p></div>
+  <div class="box"><p>⛔ Variantes : GTA6, GTA VI, G.T.A. 6, gta-6, #GTA6, Grand Theft Auto VI.</p></div>
+  <div class="box"><p>⛔ Lieu : on explore Leonida et Vice City.</p></div>
+  <div class="box"><p>⛔ Personnage : Jason (le prénom seul suffit en mode extrême).</p></div>
+  <div class="box"><p>✅ Un paragraphe sur l'histoire de GTA V (ne doit pas être masqué).</p></div>
+
+  <h2>Mode intermédiaire : seuls les ⛔ doivent être masqués</h2>
+  <div class="box"><p>✅ GTA 6 sortira le 19 novembre 2026. (terme GTA, pas de spoil)</p></div>
+  <div class="box"><p>⛔ GTA 6 : la fin du jeu est incroyable. (GTA + spoil)</p></div>
+  <div class="box"><p>⛔ Jason Duval dies in the last mission. (perso + spoil, en anglais)</p></div>
+  <div class="box"><p>✅ Jason dies. (prénom seul : ne compte pas en intermédiaire)</p></div>
+  <div class="box"><p>⛔ GTA 6 muere Lucia al final. (espagnol)</p></div>
+
+  <h2>Contenu chargé dynamiquement</h2>
+  <button id="add">Ajouter un paragraphe « GTA 6 leak »</button>
+  <div id="dyn"></div>
+  <script>
+    document.getElementById('add').addEventListener('click', () => {
+      const d = document.createElement('div'); d.className = 'box';
+      d.innerHTML = '<p>⛔ Nouveau : GTA 6 leak ' + new Date().toLocaleTimeString() + '</p>';
+      document.getElementById('dyn').appendChild(d);
+    });
+  </script>
+
+  <h2>Zones jamais analysées</h2>
+  <textarea rows="2" cols="50">GTA 6 dans un champ de saisie : jamais masqué.</textarea>
+</body>
+</html>

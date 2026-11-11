@@ -1,0 +1,61 @@
+/*
+ * Thème « Vice City » (clair) — ambiance rétro-Miami / coucher de soleil de GTA VI.
+ *
+ * Palette : rose néon #ff2e93 (#d6247f pour le texte blanc dessus), orange #ff8a3d,
+ * violet #7b3fe4, turquoise #12b5b0, cyan #19c3e6, sur fond crème-rosé.
+ * Lisibilité : texte principal #2b1d4d sur fond quasi blanc (≈ 14:1), texte secondaire
+ * #5b4a80 (≈ 7:1), texte blanc sur boutons #d6247f → #9b3fd1 (≥ 4,9:1).
+ * Les teintes vives ne servent qu'en aplats décoratifs ou en dégradés très doux.
+ */
+:root[data-theme="vicecity"] {
+  color-scheme: light;
+
+  /* Fond : crème rosé + deux halos (soleil orange / mer cyan) très discrets */
+  --bg: #fff8fb;
+  --bg-image:
+    radial-gradient(120% 55% at 100% 0%, rgba(255, 138, 61, .20) 0%, rgba(255, 46, 147, .12) 38%, transparent 72%),
+    radial-gradient(90% 45% at 0% 0%, rgba(25, 195, 230, .18) 0%, transparent 62%);
+  /* Bandeau « coucher de soleil » en haut de la popup */
+  --bar: linear-gradient(90deg, #ff2e93 0%, #ff8a3d 38%, #ffd36e 52%, #19c3e6 78%, #7b3fe4 100%);
+  --bar-height: 5px;
+
+  --text: #2b1d4d;
+  --heading: #2b1d4d;
+  --title-gradient: linear-gradient(90deg, #d6247f, #7b3fe4);
+  --title-fill: transparent;
+  --text-muted: #5b4a80;
+  --text-faint: #6c5b8e;
+  --text-hint: #6c5b8e;
+  --text-footer: #6c5b8e;
+
+  --surface: rgba(255, 255, 255, .78);
+  --border: #efc6dc;
+  --radius: 10px;
+
+  --accent: #d6247f;
+  --accent-soft: linear-gradient(135deg, rgba(255, 46, 147, .10), rgba(25, 195, 230, .13));
+  --focus: #0a7896;
+
+  --switch-off: #cdbfe3;
+  --switch-on: linear-gradient(90deg, #ff2e93, #ff8a3d);
+  --switch-knob: #fff;
+  --knob-shadow: 0 1px 3px rgba(43, 29, 77, .35);
+
+  --stat-bg-1: linear-gradient(135deg, #ffe4f1, #ffeedd);
+  --stat-bg-2: linear-gradient(135deg, #dcf8f6, #e2f4ff);
+  --stat-border: #f1d4e4;
+  --stat-num: #2b1d4d;
+
+  --input-bg: #fff;
+  --input-border: #dfbdd2;
+
+  --btn-bg: linear-gradient(135deg, #d6247f 0%, #9b3fd1 100%);
+  --btn-text: #fff;
+
+  --chip-bg: linear-gradient(135deg, #ffe4f1, #dff7fa);
+  --chip-text: #2b1d4d;
+  --chip-x: #7b3fe4;
+  --chip-x-hover: #d6247f;
+
+  --link: #6a2fc0;
+}

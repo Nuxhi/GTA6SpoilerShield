@@ -1,0 +1,53 @@
+/*
+ * Thème « Sombre » (noir et rouge) — le thème d'origine de la popup.
+ * Reproduit à l'identique l'ancien popup.css ; une copie intacte de l'ancienne
+ * feuille de style est conservée dans themes/backup/popup-dark-original.css.
+ */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: #111;
+  --bg-image: none;
+  --bar: none;
+  --bar-height: 0;
+
+  --text: #eee;
+  --heading: #eee;
+  --title-gradient: none;
+  --title-fill: currentColor;
+  --text-muted: #aaa;
+  --text-faint: #999;
+  --text-hint: #888;
+  --text-footer: #777;
+
+  --surface: transparent;
+  --border: #333;
+  --radius: 8px;
+
+  --accent: #c62828;
+  --accent-soft: #1c1212;
+  --focus: #6cf;
+
+  --switch-off: #444;
+  --switch-on: #c62828;
+  --switch-knob: #fff;
+  --knob-shadow: none;
+
+  --stat-bg-1: #1b1b1b;
+  --stat-bg-2: #1b1b1b;
+  --stat-border: transparent;
+  --stat-num: #eee;
+
+  --input-bg: #1b1b1b;
+  --input-border: #333;
+
+  --btn-bg: #c62828;
+  --btn-text: #fff;
+
+  --chip-bg: #222;
+  --chip-text: #eee;
+  --chip-x: #aaa;
+  --chip-x-hover: #fff;
+
+  --link: #8ab4f8;
+}

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>GTA 6 Spoiler Shield</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <h1>GTA 6 Spoiler Shield</h1>
+    <label class="switch" title="Activer / désactiver la protection">
+      <input type="checkbox" id="enabled">
+      <span class="slider"></span>
+    </label>
+  </header>
+
+  <p id="status" class="status"></p>
+
+  <section>
+    <h2>Mode de blocage</h2>
+    <label class="radio">
+      <input type="radio" name="mode" value="extreme">
+      <span><strong>Extrême</strong><small>Bloque dès qu'un terme lié à GTA 6 apparaît (jeu, personnage, lieu, hashtag). Faux positifs possibles (Jason, Lucia, Rockstar…).</small></span>
+    </label>
+    <label class="radio">
+      <input type="radio" name="mode" value="intermediate">
+      <span><strong>Intermédiaire</strong><small>Bloque seulement si un terme GTA 6 et un terme de spoil (fin, mort, twist…) sont dans le même contenu.</small></span>
+    </label>
+  </section>
+
+  <section class="stats">
+    <div><span id="pageCount">0</span><small>sur cette page</small></div>
+    <div><span id="totalCount">0</span><small>au total</small></div>
+  </section>
+
+  <section>
+    <h2>Mots-clés personnalisés</h2>
+    <form id="kwForm">
+      <input type="text" id="kwInput" maxlength="60" placeholder="Ex. : Lester, Michael De Santa…" autocomplete="off">
+      <button type="submit">Ajouter</button>
+    </form>
+    <p class="hint">Ces mots masquent le contenu dans les deux modes.</p>
+    <ul id="kwList"></ul>
+  </section>
+
+  <footer>
+    <button type="button" id="resetTotal" class="link">Remettre le total à zéro</button>
+    <span>Tout est traité localement.</span>
+  </footer>
+
+  <script src="popup.js"></script>
+</body>
+</html>
