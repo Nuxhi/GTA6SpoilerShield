@@ -109,6 +109,8 @@ const ICONS = {
 // Comptes officiels suggérés (NON cochés par défaut). Seule la chaîne YouTube a été vérifiée sur le site
 // (@RockstarGames ↔ UC6VcWc1rAoWdBCM0JxrRQ3A) ; les autres sont à vérifier par l'utilisateur.
 const SUGGESTIONS = [
+  // Compte de l'auteur du projet : seul élément pré-coché (defaultChecked). Il faut ensuite cliquer sur « Ajouter la sélection ».
+  { platform: 'x', ids: ['nuxhii'], label: 'Nuxhii (auteur du projet) — X (@Nuxhii)', defaultChecked: true },
   { platform: 'x', ids: ['rockstargames'], label: 'Rockstar Games — X (@RockstarGames)' },
   { platform: 'youtube', ids: ['rockstargames', 'uc6vcwc1raowdbcm0jxrrq3a'], label: 'Rockstar Games — YouTube (@RockstarGames + ID de chaîne)' },
   { platform: 'instagram', ids: ['rockstargames'], label: 'Rockstar Games — Instagram' },
@@ -116,6 +118,9 @@ const SUGGESTIONS = [
   { platform: 'tiktok', ids: ['rockstargames'], label: 'Rockstar Games — TikTok (à vérifier)' },
   { platform: 'reddit', ids: ['u/rockstargames'], label: 'Rockstar Games — Reddit u/rockstargames (à vérifier)' },
 ];
+
+// Cases cochées : seules les suggestions « defaultChecked » le sont au départ ; le choix de l'utilisateur est conservé.
+const suggestSel = new Set(SUGGESTIONS.map((s, i) => (s.defaultChecked ? String(i) : null)).filter(Boolean));
 
 function wlMessage(text, isError) {
   const el = $('wlMsg');
@@ -187,7 +192,6 @@ function renderWhitelist() {
 
   // Suggestions (cases décochées ; désactivées si déjà dans la liste)
   const sug = $('wlSuggest');
-  const checked = new Set([...sug.querySelectorAll('input:checked')].map((i) => i.value));
   sug.textContent = '';
   SUGGESTIONS.forEach((s, i) => {
     const already = s.ids.every((id) => (wl[s.platform] || []).includes(id));
@@ -196,7 +200,8 @@ function renderWhitelist() {
     const cb = document.createElement('input');
     cb.type = 'checkbox';
     cb.value = String(i);
-    cb.checked = !already && checked.has(String(i)); // jamais coché par défaut
+    cb.checked = !already && suggestSel.has(String(i));
+    cb.addEventListener('change', () => { if (cb.checked) suggestSel.add(cb.value); else suggestSel.delete(cb.value); });
     cb.disabled = already;
     const icon = document.createElement('span');
     icon.className = 'icon';

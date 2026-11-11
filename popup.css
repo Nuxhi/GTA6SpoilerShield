@@ -114,3 +114,7 @@ button.del:hover { color: var(--chip-x-hover); }
 .paused .wllist, .paused #wlForm { opacity: .55; }
 .row label.switch { flex: none; }
 .wllist { max-height: 230px; }
+
+/* Pied de page : crédits */
+.credits { width: 100%; margin: 6px 0 0; padding-top: 8px; border-top: 1px solid var(--border); text-align: center; font-size: 11px; color: var(--text-faint); }
+.credits a { color: var(--link); }

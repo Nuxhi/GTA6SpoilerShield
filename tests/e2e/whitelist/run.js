@@ -226,8 +226,8 @@ const EMPTY = { x: [], youtube: [], tiktok: [], instagram: [], facebook: [], red
   await pop.goto(`chrome-extension://${extId}/popup.html`); await sleep(500);
   await pop.click('#tabBtnWhitelist'); await sleep(200);
   check('onglet Liste blanche affiché, réglages masqués', (await pop.$eval('#tabWhitelist', (e) => !e.hidden)) && (await pop.$eval('#tabSettings', (e) => e.hidden)));
-  check('suggestions : aucune cochée par défaut', (await pop.$$eval('#wlSuggest input:checked', (l) => l.length)) === 0);
-  check('suggestions : 6 comptes officiels proposés', (await pop.$$eval('#wlSuggest input', (l) => l.length)) === 6);
+  check('suggestions : seule celle de la personne qui a créé le projet est pré-cochée, les comptes Rockstar ne le sont pas', (await pop.$$eval('#wlSuggest input:checked', (l) => l.length)) === 1 && !(await pop.$eval('#wlSuggest label:nth-child(2) input', (e) => e.checked)));
+  check('suggestions : 7 comptes proposés', (await pop.$$eval('#wlSuggest input', (l) => l.length)) === 7);
   const add = async (text, plat) => { await pop.$eval('#wlInput', (e) => { e.value = ''; }); await pop.type('#wlInput', text); await pop.select('#wlPlatform', plat || ''); await pop.keyboard.press('Enter'); await sleep(350); };
   await add('https://x.com/RockstarGames?s=20');
   check('URL de profil : plateforme détectée automatiquement', (await store()).whitelist.x.includes('rockstargames'));
@@ -245,14 +245,14 @@ const EMPTY = { x: [], youtube: [], tiktok: [], instagram: [], facebook: [], red
   await pop.type('#wlSearch', 'nasa'); await sleep(200);
   check('recherche : ne montre que « nasa »', (await pop.$$eval('#wlList .wlrow', (l) => l.length)) === 1);
   await pop.$eval('#wlSearch', (e) => { e.value = ''; e.dispatchEvent(new Event('input')); });
-  await pop.click('#wlSuggest label:nth-child(3) input'); await pop.click('#wlAddSuggested'); await sleep(350);
+  await pop.click('#wlSuggest label:nth-child(4) input'); await pop.click('#wlAddSuggested'); await sleep(350);
   check('suggestion cochée puis ajoutée (Instagram Rockstar)', (await store()).whitelist.instagram.includes('rockstargames'));
   await pop.click('#wlExport'); await sleep(300);
   const json = await pop.$eval('#wlJson', (e) => e.value);
   check('export JSON valide contenant la liste', (() => { try { const d = JSON.parse(json); return d.whitelist.x.includes('rockstargames') && d.whitelist.instagram.length === 2; } catch (e) { return false; } })());
   await pop.$eval('#wlJson', (e) => { e.value = JSON.stringify({ whitelist: { tiktok: ['rockstargames'], x: ['rockstargames', 'pas valide!!'] } }); });
   await pop.click('#wlImport'); await sleep(350);
-  check('import : fusion, doublons et identifiants invalides ignorés', (await store()).whitelist.tiktok.includes('rockstargames') && (await store()).whitelist.x.length === 1);
+  check('import : fusion, doublons et identifiants invalides ignorés', (await store()).whitelist.tiktok.includes('rockstargames') && (await store()).whitelist.x.length === 2);
   await pop.$eval('#wlJson', (e) => { e.value = 'pas du json'; }); await pop.click('#wlImport'); await sleep(200);
   check('import d\'un JSON invalide : message d\'erreur, liste intacte', (await pop.$eval('#wlMsg', (e) => e.textContent)).includes('invalide'));
   await pop.screenshot({ path: path.join(__dirname, 'out-vicecity.png'), fullPage: true });

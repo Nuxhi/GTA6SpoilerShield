@@ -156,7 +156,7 @@
   function display(platform, id) {
     if (platform === 'reddit') return id;
     if (platform === 'facebook') return id.startsWith('id:') ? 'profil ' + id.slice(3) : id;
-    if (platform === 'youtube' && /^uc[a-z0-9_-]{22}$/.test(id)) return 'chaîne ' + id.toUpperCase().replace(/^UC/, 'UC');
+    if (platform === 'youtube' && /^uc[a-z0-9_-]{22}$/.test(id)) return 'ID de chaîne ' + id.toUpperCase();
     return '@' + id;
   }
 

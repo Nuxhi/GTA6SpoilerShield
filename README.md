@@ -78,17 +78,21 @@ You can switch mode at any time from the extension popup.
 
 ## Installation
 
-The extension is not on the Chrome Web Store yet, so you install it manually (it takes one minute):
+This extension is **free and distributed directly from GitHub**: there is no store and nothing to pay. You install it yourself in about a minute, in Chrome or any Chromium-based browser (Edge, Brave, Opera…).
 
-1. **Download** the project: click the green **Code** button on GitHub, then **Download ZIP**, and **unzip** it somewhere you will keep it (for example your Documents folder).
-2. Open Chrome and go to **`chrome://extensions`**.
-3. Turn on **Developer mode** (switch at the top right).
-4. Click **Load unpacked** and select the **unzipped folder** (the one that contains `manifest.json`).
-5. Click the puzzle icon in the toolbar and **pin** the extension. **Reload the tabs** that were already open.
+1. **Download** the project: on the GitHub page, click the green **Code** button, then **Download ZIP**.
+2. **Unzip** it into a folder you will **keep** (for example `Documents\GTA6SpoilerShield`). ⚠️ Chrome reads the extension from this folder every time it starts: **do not delete or move it** afterwards.
+3. Open **`chrome://extensions`** in the address bar (Edge: `edge://extensions`).
+4. Turn on **Developer mode** (switch at the top right).
+5. Click **Load unpacked** and select the unzipped folder, the one that **directly contains `manifest.json`** (not a parent folder).
+6. Click the puzzle icon in the toolbar and **pin** the extension. Then **reload the tabs** that were already open (F5).
 
-🏪 **Chrome Web Store: coming soon.**
+**To update:** download the new ZIP, replace the contents of your folder, click the circular arrow (↻) on the extension's card in `chrome://extensions`, then reload your tabs. Your settings are kept.
 
-Works in Chrome and other Chromium-based browsers (tested on Microsoft Edge).
+**Good to know**
+- When Chrome starts, it may show *"Disable developer mode extensions"*. This is normal for any extension installed this way: close the message or choose to keep it. Do not click *Disable*.
+- It works the same as a store extension: it runs every time you open the browser.
+- Firefox and Safari are not supported (Chromium-based browsers only).
 
 ## Privacy
 
@@ -205,17 +209,21 @@ Vous pouvez changer de mode à tout moment depuis la popup de l'extension.
 
 ## Installation
 
-L'extension n'est pas encore sur le Chrome Web Store : on l'installe donc à la main (une minute suffit) :
+Cette extension est **gratuite et distribuée directement depuis GitHub** : pas de boutique, rien à payer. Vous l'installez vous-même en environ une minute, dans Chrome ou tout navigateur basé sur Chromium (Edge, Brave, Opera…).
 
-1. **Téléchargez** le projet : cliquez sur le bouton vert **Code** sur GitHub, puis **Download ZIP**, et **décompressez** l'archive à un endroit où vous la garderez (par exemple votre dossier Documents).
-2. Ouvrez Chrome et allez sur **`chrome://extensions`**.
-3. Activez le **Mode développeur** (interrupteur en haut à droite).
-4. Cliquez sur **Charger l'extension non empaquetée** et choisissez le **dossier décompressé** (celui qui contient `manifest.json`).
-5. Cliquez sur l'icône puzzle de la barre d'outils et **épinglez** l'extension. **Rechargez les onglets** déjà ouverts.
+1. **Téléchargez** le projet : sur la page GitHub, cliquez sur le bouton vert **Code**, puis **Download ZIP**.
+2. **Décompressez** l'archive dans un dossier que vous allez **garder** (par exemple `Documents\GTA6SpoilerShield`). ⚠️ Chrome relit l'extension depuis ce dossier à chaque démarrage : **ne le supprimez pas et ne le déplacez pas** ensuite.
+3. Ouvrez **`chrome://extensions`** dans la barre d'adresse (Edge : `edge://extensions`).
+4. Activez le **Mode développeur** (interrupteur en haut à droite).
+5. Cliquez sur **Charger l'extension non empaquetée** et choisissez le dossier décompressé, celui qui contient **directement `manifest.json`** (pas un dossier parent).
+6. Cliquez sur l'icône puzzle de la barre d'outils et **épinglez** l'extension. Puis **rechargez les onglets** déjà ouverts (F5).
 
-🏪 **Chrome Web Store : bientôt disponible.**
+**Pour mettre à jour :** téléchargez le nouveau ZIP, remplacez le contenu de votre dossier, cliquez sur la flèche circulaire (↻) de la carte de l'extension dans `chrome://extensions`, puis rechargez vos onglets. Vos réglages sont conservés.
 
-Fonctionne dans Chrome et les autres navigateurs basés sur Chromium (testé sur Microsoft Edge).
+**Bon à savoir**
+- Au démarrage, Chrome peut afficher *« Désactiver les extensions en mode développeur »*. C'est normal pour toute extension installée ainsi : fermez le message ou choisissez de la conserver. Ne cliquez pas sur *Désactiver*.
+- Elle fonctionne comme une extension du Store : elle se lance à chaque ouverture du navigateur.
+- Firefox et Safari ne sont pas pris en charge (navigateurs basés sur Chromium uniquement).
 
 ## Confidentialité
 
