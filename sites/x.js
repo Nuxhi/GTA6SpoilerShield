@@ -14,7 +14,7 @@
  * PROFIL : [data-testid="UserName"], [data-testid="UserDescription"] (bio),
  *          [data-testid="UserProfileHeader_Items"] (lieu, site…).
  *
- * ⚠ À valider sur le site réel (voir README, « Tests manuels ») : X modifie
+ * ⚠ À valider sur le site réel (voir README_MAX.md, « Tests manuels ») : X modifie
  *   régulièrement ses data-testid secondaires (typeaheadResult notamment).
  */
 (function () {

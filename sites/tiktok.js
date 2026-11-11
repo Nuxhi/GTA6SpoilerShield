@@ -15,7 +15,7 @@
  * Textes lus dans ces blocs : légende (video-desc), nom du son (video-music), pseudo, hashtags.
  * PROFIL : [data-e2e="user-title"] (pseudo), "user-subtitle" (nom), "user-bio".
  *
- * ⚠ À valider sur le site réel (voir README) : les noms data-e2e changent parfois.
+ * ⚠ À valider sur le site réel (voir README_MAX.md) : les noms data-e2e changent parfois.
  */
 (function () {
   'use strict';

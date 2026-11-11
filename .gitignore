@@ -1,0 +1,14 @@
+# Outils de développement (jamais nécessaires à l'extension)
+node_modules/
+package-lock.json
+
+# Certificats locaux et sorties des tests / captures
+key.pem
+cert.pem
+out-*.png
+
+# Éditeur / système
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

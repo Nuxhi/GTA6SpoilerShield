@@ -20,9 +20,9 @@
  *   news.google.com : article                 chaque article de Google Actualités.
  *
  * Non couvert précisément : Google Discover (flux d'accueil mobile / Chrome), dont le balisage est
- * trop instable ; le repli par le texte de la page n'y est pas actif (voir README, « Limites »).
+ * trop instable ; le repli par le texte de la page n'y est pas actif (voir README_MAX.md, « Limites »).
  *
- * ⚠ À valider sur le site réel (voir README).
+ * ⚠ À valider sur le site réel (voir README_MAX.md).
  */
 (function () {
   'use strict';

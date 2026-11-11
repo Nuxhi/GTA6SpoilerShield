@@ -13,7 +13,7 @@
  *   .thing.link / .thing.comment          post / commentaire ; réponses dans .child (ignorées).
  *
  * Les <shreddit-*> ont un shadow root OUVERT : l'overlay y est inséré (cf. content.js).
- * ⚠ À valider sur le site réel (voir README).
+ * ⚠ À valider sur le site réel (voir README_MAX.md).
  */
 (function () {
   'use strict';

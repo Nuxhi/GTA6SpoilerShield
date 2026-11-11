@@ -25,7 +25,7 @@
  *  FIN DE VIDÉO : .ytp-videowall-still, .ytp-ce-element (suggestions sur le lecteur) — masquées.
  *  AUTOCOMPLÉTION : .ytSearchboxComponentSuggestion, .sbse (classes → fragile, meilleur effort).
  *
- * ⚠ À valider sur le site réel (voir README) : YouTube migre progressivement vers
+ * ⚠ À valider sur le site réel (voir README_MAX.md) : YouTube migre progressivement vers
  *   `yt-lockup-view-model` et renomme certains composants.
  */
 (function () {

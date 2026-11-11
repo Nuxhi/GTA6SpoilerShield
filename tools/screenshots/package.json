@@ -1,0 +1,7 @@
+{
+  "name": "g6s-screenshots",
+  "private": true,
+  "description": "Génère les captures d'écran du README (développement uniquement)",
+  "scripts": { "screenshots": "node make.js" },
+  "devDependencies": { "puppeteer-core": "^24.0.0" }
+}

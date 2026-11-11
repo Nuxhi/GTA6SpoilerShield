@@ -1,273 +1,257 @@
-# GTA 6 Spoiler Shield
+<div align="center">
 
-Extension Chrome (Manifest V3) qui **masque automatiquement tout contenu pouvant spoiler Grand Theft Auto VI** (sortie le 19 novembre 2026) : X/Twitter, Reddit, YouTube (Shorts inclus), TikTok, Instagram, Facebook, Google (résultats, aperçus IA, annonces…) et, en repli générique, n'importe quel autre site.
+[🇬🇧 English](#english) | [🇫🇷 Français](#francais)
 
-- Interface en français, mots-clés détectés en 6 langues (fr, en, es, it, de, pt).
-- JavaScript vanilla, **aucune dépendance**, **aucune donnée envoyée sur Internet** : tout est traité localement.
+</div>
 
----
+<a id="english"></a>
 
-## Installation (mode développeur)
+# 🛡️ GTA 6 Spoiler Shield
 
-1. Ouvrez `chrome://extensions`.
-2. Activez **Mode développeur** (en haut à droite).
-3. Cliquez **Charger l'extension non empaquetée** et choisissez ce dossier (celui qui contient `manifest.json`).
-4. Épinglez l'icône « 6 » dans la barre d'outils pour accéder à la popup.
-5. **Rechargez les onglets déjà ouverts** : l'extension ne s'injecte que dans les pages chargées après son installation.
+**Browse the internet without GTA 6 spoilers.**
 
-Pour mettre à jour après une modification du code (ex. `keywords.js`) : bouton ↻ sur la carte de l'extension dans `chrome://extensions`, puis rechargez les onglets.
+![Version](https://img.shields.io/badge/version-1.2.0-ff2e93)
+![License: MIT](https://img.shields.io/badge/license-MIT-7b3fe4)
+![Chrome](https://img.shields.io/badge/Chrome-110%2B-19c3e6)
+![Manifest V3](https://img.shields.io/badge/Manifest-V3-12b5b0)
 
-> Les sites Google Workspace (Gmail, Docs, Drive, Agenda, Meet, compte Google) sont exclus dans le manifeste.
+<p align="center">
+  <img src="docs/screenshots/banner.png" alt="GTA 6 Spoiler Shield banner: a retro Miami sunset with the extension name" width="100%">
+</p>
 
----
+## What it does
 
-## Utilisation
+GTA 6 Spoiler Shield is a free browser extension that hides anything that could spoil **Grand Theft Auto VI** while you scroll. When a post, video or search result is about the game, it is covered by a black screen **before you can read it**, and you decide if and when to look.
 
-Quand un contenu correspond, **le post entier** (pas seulement le mot) est recouvert d'un écran noir : « Contenu lié à GTA 6 – spoil possible », avec en petit le terme détecté et sa catégorie (jeu, lieu, personnage, mot-clé perso, spoil).
+It works on the websites where spoilers hide the most, and everything happens inside your browser: nothing is collected, nothing is sent anywhere.
 
-| Bouton | Effet |
-| --- | --- |
-| **Afficher quand même** | Lance un **compte à rebours** (5 s par défaut) : le bouton affiche « Affichage dans 5… 4… 3… ». À la fin, le contenu est révélé (le son/la lecture reprennent). Le bouton **Annuler** arrête le décompte. |
-| **Garder masqué** | Conserve le masquage et simplifie l'écran (un petit bouton « Afficher », avec le même décompte, reste disponible). |
+> ℹ️ The extension's interface (black screen, popup) is currently in **French**. The keywords it detects cover 6 languages.
 
-Le décompte est **annulé automatiquement** si le contenu sort de l'écran, si l'onglet passe en arrière-plan ou si la page change (navigation). La durée se règle dans la popup (0 à 30 s, 0 = affichage immédiat) ; la valeur par défaut est la constante `revealDelay` de `DEFAULT_SETTINGS` dans `keywords.js` (et `background.js` / `popup.js`).
+## Features
 
-Les vidéos masquées (YouTube, Shorts, Reels, TikTok, vidéos d'un post…) sont **mises en pause et coupées en son** tant qu'elles sont masquées, pour éviter un spoil audio.
+- 🚫 **Blocks spoilers** on X, YouTube (including Shorts), Reddit, TikTok, Instagram, Facebook and Google (including AI overviews and ads). Other sites, Threads included, are covered by a more general, less precise fallback.
+- 🎚️ **2 blocking modes**: *Intermediate* (only real spoilers) and *Extreme* (anything about the game).
+- 🌍 **Keywords in 6 languages** (French, English, Spanish, Italian, German, Portuguese) **plus your own custom keywords**.
+- ⏳ **Safe reveal**: a black screen with a **5-second countdown** (adjustable) before showing a hidden post, so you never click by mistake. You can cancel at any time.
+- ✅ **Account allowlist**: let trusted accounts through (for example an official studio channel), with a confirmation step and a safe-by-default design.
+- 🎨 **Two themes**: light *Vice City* and *Dark*.
+- 🔒 **100% local**: no tracking, no data sent.
 
-### Popup
+## Screenshots
 
-- **Interrupteur** on/off global.
-- **Mode** : Extrême / Intermédiaire (sauvegardé dans `chrome.storage.sync`).
-- **Compteurs** : bloqués sur la page courante (aussi affiché en badge sur l'icône) et au total.
-- **Délai avant affichage** : durée du compte à rebours (voir plus haut).
-- **Mots-clés personnalisés** : masquent le contenu dans les deux modes.
-- **Thème** : « Vice City (clair) » (par défaut) ou « Sombre (noir et rouge) », sauvegardé dans `chrome.storage.sync`. Ne change pas l'écran noir anti-spoil, qui reste toujours opaque.
+<table>
+  <tr>
+    <td align="center"><img src="docs/screenshots/popup-vicecity.png" alt="Popup, Vice City light theme" width="260"><br><sub>Popup · Vice City (light)</sub></td>
+    <td align="center"><img src="docs/screenshots/popup-dark.png" alt="Popup, dark theme" width="260"><br><sub>Popup · Dark</sub></td>
+    <td align="center"><img src="docs/screenshots/whitelist-vicecity.png" alt="Account allowlist tab" width="260"><br><sub>Account allowlist</sub></td>
+  </tr>
+</table>
 
-### Thèmes de la popup
+<p align="center">
+  <img src="docs/screenshots/blocked-x.png" alt="A blocked post on a demo timeline" width="48%">
+  <img src="docs/screenshots/blocked-youtube.png" alt="A blocked video on a demo video site" width="48%">
+</p>
+<p align="center"><sub>A blocked post and a blocked video (demo pages, not real accounts)</sub></p>
 
-Les couleurs sont des **variables CSS** (`popup.css` n'en contient aucune en dur). Un fichier par thème :
-`themes/theme-vicecity.css` (clair, rose néon / orange / violet / turquoise, contrastes AA vérifiés) et `themes/theme-dark.css` (l'ancien thème, à l'identique). L'ancienne feuille de style, l'ancien HTML et l'ancien JS de la popup sont conservés tels quels dans `themes/backup/`. Pour créer un thème : copier `theme-dark.css`, changer le sélecteur `:root[data-theme="…"]` et les valeurs, l'ajouter dans `popup.html` et dans la liste `<select id="theme">`, puis dans `applyTheme` de `popup.js` et `theme-init.js`.
+<p align="center">
+  <img src="docs/screenshots/countdown.png" alt="The 5-second countdown before a hidden post is revealed, with a Cancel button" width="60%"><br>
+  <sub>The countdown before revealing a hidden post (with a Cancel button)</sub>
+</p>
 
-### Les deux modes
+> All screenshots use fictional demo pages and contain no real spoilers.
 
-| | Extrême (par défaut) | Intermédiaire |
+## How it works
+
+1. **It reads what is on the page**: the text of posts, titles, captions, hashtags and the name of the account that posted.
+2. **It looks for GTA 6 keywords** (the game, its characters and places, and spoiler words such as "ending" or "dies").
+3. **It covers the post with a black screen** right away, and pauses and mutes any video inside it.
+4. **You stay in control**: show it after a short countdown, keep it hidden, or allow that account for good.
+
+## Blocking modes
+
+| Mode | What it blocks | Best for |
 | --- | --- | --- |
-| Terme du jeu (GTA 6, Rockstar…), lieu, personnage « spécifique » (Jason Duval, Cal Hampton…) | **bloque** | bloque **seulement avec un terme de spoil** dans le même contenu |
-| « Jason » ou « Lucia » seuls | **bloque** | ne bloque pas (ils ne comptent qu'accompagnés d'un autre terme GTA) |
-| Terme de spoil seul (« la fin du film ») | ne bloque pas | ne bloque pas |
-| Mot-clé personnalisé | bloque | bloque |
+| **Intermediate** | Only content that mentions GTA 6 **and** a spoiler word (ending, death, twist…) in the same post. | People who still want to follow the game's news and only avoid real spoilers. |
+| **Extreme** *(default)* | **Everything** about GTA 6: the game name, characters, places, hashtags. Some false positives are expected (a person named Jason, for example). | People who want zero risk until they have played the game. |
 
-Précisions d'interprétation (modifiables dans `matcher.js`, fonction `compute`) :
-- En intermédiaire, les noms de personnages **propres au jeu** (Jason Duval, Lucia Caminos, Cal Hampton, Boobie Ike, Dre'Quan Priest, Real Dimez, Raul Bautista, Brian Heder) comptent comme des « termes GTA » : « Cal Hampton meurt » est donc bloqué. Seuls les prénoms ambigus Jason/Lucia sont exclus.
-- Le mode extrême accepte volontairement les faux positifs (Rockstar énergétique, Jason Statham, Lucia de Lammermoor…).
+You can switch mode at any time from the extension popup.
 
-### Détection
+## Installation
 
-Le texte est **normalisé** avant comparaison : minuscules, accents supprimés, ponctuation → espaces. Toutes les variantes de GTA 6 sont reconnues : `GTA6`, `GTA 6`, `GTA VI`, `GTAVI`, `G.T.A. 6`, `GTA-6`, `GTA_6`, `#GTA6`, `Grand Theft Auto Six`… (mais pas `GTA 60`, `GTA V`, `GTA Vice`). Les hashtags collés (`#ViceCity`, `#JasonDuval`, `#GTA6Leaks`) sont reconnus. Les termes sont comparés en **mots entiers** (« Jason » ne déclenche pas « Jasonne »).
+The extension is not on the Chrome Web Store yet, so you install it manually (it takes one minute):
 
-Le texte analysé comprend : texte visible, `alt`, `aria-label`, `title` (miniatures, hashtags, noms de chaînes…), le **profil de l'auteur** quand il est visible, et les shadow DOM ouverts.
+1. **Download** the project: click the green **Code** button on GitHub, then **Download ZIP**, and **unzip** it somewhere you will keep it (for example your Documents folder).
+2. Open Chrome and go to **`chrome://extensions`**.
+3. Turn on **Developer mode** (switch at the top right).
+4. Click **Load unpacked** and select the **unzipped folder** (the one that contains `manifest.json`).
+5. Click the puzzle icon in the toolbar and **pin** the extension. **Reload the tabs** that were already open.
 
-**Profils (bio)** : quand vous visitez le profil d'un compte (X, Instagram, TikTok) dont la bio parle de GTA 6, le compte est mémorisé **localement** (`chrome.storage.local`) et ses posts sont masqués partout, même si le texte du post est anodin. Sur Instagram, la page profil entière est recouverte. *Limite : la bio n'est lue que lorsque vous visitez le profil, l'extension ne fait aucune requête réseau pour la récupérer.*
+🏪 **Chrome Web Store: coming soon.**
+
+Works in Chrome and other Chromium-based browsers (tested on Microsoft Edge).
+
+## Privacy
+
+- **Nothing is collected and nothing is sent over the Internet.** There is no server, no analytics, no tracking.
+- Everything is processed **inside your browser**.
+- Your settings (mode, keywords, allowlist) are saved with the browser's own storage. If you have Chrome sync turned on, Chrome may sync them between your devices; the extension itself never sends them anywhere.
+
+## FAQ
+
+**It hides things that are not spoilers. Why?**
+*Extreme* mode is strict on purpose: any mention of the game is hidden. Switch to *Intermediate* in the popup to hide only real spoilers, or allow the account that posted it.
+
+**How do I let an account through?**
+Two ways. On a black screen, click **"Toujours autoriser ce compte"** and confirm. Or open the popup, go to the **"Liste blanche"** tab and paste the account's profile link (or its @handle). If the account cannot be identified with certainty, the content stays hidden, on purpose.
+
+**How do I add a word to hide?**
+In the popup, type it in **"Mots-clés personnalisés"** and click **"Ajouter"**. It works in both modes. Developers can also edit `keywords.js`.
+
+**How do I turn it off for a moment?**
+Use the switch at the top of the popup. You can also pause only the allowlist with the switch in the "Liste blanche" tab.
+
+**Nothing gets blocked on a page I just opened or after an update.**
+Reload the tab (F5). Chrome does not update the extension in tabs that were already open.
+
+## Contributing
+
+Contributions are welcome!
+
+- 🐞 **Report a bug or a missing site**: open a GitHub issue and tell us the website and what you expected. Please do not paste real spoilers: describe them instead.
+- 🔤 **Suggest keywords or a new language**: see [`KEYWORDS.md`](KEYWORDS.md) for the full list and how to add a word or a language (`keywords.js`), then open a pull request.
+- 🧑‍💻 **Technical documentation** (architecture, how each site is handled, tests, limits): [`README_MAX.md`](README_MAX.md) *(in French)*.
+
+## License
+
+Released under the [MIT License](LICENSE).
+
+## Disclaimer
+
+This is an **unofficial fan project**. It is **not affiliated with, endorsed by or connected to Rockstar Games or Take-Two Interactive**. *Grand Theft Auto*, *GTA* and *GTA VI* are trademarks of their respective owners. No official logo or artwork is used in this project.
 
 ---
 
-## Liste blanche de comptes
+<a id="francais"></a>
 
-Les contenus publiés par les comptes de la liste blanche ne sont **pas bloqués** (ex. la chaîne YouTube officielle de Rockstar). Elle s'applique dans les deux modes (il n'existe pas de mode « Extrême Ultra » dans cette extension : seulement Extrême et Intermédiaire).
+# 🛡️ GTA 6 Spoiler Shield
 
-### Règle de sécurité (jamais inversée)
+**Naviguez sur Internet sans spoilers de GTA 6.**
 
-1. Le contenu est d'abord **bloqué normalement**, quel que soit son auteur (aucun masquage retardé, aucune analyse sautée).
-2. Ensuite seulement, l'auteur est identifié.
-3. Auteur **identifié avec certitude** ET dans la liste → débloqué (la vidéo ne reprend lecture et son qu'à ce moment).
-4. Tout autre cas reste bloqué : auteur introuvable, ambigu, pas encore chargé, erreur, collaboration, contenu d'un autre auteur impossible à isoler.
+![Version](https://img.shields.io/badge/version-1.2.0-ff2e93)
+![Licence : MIT](https://img.shields.io/badge/licence-MIT-7b3fe4)
+![Chrome](https://img.shields.io/badge/Chrome-110%2B-19c3e6)
+![Manifest V3](https://img.shields.io/badge/Manifest-V3-12b5b0)
 
-### Identification des comptes
+<p align="center">
+  <img src="docs/screenshots/banner.png" alt="Bannière de GTA 6 Spoiler Shield : un coucher de soleil rétro façon Miami avec le nom de l'extension" width="100%">
+</p>
 
-Jamais par le **nom affiché** (n'importe qui peut le copier) : uniquement par un identifiant extrait d'un **lien (`href`)** à l'intérieur du conteneur du post, normalisé (minuscules, sans `@`, sans paramètres d'URL, sans slash final). Un lien vers un autre domaine (`https://exemple.com/RockstarGames`) ne vaut rien. Les liens présents dans le texte (mentions, description) ne comptent pas.
+## Ce que fait l'extension
 
-| Plateforme | Identifiant | Où il est lu |
+GTA 6 Spoiler Shield est une extension de navigateur gratuite qui masque tout ce qui pourrait vous spoiler **Grand Theft Auto VI** pendant que vous faites défiler vos fils. Quand un post, une vidéo ou un résultat de recherche parle du jeu, il est recouvert d'un écran noir **avant que vous puissiez le lire**, et vous décidez si et quand le regarder.
+
+Elle fonctionne sur les sites où les spoilers se cachent le plus, et tout se passe dans votre navigateur : rien n'est collecté, rien n'est envoyé nulle part.
+
+> ℹ️ L'interface de l'extension (écran noir, popup) est actuellement en **français**. Les mots-clés détectés couvrent 6 langues.
+
+## Fonctionnalités
+
+- 🚫 **Bloque les spoilers** sur X, YouTube (Shorts compris), Reddit, TikTok, Instagram, Facebook et Google (aperçus IA et publicités compris). Les autres sites, Threads inclus, sont couverts par un repli plus général, moins précis.
+- 🎚️ **2 modes de blocage** : *Intermédiaire* (seulement les vrais spoilers) et *Extrême* (tout ce qui concerne le jeu).
+- 🌍 **Mots-clés en 6 langues** (français, anglais, espagnol, italien, allemand, portugais) **et vos propres mots-clés personnalisés**.
+- ⏳ **Affichage sécurisé** : un écran noir avec un **compte à rebours de 5 secondes** (réglable) avant d'afficher un post masqué, pour ne jamais cliquer par erreur. Vous pouvez annuler à tout moment.
+- ✅ **Liste blanche de comptes** : laissez passer des comptes de confiance (par exemple la chaîne officielle d'un studio), avec une étape de confirmation et une conception « prudente par défaut ».
+- 🎨 **Deux thèmes** : *Vice City* clair et *Sombre*.
+- 🔒 **100 % local** : aucun suivi, aucune donnée envoyée.
+
+## Captures d'écran
+
+<table>
+  <tr>
+    <td align="center"><img src="docs/screenshots/popup-vicecity.png" alt="Popup, thème Vice City clair" width="260"><br><sub>Popup · Vice City (clair)</sub></td>
+    <td align="center"><img src="docs/screenshots/popup-dark.png" alt="Popup, thème sombre" width="260"><br><sub>Popup · Sombre</sub></td>
+    <td align="center"><img src="docs/screenshots/whitelist-vicecity.png" alt="Onglet de la liste blanche de comptes" width="260"><br><sub>Liste blanche de comptes</sub></td>
+  </tr>
+</table>
+
+<p align="center">
+  <img src="docs/screenshots/blocked-x.png" alt="Un post bloqué sur un faux fil de démonstration" width="48%">
+  <img src="docs/screenshots/blocked-youtube.png" alt="Une vidéo bloquée sur un faux site vidéo de démonstration" width="48%">
+</p>
+<p align="center"><sub>Un post bloqué et une vidéo bloquée (pages de démonstration, pas de vrais comptes)</sub></p>
+
+<p align="center">
+  <img src="docs/screenshots/countdown.png" alt="Le compte à rebours de 5 secondes avant d'afficher un post masqué, avec un bouton Annuler" width="60%"><br>
+  <sub>Le compte à rebours avant d'afficher un post masqué (avec un bouton Annuler)</sub>
+</p>
+
+> Toutes les captures utilisent des pages de démonstration fictives et ne contiennent aucun vrai spoiler.
+
+## Comment ça marche
+
+1. **Elle lit ce qui est affiché** : le texte des posts, les titres, les légendes, les hashtags et le nom du compte qui a publié.
+2. **Elle cherche des mots-clés de GTA 6** (le jeu, ses personnages et ses lieux, et des mots de spoil comme « fin » ou « meurt »).
+3. **Elle recouvre le post d'un écran noir** tout de suite, et met en pause et coupe le son de toute vidéo qu'il contient.
+4. **Vous gardez la main** : l'afficher après un court compte à rebours, le garder masqué, ou autoriser ce compte pour de bon.
+
+## Modes de blocage
+
+| Mode | Ce qu'il bloque | Pour qui |
 | --- | --- | --- |
-| X | `x.com/<handle>` | 1er `[data-testid="User-Name"]` du tweet (= auteur **original** pour un repost) |
-| YouTube | `@handle` **et** `UC…` (même chaîne) | `ytd-channel-name a`, `#channel-info a`, `a#author-text` |
-| TikTok | `@user` | liens `/@user` hors légende, son et commentaires |
-| Instagram | `instagram.com/<user>` | 1er lien de profil du `<header>` du post (collaboration : auteur principal) |
-| Facebook | nom de page ou `profile.php?id=` | `[data-ad-rendering-role="profile_name"] a` |
-| Reddit | `u/user` (+ `r/subreddit` en option) | attributs `author` et `subreddit-prefixed-name` (Reddit n'expose pas de lien d'auteur) |
+| **Intermédiaire** | Seulement le contenu qui mentionne GTA 6 **et** un mot de spoil (fin, mort, twist…) dans le même post. | Ceux qui veulent suivre l'actualité du jeu en évitant seulement les vrais spoilers. |
+| **Extrême** *(par défaut)* | **Tout** ce qui concerne GTA 6 : nom du jeu, personnages, lieux, hashtags. Quelques faux positifs sont normaux (une personne prénommée Jason, par exemple). | Ceux qui veulent zéro risque jusqu'à avoir terminé le jeu. |
 
-Le DOM réel a été inspecté là où il est accessible sans compte : **YouTube** (cartes : `ytd-channel-name a[href="/@RockstarGames"]` ; page de chaîne : URL `/@RockstarGames` + `canonical` `/channel/UC6VcWc1rAoWdBCM0JxrRQ3A`), **Facebook** (page publique : `profile_name`, URL absolue avec `?__cft__=…`) et **Reddit** (attribut `author`). Pour X, TikTok et Instagram (compte requis), les extracteurs reposent sur les sélecteurs documentés dans `sites/*.js` et sont testés sur des pages simulées : à valider sur le site réel.
+Vous pouvez changer de mode à tout moment depuis la popup de l'extension.
 
-**YouTube : handle ↔ ID `UC…`.** Une chaîne ajoutée par `@handle` est reconnue aussi via son ID `UC…` (et inversement) dès que les deux ont été vus ensemble sur **la page de la chaîne** (URL `/@handle` + lien canonique et `meta itemprop="identifier"` d'accord entre eux, observés de façon stable). L'équivalence est mémorisée localement. Sans cela, une carte qui n'expose que l'ID `UC…` reste bloquée : l'extension ne fait aucune requête réseau pour résoudre un handle. Ajoutez la chaîne par son URL `/channel/UC…` pour couvrir les deux d'emblée (la suggestion « Rockstar Games — YouTube » ajoute déjà les deux identifiants).
+## Installation
 
-### Cas particuliers
+L'extension n'est pas encore sur le Chrome Web Store : on l'installe donc à la main (une minute suffit) :
 
-- **Repost / retweet** : c'est l'auteur du contenu **original** qui compte. Un compte autorisé qui reposte un inconnu ne débloque rien.
-- **Citation** : le post autorisé est débloqué, la partie citée reste analysée et bloquée séparément (si elle ne peut pas être isolée, tout reste bloqué).
-- **Commentaires / réponses** : toujours filtrés normalement (sur Instagram, les commentaires d'autres comptes sous un post autorisé restent bloqués).
-- **Collaboration** (plusieurs auteurs) : YouTube et TikTok = ambigu donc bloqué ; Instagram = débloqué seulement si l'auteur **principal** est autorisé.
-- **Publicités** : débloquées seulement si l'annonceur est identifié (lien de chaîne / profil) et autorisé.
-- **Shorts, Reels, TikTok** : même logique, lecture et son rétablis seulement une fois débloqué.
-- **Reddit** : un crosspost (contenu d'un autre auteur) reste bloqué même si l'auteur est autorisé.
-- Un élément déjà débloqué est **revérifié** à chaque passage : si le site le recycle pour un autre compte, il est re-bloqué.
+1. **Téléchargez** le projet : cliquez sur le bouton vert **Code** sur GitHub, puis **Download ZIP**, et **décompressez** l'archive à un endroit où vous la garderez (par exemple votre dossier Documents).
+2. Ouvrez Chrome et allez sur **`chrome://extensions`**.
+3. Activez le **Mode développeur** (interrupteur en haut à droite).
+4. Cliquez sur **Charger l'extension non empaquetée** et choisissez le **dossier décompressé** (celui qui contient `manifest.json`).
+5. Cliquez sur l'icône puzzle de la barre d'outils et **épinglez** l'extension. **Rechargez les onglets** déjà ouverts.
 
-### Ergonomie
+🏪 **Chrome Web Store : bientôt disponible.**
 
-- **Écran noir** : « Publié par @compte » et bouton **Toujours autoriser ce compte** → confirmation (ce compte pourrait aussi publier des spoils ; le focus est sur « Annuler »). Après confirmation, tous les posts de ce compte de la page sont débloqués **sans rechargement**.
-- **Popup → onglet « Liste blanche »** : champ unique (URL de profil, plateforme détectée automatiquement, **ou** `@handle` + menu de plateforme), liste classée par plateforme avec icônes et bouton de suppression, **recherche**, **interrupteur de pause**, **suggestions de comptes officiels Rockstar non cochées par défaut** (seul le compte YouTube a été vérifié ; TikTok et Reddit sont marqués « à vérifier »), **import / export JSON** (l'import fusionne et ignore les identifiants invalides).
-- **Stockage** : `chrome.storage.sync`, clés `whitelist` (par plateforme) et `whitelistEnabled` ; 200 comptes maximum. Les changements s'appliquent à tous les onglets ouverts sans rechargement : un **ajout** débloque à chaud ce qui est masqué ; un **retrait** ou la **pause** ré-analysent tout (bloquer d'abord, autoriser ensuite).
-
-## Structure du projet
-
-```
-manifest.json          MV3 : un content script (document_start) + service worker + popup
-keywords.js            ★ Listes de mots-clés (jeu, personnages, lieux, spoils par langue) + réglages par défaut
-KEYWORDS.md            Liste exhaustive des mots-clés (générée), par catégorie / langue / mode, avec lignes
-tools/generate-keywords-md.js   Régénère KEYWORDS.md
-themes/                Thèmes de la popup (variables CSS) ; themes/backup/ = popup d'origine intacte
-theme-init.js          Applique le thème avant l'affichage de la popup
-matcher.js             Normalisation + détection, deux modes (sans DOM, testable avec Node)
-util.js                Extraction de texte, heuristiques DOM partagées
-whitelist.js           Liste blanche : identifiants, URL, normalisation (partagé content script / popup)
-content.js             Moteur : analyse, overlay (Shadow DOM), pause des médias, MutationObserver, SPA
-styles.css             Règles de page injectées au plus tôt (état masqué)
-sites/generic.js       Repli générique (p, li, blockquote, titres, petits articles)
-sites/x.js             X / Twitter
-sites/reddit.js        Reddit (new + old)
-sites/youtube.js       YouTube (+ Shorts, /watch)
-sites/tiktok.js        TikTok web
-sites/instagram.js     Instagram (fil, grilles, Reels, stories, profil)
-sites/facebook.js      Facebook (posts, commentaires, Marketplace, Reels)
-sites/google.js        Google (résultats, aperçus IA, annonces, Actualités…)
-background.js          Compteur total + badge de l'icône
-popup.html/.css/.js    Interface
-tests/matcher.test.js  Tests unitaires du moteur de détection
-tests/whitelist.test.js Tests unitaires de la liste blanche (identifiants, URL, sécurité)
-tests/e2e/whitelist/   Page de test locale + jeu de cas de la liste blanche (navigateur réel), voir son README
-tests/demo.html        Page de démo pour le repli générique
-```
-
-### Comment ça marche
-
-1. Chaque module de site déclare des **règles** : un sélecteur de conteneur (post, carte, commentaire…), comment lire son texte, son auteur, et quoi recouvrir.
-2. **Masquage au plus tôt** : à `document_start`, les conteneurs connus du site sont cachés tant qu'ils ne sont pas analysés (filet de sécurité : réaffichés d'office après 1,2 s si l'analyse n'a pas eu lieu). Les nouveaux éléments ajoutés par la page sont analysés **de façon synchrone** dans le callback du `MutationObserver`, donc avant le prochain affichage — aucun éclair de spoil. Une seconde passe **debounce (150 ms)** traite les contenus qui se remplissent après coup.
-3. **Navigation SPA** : détection des changements d'URL (événements `yt-navigate-finish`, `popstate`, API Navigation, surveillance de l'URL) → nouvelle analyse complète.
-4. L'écran noir vit dans un **Shadow DOM** : les CSS du site ne peuvent pas le casser. Le contenu masqué est en `visibility:hidden` (la mise en page est conservée, le texte disparaît aussi pour les lecteurs d'écran).
-
-### Personnaliser
-
-- **Liste complète des mots-clés** (par catégorie, langue, mode, avec fichier et ligne) : [KEYWORDS.md](KEYWORDS.md), généré par `node tools/generate-keywords-md.js` (à relancer après toute modification de `keywords.js`).
-- **Ajouter un mot** : `keywords.js` (listes `game`, `characters`, `places`) — ou, sans toucher au code, un mot-clé perso dans la popup.
-- **Ajouter une langue de spoil** : dans `keywords.js`, copiez un bloc de `spoilTerms` (clé `nl`, `ja`…), remplissez `strong` (formulations qui sont des spoils à elles seules) et `normal`. Rien d'autre à changer.
-- **Ajouter un site** : copiez un module de `sites/`, appelez `G6S.registerSite({ id, label, hosts, rules })`, ajoutez le fichier dans `manifest.json` (avant `content.js`).
-- **Ajouter un domaine Google** : `HOSTS` dans `sites/google.js` (le manifeste couvre déjà `<all_urls>`).
-
----
-
-## Tests manuels
-
-**Astuce pour tester sans vous spoiler** : dans la popup, ajoutez un mot-clé perso totalement anodin (ex. `pizza`) et cherchez ce mot sur chaque plateforme. Le résultat est identique à celui de GTA 6, sans voir de vrai contenu. Retirez-le ensuite.
-
-Pour chaque plateforme, rechargez l'onglet après avoir réglé la popup.
-
-### Tests automatisés (moteur de détection)
-
-```
-node tests/matcher.test.js
-```
-
-### Liste blanche
-
-```
-node tests/whitelist.test.js        # identifiants, URL, faux domaines, décision d'autorisation
-```
-
-Test de bout en bout (page de test locale et jeu de cas : compte autorisé, non autorisé, faux compte au même nom affiché, repost, citation, commentaire, auteur introuvable, YouTube `@handle` puis `UC…`, etc.) : voir `tests/e2e/whitelist/README.md`.
-
-### Page de démo (repli générique)
-
-Ouvrez `tests/demo.html` (activez « Autoriser l'accès aux URL de fichier » pour l'extension, ou servez le dossier). Les lignes ⛔ doivent être masquées, les ✅ non, dans le mode indiqué. Le bouton « Ajouter un paragraphe » vérifie le contenu dynamique.
-
-### X / Twitter (x.com)
-
-1. Mode extrême, recherchez `GTA 6` → onglets « Top » / « Récent » : chaque post est recouvert.
-2. Colonne de droite / Explorer : une tendance contenant « GTA 6 » est recouverte (version compacte).
-3. Un post dont l'image a un texte alternatif GTA 6, ou une citation / carte de lien GTA 6 → masqué.
-4. Visitez le profil d'un compte dont la bio cite GTA 6 → ses posts sont masqués sur le profil, puis sur le fil « Pour vous » (même si le texte est anodin).
-5. Mode intermédiaire : un post « GTA 6 sortira en novembre » reste visible ; « GTA 6 : la fin… » est masqué.
-6. Défilez longtemps : les nouveaux posts sont masqués dès leur apparition (pas de flash).
-
-### Reddit (www.reddit.com et old.reddit.com)
-
-1. Visitez `r/GTA6` : tous les posts sont recouverts (le nom du subreddit est analysé).
-2. Un post d'un autre subreddit avec « GTA 6 » dans le titre / le corps / le flair → masqué.
-3. Dans un fil de commentaires : un commentaire spoil est masqué **seul**, ses voisins et parents restent lisibles.
-4. Recherche « GTA 6 » : les résultats sont recouverts.
-
-### YouTube (www.youtube.com)
-
-1. Recherche `GTA 6` : cartes vidéo, chaînes, Shorts du rayon, publicités → recouverts.
-2. Accueil et suggestions latérales : une miniature dont le titre / la chaîne cite GTA 6 → recouverte.
-3. Ouvrez une vidéo GTA 6 : le **lecteur** est recouvert et la vidéo en pause, son coupé. Naviguez vers une autre vidéo (sans recharger) : le lecteur redevient normal.
-4. Shorts : un Short GTA 6 (titre, légende, hashtag ou son) est entièrement recouvert, en pause ; scrollez au Short suivant : il joue normalement.
-5. Commentaires : un commentaire GTA 6 est masqué seul. Notifications : idem.
-
-### TikTok (www.tiktok.com)
-
-1. « Pour toi » : une vidéo avec légende / hashtag / son GTA 6 est recouverte, **en pause** ; la suivante joue.
-2. Découvrir, recherche, page hashtag, grille d'un profil : vignettes recouvertes.
-3. Un profil dont la bio cite GTA 6 : ses vidéos sont masquées.
-4. Commentaires : un commentaire GTA 6 est masqué.
-
-### Instagram (www.instagram.com)
-
-1. Fil : un post dont la légende cite GTA 6 est recouvert.
-2. Explorer / recherche / grille d'un profil : une vignette dont le texte alternatif cite GTA 6 est recouverte.
-3. Un profil dont la bio cite GTA 6 : **toute la page profil** est recouverte.
-4. Reels (`/reels/`) : un Reel GTA 6 est recouvert et en pause. Stories : le texte disponible est analysé.
-
-### Facebook (www.facebook.com)
-
-Le module combine trois stratégies (détail en tête de `sites/facebook.js`) : conteneurs structurels (`[role="feed"] > *`, `data-pagelet*="FeedUnit"`, `aria-posinset`, `div[role="article"]`), commentaires reconnus par leur `aria-label` (« Commentaire de… »), et un **secours ancré sur le texte** : si un terme est trouvé dans un texte / `div[dir="auto"]` / `[data-ad-preview="message"]` / alt, on remonte jusqu'au conteneur de publication le plus proche. Il fonctionne donc même si Facebook change le balisage des publications.
-
-1. **Fil d'actualité** : faites défiler : chaque publication GTA 6 (texte, publication **partagée**, **sponsorisée**, vidéo, Reel du fil) est recouverte dès son apparition ; les vidéos sont en pause.
-2. **Page, groupe, profil** : publications, titre de la page / du groupe / du profil et carte « Intro » liés à GTA 6 sont recouverts.
-3. Un post sain avec **un commentaire** GTA 6 : le post reste visible, le commentaire est masqué seul.
-4. **« Voir plus »** : un post dont la partie visible est saine mais dont la suite contient un terme GTA est masqué dès que vous le dépliez.
-5. Marketplace : une annonce GTA 6 est recouverte. Reels (`/reel/…`) : le Reel GTA 6 est recouvert et en pause.
-
-### Google (www.google.com et google.fr, .de, .co.uk…)
-
-1. Recherche `GTA 6` : chaque résultat, carrousel vidéo / actualités, « Autres questions posées » → masqués.
-2. Si un **aperçu IA** apparaît : il est masqué en entier. Panneau de connaissances (colonne de droite) : idem.
-3. Annonces sponsorisées sur une recherche GTA 6 : masquées.
-4. Tapez `gta` dans la barre : les suggestions d'autocomplétion contenant GTA 6 disparaissent de la liste.
-5. `news.google.com` : les articles GTA 6 sont recouverts.
-
-### Réglages à chaud
-
-Changer le mode, activer/désactiver ou ajouter un mot-clé dans la popup met à jour les onglets ouverts sans rechargement.
-
----
-
-## Limites connues (à lire)
-
-- **Les sélecteurs des sites sont la partie fragile.** Les sites changent leur balisage sans préavis. Les modules `sites/*.js` utilisent des attributs stables (`data-testid`, `data-e2e`, balises `ytd-*` / `shreddit-*`, rôles ARIA…) et documentent chaque sélecteur en commentaire, mais **ils ont été écrits d'après la connaissance du DOM de ces sites, pas relevés en direct sur les sites réels** : il faut les valider avec les tests manuels ci-dessus. Si un site ne masque plus rien, ouvrez les outils de développement, repérez le conteneur du post et corrigez la règle dans le module du site. Les moteurs (détection, overlay, pause, mutation, SPA) ont, eux, été testés sur des pages simulées reprenant ces structures.
-- **Plus fragiles que les autres** : Instagram (aucun attribut de test, repérage par structure et heuristiques), Reels / stories, autocomplétion YouTube, aperçus IA de Google (repérés par leur titre localisé).
-- **Non couvert** : Google Discover (flux mobile / nouvel onglet), images dans les images (voir évolutions futures), iframes (vidéos intégrées, widgets) — le script ne s'exécute que dans le cadre principal.
-- **Facebook** : le fil d'actualité **connecté** n'a pas pu être inspecté (compte requis) ; la structure a été relevée sur une page publique (publication = `div[role="article"][aria-posinset]` sous un pagelet `TimelineFeedUnit_N`, commentaire = article imbriqué avec `aria-label="Commentaire de…"`, pas de `role="feed"` sur une page) et complétée par le secours par le texte. Le texte coupé par « Voir plus » n'est lu que s'il est dans le DOM ; Facebook brouille parfois des mots avec des caractères cachés ; les publications « virtualisées » (contenu retiré hors écran) sont ré-analysées quand leur contenu revient.
-- **Commentaires Instagram / TikTok** : sur Instagram, un commentaire spoil masque tout le post (les commentaires font partie du `<article>`).
-- **Liste blanche** : une collaboration YouTube / TikTok, un auteur introuvable, un crosspost Reddit ou une citation impossible à isoler restent bloqués (prudence voulue). Les extracteurs X, TikTok et Instagram n'ont pas été relevés sur le site réel. Sur X, si l'en-tête du tweet est dans une carte cliquable (`role="link"`), l'auteur est jugé ambigu et le tweet reste bloqué.
-- **Bio des auteurs** : lue uniquement lorsque vous visitez le profil (aucune requête réseau).
-- **Faux positifs en mode extrême** : voulus (Rockstar, Jason, Lucia, Vice City, Ocean Beach, Ambrosia…). Utilisez le mode intermédiaire pour les réduire.
-- Couper le son d'un lecteur peut, selon le site, être mémorisé comme préférence « muet » ; le son est rétabli dès que vous cliquez sur « Afficher quand même ».
-
----
+Fonctionne dans Chrome et les autres navigateurs basés sur Chromium (testé sur Microsoft Edge).
 
 ## Confidentialité
 
-Aucune requête réseau, aucune télémétrie, aucune bibliothèque externe. Stockage local uniquement :
-`chrome.storage.sync` (interrupteur, mode, mots-clés perso) et `chrome.storage.local` (compteur total, pseudos de comptes dont la bio est liée à GTA 6).
+- **Rien n'est collecté et rien n'est envoyé sur Internet.** Il n'y a ni serveur, ni statistiques, ni suivi.
+- Tout est traité **dans votre navigateur**.
+- Vos réglages (mode, mots-clés, liste blanche) sont enregistrés dans le stockage du navigateur. Si la synchronisation de Chrome est activée, Chrome peut les synchroniser entre vos appareils ; l'extension elle-même ne les envoie jamais nulle part.
 
-## Évolutions futures (non codées)
+## FAQ
 
-Liste blanche de sites, détection de spoil dans les images, mise à jour automatique des mots-clés, date de fin de protection automatique.
+**Elle masque des choses qui ne sont pas des spoilers. Pourquoi ?**
+Le mode *Extrême* est strict volontairement : toute mention du jeu est masquée. Passez en *Intermédiaire* dans la popup pour ne masquer que les vrais spoilers, ou autorisez le compte qui l'a publié.
+
+**Comment laisser passer un compte ?**
+Deux façons. Sur un écran noir, cliquez sur **« Toujours autoriser ce compte »** et confirmez. Ou ouvrez la popup, allez dans l'onglet **« Liste blanche »** et collez le lien du profil du compte (ou son @pseudo). Si le compte ne peut pas être identifié avec certitude, le contenu reste masqué, volontairement.
+
+**Comment ajouter un mot à masquer ?**
+Dans la popup, saisissez-le dans **« Mots-clés personnalisés »** et cliquez sur **« Ajouter »**. Il fonctionne dans les deux modes. Les développeurs peuvent aussi modifier `keywords.js`.
+
+**Comment la désactiver un instant ?**
+Utilisez l'interrupteur en haut de la popup. Vous pouvez aussi mettre en pause seulement la liste blanche avec l'interrupteur de l'onglet « Liste blanche ».
+
+**Rien n'est bloqué sur une page que je viens d'ouvrir ou après une mise à jour.**
+Rechargez l'onglet (F5). Chrome ne met pas à jour l'extension dans les onglets déjà ouverts.
+
+## Contribuer
+
+Les contributions sont les bienvenues !
+
+- 🐞 **Signaler un bug ou un site manquant** : ouvrez une *issue* GitHub en indiquant le site et ce que vous attendiez. Ne collez pas de vrais spoilers : décrivez-les.
+- 🔤 **Proposer des mots-clés ou une nouvelle langue** : consultez [`KEYWORDS.md`](KEYWORDS.md) pour la liste complète et la façon d'ajouter un mot ou une langue (`keywords.js`), puis ouvrez une *pull request*.
+- 🧑‍💻 **Documentation technique** (architecture, gestion de chaque site, tests, limites) : [`README_MAX.md`](README_MAX.md).
+
+## Licence
+
+Publié sous [licence MIT](LICENSE).
+
+## Avertissement
+
+Ceci est un **projet de fan non officiel**. Il n'est **ni affilié, ni approuvé, ni lié à Rockstar Games ou Take-Two Interactive**. *Grand Theft Auto*, *GTA* et *GTA VI* sont des marques de leurs propriétaires respectifs. Aucun logo ni visuel officiel n'est utilisé dans ce projet.

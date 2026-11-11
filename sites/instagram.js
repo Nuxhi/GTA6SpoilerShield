@@ -17,7 +17,7 @@
  *                                        toute la page profil (<main>) est recouverte.
  *   Auteur d'un post                     header a[href="/pseudo/"] dans l'<article>.
  *
- * ⚠ À valider sur le site réel (voir README) : c'est la plateforme la plus fragile.
+ * ⚠ À valider sur le site réel (voir README_MAX.md) : c'est la plateforme la plus fragile.
  */
 (function () {
   'use strict';
