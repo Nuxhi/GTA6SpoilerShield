@@ -32,8 +32,12 @@ $('tabBtnSettings').addEventListener('click', () => showTab('settings'));
 $('tabBtnWhitelist').addEventListener('click', () => showTab('whitelist'));
 
 // ═══ Réglages ══════════════════════════════════════════════════════════
+// Thèmes disponibles (le premier est celui par défaut). À garder en phase avec theme-init.js.
+const THEMES = ['vicecity', 'dark', 'sunset'];
+const validTheme = (theme) => (THEMES.includes(theme) ? theme : THEMES[0]);
+
 function applyTheme(theme) {
-  const t = theme === 'dark' ? 'dark' : 'vicecity';
+  const t = validTheme(theme);
   document.documentElement.setAttribute('data-theme', t);
   try { localStorage.setItem('g6s-theme', t); } catch (e) { /* ignoré */ }
 }
@@ -42,7 +46,7 @@ function render() {
   $('enabled').checked = settings.enabled;
   for (const r of document.querySelectorAll('input[name="mode"]')) r.checked = r.value === settings.mode;
   if (document.activeElement !== $('delay')) $('delay').value = settings.revealDelay;
-  $('theme').value = settings.theme === 'dark' ? 'dark' : 'vicecity';
+  $('theme').value = validTheme(settings.theme);
   applyTheme(settings.theme);
   document.body.style.opacity = settings.enabled ? '1' : '.75';
 
