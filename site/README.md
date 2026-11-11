@@ -13,7 +13,7 @@ Once published, it lives at **https://nuxhi.github.io/GTA6SpoilerShield/**.
 | `main.js` | French translation, EN/FR switch (saved in `localStorage`), mobile menu, scroll animations, copy button |
 | `assets/` | Favicon, share image (`og-image.png`, 1200 × 630), self-hosted Archivo font, screenshots in WebP |
 
-The screenshots in `assets/screenshots/` are WebP copies of `docs/screenshots/`. If you retake the screenshots, convert them again (any PNG to WebP tool works) and keep the same file names.
+The screenshots in `assets/screenshots/` are WebP copies of `Autre/docs/screenshots/`. If you retake the screenshots, convert them again (any PNG to WebP tool works) and keep the same file names.
 
 ## Test it locally
 
@@ -34,7 +34,7 @@ Then open http://localhost:8080. Opening `index.html` directly also works.
 4. Open the **Actions** tab and run **Deploy site to GitHub Pages** (or push any change in `site/`).
 5. After about a minute the site is online at the address above. The link also appears in **Settings > Pages**.
 
-From then on, every push to `master` that changes `site/` republishes the site automatically. Pushes that only change the extension do not trigger it.
+From then on, every push to `main` that changes `site/` republishes the site automatically. Pushes that only change the extension do not trigger it.
 
 If the repository is renamed, update the GitHub links and the `canonical`, `og:url` and `og:image` addresses at the top of `index.html`.
 
@@ -56,6 +56,6 @@ Depuis le dossier du dépôt : `cd site` puis `python -m http.server 8080`, et o
 4. Ouvrez l'onglet **Actions** et lancez **Deploy site to GitHub Pages** (ou poussez une modification dans `site/`).
 5. Environ une minute plus tard, le site est en ligne à l'adresse ci-dessus. Le lien apparaît aussi dans **Settings > Pages**.
 
-Ensuite, chaque push sur `master` qui modifie `site/` republie le site automatiquement. Les pushes qui ne touchent que l'extension ne le déclenchent pas.
+Ensuite, chaque push sur `main` qui modifie `site/` republie le site automatiquement. Les pushes qui ne touchent que l'extension ne le déclenchent pas.
 
 Si le dépôt est renommé, mettez à jour les liens GitHub et les adresses `canonical`, `og:url` et `og:image` en haut de `index.html`.
