@@ -4,8 +4,10 @@
  * boutons en dégradé. Contrairement aux autres thèmes, il change aussi la mise en
  * page : popup plus large (400 px), plus d'espace intérieur et entre les blocs.
  *
- * Tout est limité à :root[data-theme="sunset"] : les thèmes « Vice City » et
- * « Sombre » ne sont pas touchés. Aucun effet sur l'écran noir anti-spoil.
+ * La mise en page (:root[data-theme^="sunset"]) sert aussi à « Sunset sombre »
+ * (themes/theme-sunset-dark.css), qui ne redéfinit que les couleurs.
+ * Les thèmes « Vice City » et « Sombre » ne sont pas touchés. Aucun effet sur
+ * l'écran noir anti-spoil.
  *
  * Lisibilité : texte #2b1d4d sur blanc ≈ 14:1, texte secondaire #5b4a80 ≈ 7:1,
  * texte blanc sur les boutons #d6247f → #9b3fd1 ≥ 4,9:1, titre blanc sur le bandeau ≥ 4,5:1.
@@ -68,126 +70,136 @@
   --link: #6a2fc0;
 
   --shadow-card: 0 10px 26px -18px rgba(80, 30, 120, .55);
+  --header-bg: linear-gradient(180deg, #30217a 0%, #6a2c97 45%, #c4479c 78%, #ff7f87 100%);
+  --tabs-bg: rgba(43, 29, 77, .07);
+  --tab-active-bg: #2b1d4d;
+  --tab-active-text: #fff;
+  --pill-text: #c2186f;
+  --pill-bg: rgba(255, 46, 147, .1);
+  --radio-bg: #fff;
+  --radio-ring: rgba(214, 36, 127, .12);
+  --row-hover: #fff1f7;
+  --btn-shadow: 0 8px 18px -10px rgba(155, 63, 209, .8);
   --display: "Archivo", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
 }
 
 /* ── Gabarit : plus large, plus aéré ── */
-:root[data-theme="sunset"] body {
+:root[data-theme^="sunset"] body {
   width: 400px;
   padding: 0 20px 18px;
   font: 13.5px/1.5 var(--display);
 }
 
 /* ── Bandeau d'en-tête façon hero du site (pleine largeur) ── */
-:root[data-theme="sunset"] header {
+:root[data-theme^="sunset"] header {
   position: relative; overflow: hidden; isolation: isolate;
   margin: 0 -20px; padding: 26px 20px 22px;
-  background: linear-gradient(180deg, #30217a 0%, #6a2c97 45%, #c4479c 78%, #ff7f87 100%);
+  background: var(--header-bg);
 }
 /* Soleil rayé en bas à droite, comme sur le site */
-:root[data-theme="sunset"] header::after {
+:root[data-theme^="sunset"] header::after {
   content: ""; position: absolute; z-index: -1; right: 66px; bottom: -46px; width: 84px; aspect-ratio: 1; border-radius: 50%;
   background: linear-gradient(180deg, #ffe58a 8%, #ffa27a 48%, #ff4f9a 100%);
   -webkit-mask-image: linear-gradient(180deg, #000 0 52%, transparent 52% 58%, #000 58% 66%, transparent 66% 72%, #000 72% 80%, transparent 80%);
           mask-image: linear-gradient(180deg, #000 0 52%, transparent 52% 58%, #000 58% 66%, transparent 66% 72%, #000 72% 80%, transparent 80%);
   opacity: .9;
 }
-:root[data-theme="sunset"] h1 {
+:root[data-theme^="sunset"] h1 {
   font-family: var(--display); font-size: 25px; font-weight: 850; font-stretch: 72%;
   text-transform: uppercase; line-height: .95; letter-spacing: .01em;
   text-shadow: 0 2px 16px rgba(30, 10, 80, .35);
 }
 /* Interrupteur principal sur le bandeau : piste blanche, bouton rose */
-:root[data-theme="sunset"] header .slider { background: rgba(255, 255, 255, .28); }
-:root[data-theme="sunset"] header .switch input:checked + .slider { background: #fff; }
-:root[data-theme="sunset"] header .switch input:checked + .slider::before { background: linear-gradient(135deg, #ff2e93, #ff8a3d); }
-:root[data-theme="sunset"] header .switch input:focus-visible + .slider { outline-color: #fff; }
+:root[data-theme^="sunset"] header .slider { background: rgba(255, 255, 255, .28); }
+:root[data-theme^="sunset"] header .switch input:checked + .slider { background: #fff; }
+:root[data-theme^="sunset"] header .switch input:checked + .slider::before { background: linear-gradient(135deg, #ff2e93, #ff8a3d); }
+:root[data-theme^="sunset"] header .switch input:focus-visible + .slider { outline-color: #fff; }
 
-:root[data-theme="sunset"] .status { margin: 12px 0 0; font-size: 12px; min-height: 18px; }
+:root[data-theme^="sunset"] .status { margin: 12px 0 0; font-size: 12px; min-height: 18px; }
 
 /* ── Onglets en pilule (comme le sélecteur EN/FR du site) ── */
-:root[data-theme="sunset"] .tabs {
+:root[data-theme^="sunset"] .tabs {
   margin: 12px 0 4px; padding: 4px; gap: 4px; border: 0; border-radius: 999px;
-  background: rgba(43, 29, 77, .07);
+  background: var(--tabs-bg);
 }
-:root[data-theme="sunset"] .tab {
+:root[data-theme^="sunset"] .tab {
   flex: 1; border: 0; border-radius: 999px; padding: 8px 12px;
   background: transparent; color: var(--text-muted); font-weight: 700;
 }
-:root[data-theme="sunset"] .tab.active { background: #2b1d4d; color: #fff; }
+:root[data-theme^="sunset"] .tab.active { background: var(--tab-active-bg); color: var(--tab-active-text); }
 
 /* ── Chaque section devient une carte ── */
-:root[data-theme="sunset"] #tabSettings > section,
-:root[data-theme="sunset"] #tabWhitelist > section {
+:root[data-theme^="sunset"] #tabSettings > section,
+:root[data-theme^="sunset"] #tabWhitelist > section {
   margin-top: 14px; padding: 16px 16px 14px;
   background: var(--surface); border: 1px solid var(--border); border-radius: 20px;
   box-shadow: var(--shadow-card);
 }
 /* Compteurs : deux cartes à part, sans carte autour */
-:root[data-theme="sunset"] #tabSettings > section.stats {
+:root[data-theme^="sunset"] #tabSettings > section.stats {
   padding: 0; background: none; border: 0; box-shadow: none; gap: 12px;
 }
-:root[data-theme="sunset"] .stats div { border-radius: 18px; padding: 14px 10px 12px; }
-:root[data-theme="sunset"] .stats span {
+:root[data-theme^="sunset"] .stats div { border-radius: 18px; padding: 14px 10px 12px; }
+:root[data-theme^="sunset"] .stats span {
   font-size: 34px; line-height: 1; font-weight: 850; font-stretch: 75%; display: block; margin-bottom: 4px;
 }
 
 /* Titres de section : pastille rose comme les sur-titres du site */
-:root[data-theme="sunset"] h2 {
+:root[data-theme^="sunset"] h2 {
   display: inline-block; margin: 0 0 12px; padding: 4px 11px; border-radius: 999px;
-  font-size: 10.5px; font-weight: 800; letter-spacing: .12em; color: #c2186f; background: rgba(255, 46, 147, .1);
+  font-size: 10.5px; font-weight: 800; letter-spacing: .12em; color: var(--pill-text); background: var(--pill-bg);
 }
-:root[data-theme="sunset"] small { font-size: 11.5px; line-height: 1.45; margin-top: 2px; }
-:root[data-theme="sunset"] .hint { font-size: 11.5px; line-height: 1.5; margin: 8px 0 0; }
+:root[data-theme^="sunset"] small { font-size: 11.5px; line-height: 1.45; margin-top: 2px; }
+:root[data-theme^="sunset"] .hint { font-size: 11.5px; line-height: 1.5; margin: 8px 0 0; }
 
 /* Modes : cartes plus généreuses */
-:root[data-theme="sunset"] .radio {
-  gap: 12px; padding: 12px 14px; margin-bottom: 8px; border-radius: 16px; border-color: var(--border); background: #fff;
+:root[data-theme^="sunset"] .radio {
+  gap: 12px; padding: 12px 14px; margin-bottom: 8px; border-radius: 16px; border-color: var(--border); background: var(--radio-bg);
 }
-:root[data-theme="sunset"] .radio:last-child { margin-bottom: 0; }
-:root[data-theme="sunset"] .radio:has(input:checked) { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(214, 36, 127, .12); }
-:root[data-theme="sunset"] .radio strong { font-size: 14px; }
+:root[data-theme^="sunset"] .radio:last-child { margin-bottom: 0; }
+:root[data-theme^="sunset"] .radio:has(input:checked) { border-color: var(--accent); box-shadow: 0 0 0 3px var(--radio-ring); }
+:root[data-theme^="sunset"] .radio strong { font-size: 14px; }
 
 /* Champs et boutons : arrondis, plus hauts */
-:root[data-theme="sunset"] input[type="text"],
-:root[data-theme="sunset"] input[type="number"],
-:root[data-theme="sunset"] input[type="search"],
-:root[data-theme="sunset"] select,
-:root[data-theme="sunset"] textarea {
+:root[data-theme^="sunset"] input[type="text"],
+:root[data-theme^="sunset"] input[type="number"],
+:root[data-theme^="sunset"] input[type="search"],
+:root[data-theme^="sunset"] select,
+:root[data-theme^="sunset"] textarea {
   padding: 9px 12px; border-radius: 12px; font-size: 13px;
 }
-:root[data-theme="sunset"] textarea { font-size: 11.5px; }
-:root[data-theme="sunset"] #delay { width: 72px; }
-:root[data-theme="sunset"] #kwForm, :root[data-theme="sunset"] #wlForm { gap: 8px; }
-:root[data-theme="sunset"] .row { gap: 12px; }
-:root[data-theme="sunset"] .wlplat { margin-top: 10px; }
+:root[data-theme^="sunset"] textarea { font-size: 11.5px; }
+:root[data-theme^="sunset"] #delay { width: 72px; }
+:root[data-theme^="sunset"] #kwForm, :root[data-theme^="sunset"] #wlForm { gap: 8px; }
+:root[data-theme^="sunset"] .row { gap: 12px; }
+:root[data-theme^="sunset"] .wlplat { margin-top: 10px; }
 
-:root[data-theme="sunset"] button {
+:root[data-theme^="sunset"] button {
   border-radius: 999px; padding: 9px 18px; font-weight: 700;
-  box-shadow: 0 8px 18px -10px rgba(155, 63, 209, .8);
+  box-shadow: var(--btn-shadow);
   transition: transform .15s, box-shadow .15s, filter .15s;
 }
-:root[data-theme="sunset"] button:hover { transform: translateY(-1px); filter: brightness(1.05); }
+:root[data-theme^="sunset"] button:hover { transform: translateY(-1px); filter: brightness(1.05); }
 /* Boutons « texte » : pas d'effet de bouton plein */
-:root[data-theme="sunset"] .tab,
-:root[data-theme="sunset"] button.link,
-:root[data-theme="sunset"] button.del,
-:root[data-theme="sunset"] #kwList button { box-shadow: none; transform: none; }
-:root[data-theme="sunset"] #tabWhitelist .row button { flex: 1 1 auto; white-space: nowrap; padding-inline: 14px; }
+:root[data-theme^="sunset"] .tab,
+:root[data-theme^="sunset"] button.link,
+:root[data-theme^="sunset"] button.del,
+:root[data-theme^="sunset"] #kwList button { box-shadow: none; transform: none; }
+:root[data-theme^="sunset"] #tabWhitelist .row button { flex: 1 1 auto; white-space: nowrap; padding-inline: 14px; }
 
 /* Mots-clés : pastilles */
-:root[data-theme="sunset"] #kwList { gap: 8px; margin-top: 10px; }
-:root[data-theme="sunset"] #kwList li { border-radius: 999px; padding: 4px 6px 4px 12px; font-weight: 600; }
+:root[data-theme^="sunset"] #kwList { gap: 8px; margin-top: 10px; }
+:root[data-theme^="sunset"] #kwList li { border-radius: 999px; padding: 4px 6px 4px 12px; font-weight: 600; }
 
 /* Liste blanche */
-:root[data-theme="sunset"] .wlgroup { margin-bottom: 10px; }
-:root[data-theme="sunset"] .wltitle { font-size: 12.5px; font-weight: 700; margin-bottom: 4px; }
-:root[data-theme="sunset"] .wlrow { padding: 5px 6px 5px 26px; border-radius: 10px; }
-:root[data-theme="sunset"] .wlrow:hover { background: #fff1f7; }
-:root[data-theme="sunset"] .wlsuggest { gap: 8px; margin-bottom: 12px; }
-:root[data-theme="sunset"] .wlsug { font-size: 12.5px; gap: 8px; }
+:root[data-theme^="sunset"] .wlgroup { margin-bottom: 10px; }
+:root[data-theme^="sunset"] .wltitle { font-size: 12.5px; font-weight: 700; margin-bottom: 4px; }
+:root[data-theme^="sunset"] .wlrow { padding: 5px 6px 5px 26px; border-radius: 10px; }
+:root[data-theme^="sunset"] .wlrow:hover { background: var(--row-hover); }
+:root[data-theme^="sunset"] .wlsuggest { gap: 8px; margin-bottom: 12px; }
+:root[data-theme^="sunset"] .wlsug { font-size: 12.5px; gap: 8px; }
 
 /* Pied de page */
-:root[data-theme="sunset"] footer { margin-top: 18px; padding: 0 2px; font-size: 11.5px; }
-:root[data-theme="sunset"] button.link { font-size: 11.5px; }
-:root[data-theme="sunset"] .credits { margin-top: 10px; padding-top: 12px; font-size: 11.5px; }
+:root[data-theme^="sunset"] footer { margin-top: 18px; padding: 0 2px; font-size: 11.5px; }
+:root[data-theme^="sunset"] button.link { font-size: 11.5px; }
+:root[data-theme^="sunset"] .credits { margin-top: 10px; padding-top: 12px; font-size: 11.5px; }

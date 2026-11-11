@@ -1,8 +1,9 @@
 /*
  * popup.css — Mise en page de la popup. AUCUNE couleur en dur ici :
  * tout passe par les variables CSS définies dans themes/theme-*.css
- * (sélection par l'attribut <html data-theme="vicecity|dark|sunset">).
- * Le thème « sunset » ajuste aussi la mise en page (largeur, marges) dans son propre fichier.
+ * (sélection par l'attribut <html data-theme="sunset|sunset-dark|vicecity|dark">).
+ * Les thèmes « sunset » et « sunset-dark » ajustent aussi la mise en page (largeur, marges)
+ * dans themes/theme-sunset.css.
  *
  * Pour créer un thème : copiez themes/theme-dark.css, changez le sélecteur
  * (:root[data-theme="mon-theme"]) et les valeurs, puis ajoutez le fichier dans

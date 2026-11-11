@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "GTA 6 Spoiler Shield",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Masque automatiquement les contenus pouvant spoiler GTA VI (X, Reddit, YouTube, TikTok, Instagram, Facebook, Google…). 100 % local.",
   "minimum_chrome_version": "110",
   "permissions": ["storage"],

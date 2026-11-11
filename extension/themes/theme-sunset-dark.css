@@ -1,0 +1,71 @@
+/*
+ * Thème « Sunset sombre » — la version de nuit du thème « Sunset ».
+ * Même mise en page (règles :root[data-theme^="sunset"] de theme-sunset.css,
+ * police Archivo, popup de 400 px) ; seules les couleurs changent ici.
+ * Ce fichier doit être chargé après theme-sunset.css (il en réutilise la mise en page).
+ *
+ * Lisibilité : texte #f4ecff sur carte #241543 ≈ 14:1, texte secondaire #c9b8e8 ≈ 9:1,
+ * pastilles #ff8ccb sur leur fond ≈ 6:1, texte blanc sur les boutons #d6247f → #9b3fd1 ≥ 4,9:1.
+ */
+:root[data-theme="sunset-dark"] {
+  color-scheme: dark;
+
+  --bg: #140b2b;
+  --bg-image: linear-gradient(180deg, #221245 0%, #140b2b 240px);
+  --bar: linear-gradient(90deg, #ff2e93 0%, #ff8a3d 38%, #ffd36e 52%, #19c3e6 78%, #7b3fe4 100%);
+  --bar-height: 4px;
+
+  --text: #f4ecff;
+  --heading: #fff;
+  --title-gradient: none;
+  --title-fill: currentColor;
+  --text-muted: #c9b8e8;
+  --text-faint: #b3a2d6;
+  --text-hint: #b3a2d6;
+  --text-footer: #a897cc;
+
+  --surface: #241543;
+  --border: rgba(255, 255, 255, .1);
+  --radius: 16px;
+
+  --accent: #ff4fa3;
+  --accent-soft: linear-gradient(135deg, rgba(255, 46, 147, .16), rgba(25, 195, 230, .12));
+  --focus: #5fd4f0;
+
+  --switch-off: #4a3a6e;
+  --switch-on: linear-gradient(90deg, #ff2e93, #ff8a3d);
+  --switch-knob: #fff;
+  --knob-shadow: 0 1px 4px rgba(0, 0, 0, .5);
+
+  --stat-bg-1: linear-gradient(135deg, #3e1a4f, #46263a);
+  --stat-bg-2: linear-gradient(135deg, #123c4a, #1d2c55);
+  --stat-border: rgba(255, 255, 255, .08);
+  --stat-num: #fff;
+
+  --input-bg: #1a0f36;
+  --input-border: #4b3672;
+
+  --btn-bg: linear-gradient(135deg, #d6247f 0%, #9b3fd1 100%);
+  --btn-text: #fff;
+
+  --chip-bg: linear-gradient(135deg, #3f1d55, #173b4d);
+  --chip-text: #f4ecff;
+  --chip-x: #c9a4ff;
+  --chip-x-hover: #ff8ccb;
+
+  --link: #c9a4ff;
+
+  --shadow-card: 0 14px 30px -18px rgba(0, 0, 0, .8);
+  --display: "Archivo", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  /* Bandeau : le même coucher de soleil, un peu plus « nuit » */
+  --header-bg: linear-gradient(180deg, #120838 0%, #3a1767 45%, #8c2b80 78%, #d4527d 100%);
+  --tabs-bg: rgba(255, 255, 255, .07);
+  --tab-active-bg: #fff;
+  --tab-active-text: #1d0f3d;
+  --pill-text: #ff8ccb;
+  --pill-bg: rgba(255, 79, 163, .14);
+  --radio-bg: #1c1038;
+  --radio-ring: rgba(255, 79, 163, .22);
+  --row-hover: rgba(255, 255, 255, .06);
+  --btn-shadow: 0 8px 20px -10px rgba(214, 36, 127, .9);
+}
