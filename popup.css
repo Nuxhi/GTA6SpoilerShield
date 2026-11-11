@@ -1,11 +1,13 @@
 /*
  * popup.css — Mise en page de la popup. AUCUNE couleur en dur ici :
  * tout passe par les variables CSS définies dans themes/theme-*.css
- * (sélection par l'attribut <html data-theme="vicecity|dark">).
+ * (sélection par l'attribut <html data-theme="vicecity|dark|sunset">).
+ * Le thème « sunset » ajuste aussi la mise en page (largeur, marges) dans son propre fichier.
  *
  * Pour créer un thème : copiez themes/theme-dark.css, changez le sélecteur
  * (:root[data-theme="mon-theme"]) et les valeurs, puis ajoutez le fichier dans
- * popup.html et une <option> dans le sélecteur de thème.
+ * popup.html, une <option> dans le sélecteur de thème, et son nom dans
+ * THEMES (popup.js) et dans la liste de theme-init.js.
  *
  * Ce fichier n'a aucun effet sur l'écran noir anti-spoil (voir content.js).
  */

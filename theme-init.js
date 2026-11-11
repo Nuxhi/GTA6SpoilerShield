@@ -8,5 +8,7 @@
   'use strict';
   var theme = 'vicecity';
   try { theme = localStorage.getItem('g6s-theme') || theme; } catch (e) { /* ignoré */ }
-  document.documentElement.setAttribute('data-theme', theme === 'dark' ? 'dark' : 'vicecity');
+  // Thèmes disponibles : à garder en phase avec THEMES dans popup.js
+  var themes = ['vicecity', 'dark', 'sunset'];
+  document.documentElement.setAttribute('data-theme', themes.indexOf(theme) >= 0 ? theme : 'vicecity');
 })();
