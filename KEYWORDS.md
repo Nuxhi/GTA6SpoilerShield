@@ -1,6 +1,6 @@
 # Mots-clés détectés par GTA 6 Spoiler Shield
 
-> Fichier **généré** par `node tools/generate-keywords-md.js` à partir de `keywords.js` : il liste la totalité des mots-clés,
+> Fichier **généré** par `node Autre/tools/generate-keywords-md.js` à partir de `keywords.js` : il liste la totalité des mots-clés,
 > sans exception. Après avoir modifié `keywords.js`, relancez la commande pour le mettre à jour (numéros de ligne compris).
 > ➕ = terme ajouté par rapport à la liste de départ du cahier des charges.
 
@@ -131,4 +131,4 @@ nl: {
 },
 ```
 
-Rien d'autre à modifier : `matcher.js` parcourt toutes les clés de `spoilTerms`. Pour que ce fichier-ci reflète le changement : `node tools/generate-keywords-md.js`.
+Rien d'autre à modifier : `matcher.js` parcourt toutes les clés de `spoilTerms`. Pour que ce fichier-ci reflète le changement : `node Autre/tools/generate-keywords-md.js`.

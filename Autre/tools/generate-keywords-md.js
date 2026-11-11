@@ -2,13 +2,13 @@
  * Génère KEYWORDS.md (à la racine) à partir de keywords.js et matcher.js :
  * la liste est donc TOUJOURS complète et les numéros de ligne exacts.
  *
- * Usage (après avoir modifié keywords.js) :   node tools/generate-keywords-md.js
+ * Usage (après avoir modifié keywords.js) :   node Autre/tools/generate-keywords-md.js
  */
 'use strict';
 const fs = require('fs');
 const path = require('path');
 
-const ROOT = path.join(__dirname, '..');
+const ROOT = path.join(__dirname, '..', '..'); // racine du dépôt
 const EXT = path.join(ROOT, 'extension');
 require(path.join(EXT, 'keywords.js'));
 const matcher = require(path.join(EXT, 'matcher.js'));
@@ -96,7 +96,7 @@ const p = (s) => out.push(s === undefined ? '' : s);
 
 p('# Mots-clés détectés par GTA 6 Spoiler Shield');
 p();
-p('> Fichier **généré** par `node tools/generate-keywords-md.js` à partir de `keywords.js` : il liste la totalité des mots-clés,');
+p('> Fichier **généré** par `node Autre/tools/generate-keywords-md.js` à partir de `keywords.js` : il liste la totalité des mots-clés,');
 p('> sans exception. Après avoir modifié `keywords.js`, relancez la commande pour le mettre à jour (numéros de ligne compris).');
 p('> ➕ = terme ajouté par rapport à la liste de départ du cahier des charges.');
 p();
@@ -199,7 +199,7 @@ p("  normal: ['einde', 'sterft', 'dood', 'verraad'],");
 p('},');
 p('```');
 p();
-p('Rien d\'autre à modifier : `matcher.js` parcourt toutes les clés de `spoilTerms`. Pour que ce fichier-ci reflète le changement : `node tools/generate-keywords-md.js`.');
+p('Rien d\'autre à modifier : `matcher.js` parcourt toutes les clés de `spoilTerms`. Pour que ce fichier-ci reflète le changement : `node Autre/tools/generate-keywords-md.js`.');
 p();
 
 fs.writeFileSync(path.join(ROOT, 'KEYWORDS.md'), out.join('\n'), 'utf8');

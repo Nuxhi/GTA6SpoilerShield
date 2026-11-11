@@ -6,7 +6,7 @@ const https = require('https'), fs = require('fs'), path = require('path');
 const puppeteer = require('puppeteer-core');
 const pagesWl = require('./pages.js');
 const pages = {}; // pas de pages de repli : tout passe par pages.js
-const EXT = path.join(__dirname, '..', '..', '..', 'extension'); // dossier de l'extension
+const EXT = path.join(__dirname, '..', '..', '..', '..', 'extension'); // dossier de l'extension
 const BROWSER = process.env.BROWSER || 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe';
 const PORT = 8450;
 const hosts = [...new Set([...Object.keys(pages), ...Object.keys(pagesWl)])].filter((h) => h.includes('.'));

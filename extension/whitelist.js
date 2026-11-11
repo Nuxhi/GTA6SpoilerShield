@@ -2,7 +2,7 @@
  * whitelist.js — Liste blanche de comptes : identifiants, URL, normalisation.
  *
  * Partagé par le content script et la popup (aucun accès au DOM de la page ici) ;
- * testable avec Node (tests/whitelist.test.js).
+ * testable avec Node (Autre/tests/whitelist.test.js).
  *
  * RÈGLE DE SÉCURITÉ : un compte n'est JAMAIS reconnu par son nom affiché, uniquement par un
  * identifiant extrait d'un lien (href) — ou, pour Reddit, de l'attribut `author` (le nom

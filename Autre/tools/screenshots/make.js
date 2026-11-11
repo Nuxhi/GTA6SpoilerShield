@@ -14,8 +14,8 @@ const path = require('path');
 const puppeteer = require('puppeteer-core');
 const { pages, bannerHtml } = require('./pages.js');
 
-const ROOT = path.join(__dirname, '..', '..');
-const OUT = path.join(ROOT, 'docs', 'screenshots');
+const ROOT = path.join(__dirname, '..', '..', '..'); // racine du dépôt
+const OUT = path.join(ROOT, 'Autre', 'docs', 'screenshots');
 const BROWSER = process.env.BROWSER || 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe';
 const PORT = 8460;
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));

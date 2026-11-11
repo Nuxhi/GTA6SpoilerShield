@@ -141,11 +141,14 @@ extension/             ★ L'extension elle-même (dossier à charger dans Chrom
   popup.html/.css/.js    Interface
   icons/, fonts/         Icônes et police de la popup
 KEYWORDS.md            Liste exhaustive des mots-clés (générée), par catégorie / langue / mode, avec lignes
-tools/generate-keywords-md.js   Régénère KEYWORDS.md
-tests/matcher.test.js  Tests unitaires du moteur de détection
-tests/whitelist.test.js Tests unitaires de la liste blanche (identifiants, URL, sécurité)
-tests/e2e/whitelist/   Page de test locale + jeu de cas de la liste blanche (navigateur réel), voir son README
-tests/demo.html        Page de démo pour le repli générique
+Autre/                 Tout ce qui n'est pas l'extension (tests, outils, captures)
+  tools/generate-keywords-md.js   Régénère KEYWORDS.md
+  tools/screenshots/     Génère les captures de Autre/docs/screenshots/ (voir son README)
+  tests/matcher.test.js  Tests unitaires du moteur de détection
+  tests/whitelist.test.js Tests unitaires de la liste blanche (identifiants, URL, sécurité)
+  tests/e2e/whitelist/   Page de test locale + jeu de cas de la liste blanche (navigateur réel), voir son README
+  tests/demo.html        Page de démo pour le repli générique
+  docs/screenshots/      Captures utilisées par le README
 ```
 
 ### Comment ça marche
@@ -157,7 +160,7 @@ tests/demo.html        Page de démo pour le repli générique
 
 ### Personnaliser
 
-- **Liste complète des mots-clés** (par catégorie, langue, mode, avec fichier et ligne) : [KEYWORDS.md](KEYWORDS.md), généré par `node tools/generate-keywords-md.js` (à relancer après toute modification de `keywords.js`).
+- **Liste complète des mots-clés** (par catégorie, langue, mode, avec fichier et ligne) : [KEYWORDS.md](KEYWORDS.md), généré par `node Autre/tools/generate-keywords-md.js` (à relancer après toute modification de `keywords.js`).
 - **Ajouter un mot** : `keywords.js` (listes `game`, `characters`, `places`) — ou, sans toucher au code, un mot-clé perso dans la popup.
 - **Ajouter une langue de spoil** : dans `keywords.js`, copiez un bloc de `spoilTerms` (clé `nl`, `ja`…), remplissez `strong` (formulations qui sont des spoils à elles seules) et `normal`. Rien d'autre à changer.
 - **Ajouter un site** : copiez un module de `sites/`, appelez `G6S.registerSite({ id, label, hosts, rules })`, ajoutez le fichier dans `manifest.json` (avant `content.js`).
@@ -174,20 +177,20 @@ Pour chaque plateforme, rechargez l'onglet après avoir réglé la popup.
 ### Tests automatisés (moteur de détection)
 
 ```
-node tests/matcher.test.js
+node Autre/tests/matcher.test.js
 ```
 
 ### Liste blanche
 
 ```
-node tests/whitelist.test.js        # identifiants, URL, faux domaines, décision d'autorisation
+node Autre/tests/whitelist.test.js        # identifiants, URL, faux domaines, décision d'autorisation
 ```
 
-Test de bout en bout (page de test locale et jeu de cas : compte autorisé, non autorisé, faux compte au même nom affiché, repost, citation, commentaire, auteur introuvable, YouTube `@handle` puis `UC…`, etc.) : voir `tests/e2e/whitelist/README.md`.
+Test de bout en bout (page de test locale et jeu de cas : compte autorisé, non autorisé, faux compte au même nom affiché, repost, citation, commentaire, auteur introuvable, YouTube `@handle` puis `UC…`, etc.) : voir `Autre/tests/e2e/whitelist/README.md`.
 
 ### Page de démo (repli générique)
 
-Ouvrez `tests/demo.html` (activez « Autoriser l'accès aux URL de fichier » pour l'extension, ou servez le dossier). Les lignes ⛔ doivent être masquées, les ✅ non, dans le mode indiqué. Le bouton « Ajouter un paragraphe » vérifie le contenu dynamique.
+Ouvrez `Autre/tests/demo.html` (activez « Autoriser l'accès aux URL de fichier » pour l'extension, ou servez le dossier). Les lignes ⛔ doivent être masquées, les ✅ non, dans le mode indiqué. Le bouton « Ajouter un paragraphe » vérifie le contenu dynamique.
 
 ### X / Twitter (x.com)
 

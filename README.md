@@ -16,7 +16,7 @@
 ![Manifest V3](https://img.shields.io/badge/Manifest-V3-12b5b0)
 
 <p align="center">
-  <img src="docs/screenshots/banner.png" alt="GTA 6 Spoiler Shield banner: a retro Miami sunset with the extension name" width="100%">
+  <img src="Autre/docs/screenshots/banner.png" alt="GTA 6 Spoiler Shield banner: a retro Miami sunset with the extension name" width="100%">
 </p>
 
 ## What it does
@@ -41,20 +41,20 @@ It works on the websites where spoilers hide the most, and everything happens in
 
 <table>
   <tr>
-    <td align="center"><img src="docs/screenshots/popup-vicecity.png" alt="Popup, Vice City light theme" width="260"><br><sub>Popup · Vice City (light)</sub></td>
-    <td align="center"><img src="docs/screenshots/popup-dark.png" alt="Popup, dark theme" width="260"><br><sub>Popup · Dark</sub></td>
-    <td align="center"><img src="docs/screenshots/whitelist-vicecity.png" alt="Account allowlist tab" width="260"><br><sub>Account allowlist</sub></td>
+    <td align="center"><img src="Autre/docs/screenshots/popup-vicecity.png" alt="Popup, Vice City light theme" width="260"><br><sub>Popup · Vice City (light)</sub></td>
+    <td align="center"><img src="Autre/docs/screenshots/popup-dark.png" alt="Popup, dark theme" width="260"><br><sub>Popup · Dark</sub></td>
+    <td align="center"><img src="Autre/docs/screenshots/whitelist-vicecity.png" alt="Account allowlist tab" width="260"><br><sub>Account allowlist</sub></td>
   </tr>
 </table>
 
 <p align="center">
-  <img src="docs/screenshots/blocked-x.png" alt="A blocked post on a demo timeline" width="48%">
-  <img src="docs/screenshots/blocked-youtube.png" alt="A blocked video on a demo video site" width="48%">
+  <img src="Autre/docs/screenshots/blocked-x.png" alt="A blocked post on a demo timeline" width="48%">
+  <img src="Autre/docs/screenshots/blocked-youtube.png" alt="A blocked video on a demo video site" width="48%">
 </p>
 <p align="center"><sub>A blocked post and a blocked video (demo pages, not real accounts)</sub></p>
 
 <p align="center">
-  <img src="docs/screenshots/countdown.png" alt="The 5-second countdown before a hidden post is revealed, with a Cancel button" width="60%"><br>
+  <img src="Autre/docs/screenshots/countdown.png" alt="The 5-second countdown before a hidden post is revealed, with a Cancel button" width="60%"><br>
   <sub>The countdown before revealing a hidden post (with a Cancel button)</sub>
 </p>
 
@@ -147,7 +147,7 @@ This is an **unofficial fan project**. It is **not affiliated with, endorsed by 
 ![Manifest V3](https://img.shields.io/badge/Manifest-V3-12b5b0)
 
 <p align="center">
-  <img src="docs/screenshots/banner.png" alt="Bannière de GTA 6 Spoiler Shield : un coucher de soleil rétro façon Miami avec le nom de l'extension" width="100%">
+  <img src="Autre/docs/screenshots/banner.png" alt="Bannière de GTA 6 Spoiler Shield : un coucher de soleil rétro façon Miami avec le nom de l'extension" width="100%">
 </p>
 
 ## Ce que fait l'extension
@@ -172,20 +172,20 @@ Elle fonctionne sur les sites où les spoilers se cachent le plus, et tout se pa
 
 <table>
   <tr>
-    <td align="center"><img src="docs/screenshots/popup-vicecity.png" alt="Popup, thème Vice City clair" width="260"><br><sub>Popup · Vice City (clair)</sub></td>
-    <td align="center"><img src="docs/screenshots/popup-dark.png" alt="Popup, thème sombre" width="260"><br><sub>Popup · Sombre</sub></td>
-    <td align="center"><img src="docs/screenshots/whitelist-vicecity.png" alt="Onglet de la liste blanche de comptes" width="260"><br><sub>Liste blanche de comptes</sub></td>
+    <td align="center"><img src="Autre/docs/screenshots/popup-vicecity.png" alt="Popup, thème Vice City clair" width="260"><br><sub>Popup · Vice City (clair)</sub></td>
+    <td align="center"><img src="Autre/docs/screenshots/popup-dark.png" alt="Popup, thème sombre" width="260"><br><sub>Popup · Sombre</sub></td>
+    <td align="center"><img src="Autre/docs/screenshots/whitelist-vicecity.png" alt="Onglet de la liste blanche de comptes" width="260"><br><sub>Liste blanche de comptes</sub></td>
   </tr>
 </table>
 
 <p align="center">
-  <img src="docs/screenshots/blocked-x.png" alt="Un post bloqué sur un faux fil de démonstration" width="48%">
-  <img src="docs/screenshots/blocked-youtube.png" alt="Une vidéo bloquée sur un faux site vidéo de démonstration" width="48%">
+  <img src="Autre/docs/screenshots/blocked-x.png" alt="Un post bloqué sur un faux fil de démonstration" width="48%">
+  <img src="Autre/docs/screenshots/blocked-youtube.png" alt="Une vidéo bloquée sur un faux site vidéo de démonstration" width="48%">
 </p>
 <p align="center"><sub>Un post bloqué et une vidéo bloquée (pages de démonstration, pas de vrais comptes)</sub></p>
 
 <p align="center">
-  <img src="docs/screenshots/countdown.png" alt="Le compte à rebours de 5 secondes avant d'afficher un post masqué, avec un bouton Annuler" width="60%"><br>
+  <img src="Autre/docs/screenshots/countdown.png" alt="Le compte à rebours de 5 secondes avant d'afficher un post masqué, avec un bouton Annuler" width="60%"><br>
   <sub>Le compte à rebours avant d'afficher un post masqué (avec un bouton Annuler)</sub>
 </p>
 

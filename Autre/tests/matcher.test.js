@@ -3,8 +3,8 @@
  */
 'use strict';
 const assert = require('assert');
-require('../extension/keywords.js');
-const matcher = require('../extension/matcher.js');
+require('../../extension/keywords.js');
+const matcher = require('../../extension/matcher.js');
 
 let passed = 0;
 function check(mode, text, expected, custom) {

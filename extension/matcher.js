@@ -2,7 +2,7 @@
  * matcher.js — Normalisation du texte et détection des termes GTA 6 / spoil.
  *
  * Aucune dépendance au DOM : ce fichier est testable avec Node
- * (voir tests/matcher.test.js).
+ * (voir Autre/tests/matcher.test.js).
  *
  * API :
  *   G6S.matcher.normalize(texte)            -> texte normalisé (entouré d'espaces)

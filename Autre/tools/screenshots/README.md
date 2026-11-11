@@ -1,6 +1,6 @@
 # Captures d'écran du README
 
-Génère les images de `docs/screenshots/` de façon reproductible. L'extension est chargée dans un vrai navigateur et tourne sur des **pages factices locales** (`pages.js`) : aucun vrai réseau social, aucun vrai compte, aucun vrai spoil, aucun logo ni visuel protégé. La bannière est un design original (HTML/CSS) aux couleurs Vice City.
+Génère les images de `Autre/docs/screenshots/` de façon reproductible. L'extension est chargée dans un vrai navigateur et tourne sur des **pages factices locales** (`pages.js`) : aucun vrai réseau social, aucun vrai compte, aucun vrai spoil, aucun logo ni visuel protégé. La bannière est un design original (HTML/CSS) aux couleurs Vice City.
 
 ## Prérequis (développement uniquement)
 
