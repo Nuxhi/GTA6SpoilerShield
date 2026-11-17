@@ -21,8 +21,9 @@
     // Délai (en secondes) du compte à rebours avant d'afficher un contenu masqué
     // (bouton « Afficher quand même »). 0 = affichage immédiat. Réglable dans la popup.
     revealDelay: 5,
-    // Thème de la popup : 'vicecity' (clair) | 'dark' (noir et rouge). Sans effet sur l'écran noir anti-spoil.
-    theme: 'vicecity',
+    // Thème de la popup : 'sunset' (par défaut, style du site) | 'sunset-dark' | 'vicecity' (clair) | 'dark' (noir et rouge).
+    // Sans effet sur l'écran noir anti-spoil.
+    theme: 'sunset',
     // Liste blanche de comptes (voir whitelist.js) : leurs contenus sont débloqués APRÈS analyse normale.
     whitelistEnabled: true,
     whitelist: { x: [], youtube: [], tiktok: [], instagram: [], facebook: [], reddit: [] },

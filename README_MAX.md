@@ -41,12 +41,12 @@ Les vidéos masquées (YouTube, Shorts, Reels, TikTok, vidéos d'un post…) son
 - **Compteurs** : bloqués sur la page courante (aussi affiché en badge sur l'icône) et au total.
 - **Délai avant affichage** : durée du compte à rebours (voir plus haut).
 - **Mots-clés personnalisés** : masquent le contenu dans les deux modes.
-- **Thème** : « Vice City (clair) » (par défaut), « Sombre (noir et rouge) » ou « Sunset (style du site) », sauvegardé dans `chrome.storage.sync`. Ne change pas l'écran noir anti-spoil, qui reste toujours opaque.
+- **Thème** : « Sunset (style du site) » (par défaut), « Sunset sombre », « Vice City (clair) » ou « Sombre (noir et rouge) », sauvegardé dans `chrome.storage.sync`. Ne change pas l'écran noir anti-spoil, qui reste toujours opaque.
 
 ### Thèmes de la popup
 
 Les couleurs sont des **variables CSS** (`popup.css` n'en contient aucune en dur). Un fichier par thème :
-`themes/theme-vicecity.css` (clair, rose néon / orange / violet / turquoise, contrastes AA vérifiés), `themes/theme-dark.css` (l'ancien thème, à l'identique) et `themes/theme-sunset.css` (direction artistique du site : bandeau coucher de soleil, police Archivo embarquée dans `fonts/`, cartes arrondies ; ce thème change aussi la mise en page : popup de 400 px, plus d'espace, le tout limité à `:root[data-theme="sunset"]`). L'ancienne feuille de style, l'ancien HTML et l'ancien JS de la popup sont conservés tels quels dans `themes/backup/`. Pour créer un thème : copier `theme-dark.css`, changer le sélecteur `:root[data-theme="…"]` et les valeurs, l'ajouter dans `popup.html` et dans la liste `<select id="theme">`, puis dans la liste `THEMES` de `popup.js` et la liste `themes` de `theme-init.js`.
+`themes/theme-vicecity.css` (clair, rose néon / orange / violet / turquoise, contrastes AA vérifiés), `themes/theme-dark.css` (l'ancien thème, à l'identique), `themes/theme-sunset.css` (thème par défaut, direction artistique du site : bandeau coucher de soleil, police Archivo embarquée dans `fonts/`, cartes arrondies ; il change aussi la mise en page : popup de 400 px, plus d'espace, règles `:root[data-theme^="sunset"]`) et `themes/theme-sunset-dark.css` (sa version sombre : mêmes règles de mise en page, seules les couleurs changent). L'ancienne feuille de style, l'ancien HTML et l'ancien JS de la popup sont conservés tels quels dans `themes/backup/`. Pour créer un thème : copier `theme-dark.css`, changer le sélecteur `:root[data-theme="…"]` et les valeurs, l'ajouter dans `popup.html` et dans la liste `<select id="theme">`, puis dans la liste `THEMES` de `popup.js` et la liste `themes` de `theme-init.js`.
 
 ### Les deux modes
 

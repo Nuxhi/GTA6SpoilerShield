@@ -39,7 +39,7 @@ const videoCss = `<style>
 const pages = {
   'x.com': () => `<!doctype html><title>Demo timeline</title>${feedCss}
     <header>Demo timeline</header><main id="tl">
-      ${tweet('t1', 'demo_user', 'Demo User', '#7b3fe4', 'Coffee first, then code. ☕ Happy Monday everyone!')}
+      ${tweet('t1', 'nuxhii', 'Nuxhii', '#7b3fe4', 'Coffee first, then code. ☕ Happy Monday everyone!')}
       ${tweet('t2', 'random_fan', 'Random Fan', '#ff2e93', 'Thread: my thoughts on the GTA 6 release date discussion 🧵')}
       ${tweet('t3', 'demo_studio', 'Demo Studio', '#12b5b0', 'Weekly GTA 6 news roundup from our (fictional) studio account.')}
     </main>`,
@@ -48,39 +48,39 @@ const pages = {
     <header>Demo videos</header><div id="grid">
       ${card('v1', 'Easy pancakes in 10 minutes', 'Demo Kitchen', 'demo_kitchen', 'linear-gradient(135deg,#ffd36e,#ff8a3d)')}
       ${card('v2', 'GTA 6 trailer reaction (fictional)', 'Random Gamer', 'random_gamer', 'linear-gradient(135deg,#ff2e93,#7b3fe4)')}
-      ${card('v3', 'Official GTA 6 news (fictional channel)', 'Demo Channel', 'demo_channel', 'linear-gradient(135deg,#19c3e6,#12b5b0)')}
+      ${card('v3', 'GTA 6 news roundup (fictional)', 'Nuxhii', 'nuxhii', 'linear-gradient(135deg,#19c3e6,#12b5b0)')}
     </div>`,
 };
 
-// ── Bannière originale, couleurs Vice City (aucun logo ni visuel officiel) ──
+// ── Bannière originale : même fond que le hero du site (ciel dégradé, soleil rayé, sol en grille) ──
+const fontUrl = 'data:font/woff2;base64,' + require('fs').readFileSync(
+  require('path').join(__dirname, '..', '..', '..', 'site', 'assets', 'fonts', 'archivo-latin-wdth-normal.woff2')).toString('base64');
 const bannerHtml = `<!doctype html><meta charset="utf-8"><style>
-  *{margin:0;box-sizing:border-box} body{width:1280px;height:640px;overflow:hidden;font-family:system-ui,"Segoe UI",Roboto,Arial,sans-serif;
-    background:linear-gradient(180deg,#2b1d4d 0%,#7b3fe4 28%,#ff2e93 58%,#ff8a3d 82%,#ffd36e 100%);position:relative}
-  .sun{position:absolute;left:50%;top:210px;width:420px;height:420px;margin-left:-210px;border-radius:50%;
-    background:linear-gradient(180deg,#ffd36e 0%,#ff8a3d 55%,#ff2e93 100%);
-    -webkit-mask:repeating-linear-gradient(180deg,#000 0 26px,transparent 26px 32px);mask:repeating-linear-gradient(180deg,#000 0 26px,transparent 26px 32px);
-    -webkit-mask-size:100% 100%;opacity:.95}
-  .sea{position:absolute;left:0;right:0;bottom:0;height:150px;background:linear-gradient(180deg,#19c3e6,#12b5b0 55%,#0b6f80)}
-  .grid{position:absolute;left:0;right:0;bottom:0;height:150px;background:
-    repeating-linear-gradient(90deg,rgba(255,255,255,.18) 0 2px,transparent 2px 64px),repeating-linear-gradient(0deg,rgba(255,255,255,.18) 0 2px,transparent 2px 30px);opacity:.5}
-  .palm{position:absolute;bottom:130px;width:12px;background:#1b0f35;border-radius:6px}
-  .leaf{position:absolute;height:10px;width:130px;background:#1b0f35;border-radius:50% 50% 0 0;transform-origin:left center}
-  .card{position:absolute;left:50%;top:150px;transform:translateX(-50%);width:880px;text-align:center;color:#fff}
-  .shield{width:120px;height:120px;margin:0 auto 14px;filter:drop-shadow(0 6px 14px rgba(0,0,0,.35))}
-  h1{font-size:76px;letter-spacing:1px;font-weight:800;text-shadow:0 4px 18px rgba(43,29,77,.55)}
-  p{margin-top:14px;font-size:30px;font-weight:600;text-shadow:0 2px 10px rgba(43,29,77,.6)}
-  .tag{display:inline-block;margin-top:22px;padding:8px 22px;border-radius:999px;background:rgba(255,255,255,.92);color:#2b1d4d;font-size:20px;font-weight:700}
+  @font-face{font-family:"Archivo";src:url("${fontUrl}") format("woff2");font-weight:100 900;font-stretch:62% 125%}
+  *{margin:0;box-sizing:border-box}
+  body{width:1280px;height:640px;overflow:hidden;position:relative;font-family:"Archivo",system-ui,"Segoe UI",Arial,sans-serif;color:#fff;
+    background:linear-gradient(180deg,#30217a 0%,#54298f 24%,#8a3da4 46%,#bb459f 62%,#ff7f87 80%,#ffbf86 93%,#ffd9a0 100%)}
+  .sun{position:absolute;left:50%;bottom:74px;width:320px;height:320px;transform:translateX(-50%);border-radius:50%;
+    background:linear-gradient(180deg,#ffe58a 8%,#ffa27a 48%,#ff4f9a 100%);
+    -webkit-mask-image:linear-gradient(180deg,#000 0 56%,transparent 56% 60%,#000 60% 67%,transparent 67% 72%,#000 72% 78%,transparent 78% 83%,#000 83% 88%,transparent 88% 92%,#000 92% 95%,transparent 95%);
+            mask-image:linear-gradient(180deg,#000 0 56%,transparent 56% 60%,#000 60% 67%,transparent 67% 72%,#000 72% 78%,transparent 78% 83%,#000 83% 88%,transparent 88% 92%,#000 92% 95%,transparent 95%)}
+  .floor{position:absolute;left:0;right:0;bottom:0;height:128px;overflow:hidden;
+    background:linear-gradient(180deg,#9d5fc9 0%,#d49be3 55%,#f0c8ee 100%);border-top:2px solid rgba(255,224,246,.9);perspective:220px}
+  .floor::before{content:"";position:absolute;left:-50%;right:-50%;top:0;height:260%;transform-origin:top center;transform:rotateX(62deg);
+    background-image:linear-gradient(rgba(255,255,255,.6) 2px,transparent 2px),linear-gradient(90deg,rgba(255,255,255,.6) 2px,transparent 2px);
+    background-size:56px 56px;background-position:center top}
+  .card{position:absolute;left:0;right:0;top:34px;text-align:center}
+  .shield{width:88px;height:88px;margin:0 auto 10px;filter:drop-shadow(0 8px 18px rgba(30,10,80,.35))}
+  h1{font-size:84px;line-height:1;font-weight:850;font-stretch:90%;text-shadow:0 4px 30px rgba(30,10,80,.25)}
+  p{margin-top:12px;font-size:28px;font-weight:650;color:rgba(255,255,255,.95);text-shadow:0 2px 14px rgba(40,10,80,.45)}
+  .tag{display:inline-block;margin-top:18px;padding:9px 24px;border-radius:999px;background:rgba(255,255,255,.94);color:#2b1d4d;font-size:20px;font-weight:750;
+    box-shadow:0 14px 30px -14px rgba(80,30,120,.6)}
 </style>
-<div class="sun"></div><div class="sea"></div><div class="grid"></div>
-<div class="palm" style="left:70px;height:360px;transform:rotate(-4deg)"></div>
-<div class="leaf" style="left:76px;bottom:488px;transform:rotate(-20deg)"></div><div class="leaf" style="left:76px;bottom:488px;transform:rotate(25deg)"></div><div class="leaf" style="left:76px;bottom:488px;transform:rotate(-70deg)"></div>
-<div class="palm" style="right:90px;height:300px;transform:rotate(5deg)"></div>
-<div class="leaf" style="right:96px;bottom:428px;transform:rotate(200deg)"></div><div class="leaf" style="right:96px;bottom:428px;transform:rotate(155deg)"></div><div class="leaf" style="right:96px;bottom:428px;transform:rotate(250deg)"></div>
+<div class="sun"></div><div class="floor"></div>
 <div class="card">
-  <svg class="shield" viewBox="0 0 24 24"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff2e93"/><stop offset="1" stop-color="#7b3fe4"/></linearGradient></defs>
+  <svg class="shield" viewBox="0 0 24 24"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff2e93"/><stop offset="1" stop-color="#ff8a3d"/></linearGradient></defs>
     <path d="M12 2l8 3v6c0 5-3.4 9.3-8 11-4.6-1.7-8-6-8-11V5z" fill="url(#g)" stroke="#fff" stroke-width="1.2"/>
-    <path d="M12 7v10M8 10.5c0-1.4 1.8-2.2 4-2.2s4 .8 4 2.2-1.8 2-4 2.4-4 1-4 2.4 1.8 2.2 4 2.2" fill="none" stroke="#fff" stroke-width="1.4" stroke-linecap="round" opacity="0"/>
-    <text x="12" y="15.2" text-anchor="middle" font-size="9" font-weight="800" fill="#fff" font-family="Arial,sans-serif">6</text></svg>
+    <text x="12" y="15.2" text-anchor="middle" font-size="9" font-weight="800" fill="#fff" font-family="Archivo,Arial,sans-serif">6</text></svg>
   <h1>GTA 6 Spoiler Shield</h1>
   <p>Browse the internet without spoilers</p>
   <span class="tag">Unofficial fan project · 100% local</span>

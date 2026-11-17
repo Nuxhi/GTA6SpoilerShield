@@ -9,7 +9,7 @@ const W = self.G6S.whitelist;
 
 // Garder ces valeurs par défaut cohérentes avec keywords.js (DEFAULT_SETTINGS) et background.js.
 const DEFAULTS = {
-  enabled: true, mode: 'extreme', customKeywords: [], revealDelay: 5, theme: 'vicecity',
+  enabled: true, mode: 'extreme', customKeywords: [], revealDelay: 5, theme: 'sunset',
   whitelistEnabled: true, whitelist: { x: [], youtube: [], tiktok: [], instagram: [], facebook: [], reddit: [] },
 };
 const MAX_KEYWORDS = 100;
@@ -33,7 +33,7 @@ $('tabBtnWhitelist').addEventListener('click', () => showTab('whitelist'));
 
 // ═══ Réglages ══════════════════════════════════════════════════════════
 // Thèmes disponibles (le premier est celui par défaut). À garder en phase avec theme-init.js.
-const THEMES = ['vicecity', 'dark', 'sunset'];
+const THEMES = ['sunset', 'sunset-dark', 'vicecity', 'dark'];
 const validTheme = (theme) => (THEMES.includes(theme) ? theme : THEMES[0]);
 
 function applyTheme(theme) {

@@ -1,6 +1,6 @@
 # Captures d'écran du README
 
-Génère les images de `Autre/docs/screenshots/` de façon reproductible. L'extension est chargée dans un vrai navigateur et tourne sur des **pages factices locales** (`pages.js`) : aucun vrai réseau social, aucun vrai compte, aucun vrai spoil, aucun logo ni visuel protégé. La bannière est un design original (HTML/CSS) aux couleurs Vice City.
+Génère les images de `Autre/docs/screenshots/` de façon reproductible. L'extension est chargée dans un vrai navigateur et tourne sur des **pages factices locales** (`pages.js`) : aucun vrai réseau social, aucun vrai compte, aucun vrai spoil, aucun logo ni visuel protégé. La bannière est un design original (HTML/CSS) qui reprend le fond du hero du site (ciel dégradé, soleil rayé, sol en grille).
 
 ## Prérequis (développement uniquement)
 
@@ -14,4 +14,4 @@ Génère les images de `Autre/docs/screenshots/` de façon reproductible. L'exte
 node make.js
 ```
 
-Produit : `banner.png`, `popup-vicecity.png`, `popup-dark.png`, `whitelist-vicecity.png`, `whitelist-dark.png`, `blocked-x.png`, `blocked-youtube.png`, `countdown.png`.
+Produit : `banner.png`, `popup-sunset.png`, `popup-sunset-dark.png`, `whitelist-sunset.png`, `whitelist-sunset-dark.png`, `blocked-x.png`, `blocked-youtube.png`, `countdown.png`.
