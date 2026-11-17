@@ -60,8 +60,8 @@ const server = https.createServer(
   };
 
   // Réglages de démonstration : mode Extrême, délai 5 s, liste blanche avec des comptes FICTIFS.
-  await setSync({ enabled: true, mode: 'extreme', customKeywords: [], revealDelay: 5, theme: 'vicecity', whitelistEnabled: true,
-    whitelist: { ...EMPTY, x: ['demo_studio'], youtube: ['demo_channel'] } });
+  await setSync({ enabled: true, mode: 'extreme', customKeywords: [], revealDelay: 5, theme: 'sunset', whitelistEnabled: true,
+    whitelist: { ...EMPTY, x: ['demo_studio'], youtube: ['nuxhii'] } });
   await sw.evaluate(() => chrome.storage.local.set({ totalBlocked: 0 }));
 
   console.log('Pages bloquées');
@@ -85,27 +85,23 @@ const server = https.createServer(
 
   console.log('Popup');
   // Liste blanche affichée dans les captures de la popup (le faux fil X garde demo_studio, déjà rendu)
-  await setSync({ whitelist: { ...EMPTY, x: ['nuxhii'], youtube: ['demo_channel'] } });
+  await setSync({ whitelist: { ...EMPTY, x: ['nuxhii', 'demo_studio'], youtube: ['nuxhii'] } });
   const pop = await browser.newPage();
   await pop.setViewport({ width: 340, height: 700, deviceScaleFactor: 2 }); // largeur réelle de la popup
   await pop.goto(`chrome-extension://${extId}/popup.html`);
   await sleep(700);
-  await pop.screenshot({ path: path.join(OUT, 'popup-vicecity.png'), fullPage: true });
-  console.log('  ✓ popup-vicecity.png');
-  await pop.setViewport({ width: 340, height: 960, deviceScaleFactor: 2 });
-  await pop.click('#tabBtnWhitelist'); await sleep(300);
-  await pop.screenshot({ path: path.join(OUT, 'whitelist-vicecity.png'), fullPage: true });
-  console.log('  ✓ whitelist-vicecity.png');
-  await pop.select('#theme', 'dark').catch(() => {});
-  await pop.setViewport({ width: 340, height: 700, deviceScaleFactor: 2 });
-  await pop.click('#tabBtnSettings'); await pop.select('#theme', 'dark'); await sleep(300);
-  await pop.screenshot({ path: path.join(OUT, 'popup-dark.png'), fullPage: true });
-  console.log('  ✓ popup-dark.png');
-  await pop.setViewport({ width: 340, height: 960, deviceScaleFactor: 2 });
-  await pop.click('#tabBtnWhitelist'); await sleep(300);
-  await pop.screenshot({ path: path.join(OUT, 'whitelist-dark.png'), fullPage: true });
-  console.log('  ✓ whitelist-dark.png');
-  await setSync({ theme: 'vicecity' });
+  // Les deux thèmes Sunset : clair (par défaut) puis sombre
+  for (const theme of ['sunset', 'sunset-dark']) {
+    await pop.setViewport({ width: 340, height: 700, deviceScaleFactor: 2 });
+    await pop.click('#tabBtnSettings'); await pop.select('#theme', theme); await sleep(400);
+    await pop.screenshot({ path: path.join(OUT, `popup-${theme}.png`), fullPage: true });
+    console.log(`  ✓ popup-${theme}.png`);
+    await pop.setViewport({ width: 340, height: 960, deviceScaleFactor: 2 });
+    await pop.click('#tabBtnWhitelist'); await sleep(300);
+    await pop.screenshot({ path: path.join(OUT, `whitelist-${theme}.png`), fullPage: true });
+    console.log(`  ✓ whitelist-${theme}.png`);
+  }
+  await pop.click('#tabBtnSettings'); await pop.select('#theme', 'sunset'); await sleep(300);
   await pop.close();
 
   console.log('Bannière');

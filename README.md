@@ -41,9 +41,12 @@ It works on the websites where spoilers hide the most, and everything happens in
 
 <table>
   <tr>
-    <td align="center"><img src="Autre/docs/screenshots/popup-vicecity.png" alt="Popup, Vice City light theme" width="260"><br><sub>Popup · Vice City (light)</sub></td>
-    <td align="center"><img src="Autre/docs/screenshots/popup-dark.png" alt="Popup, dark theme" width="260"><br><sub>Popup · Dark</sub></td>
-    <td align="center"><img src="Autre/docs/screenshots/whitelist-vicecity.png" alt="Account allowlist tab" width="260"><br><sub>Account allowlist</sub></td>
+    <td align="center"><img src="Autre/docs/screenshots/popup-sunset.png" alt="Popup, Sunset theme" width="260"><br><sub>Popup · Sunset</sub></td>
+    <td align="center"><img src="Autre/docs/screenshots/popup-sunset-dark.png" alt="Popup, Sunset dark theme" width="260"><br><sub>Popup · Sunset dark</sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="Autre/docs/screenshots/whitelist-sunset.png" alt="Account allowlist tab, Sunset theme" width="260"><br><sub>Account allowlist · Sunset</sub></td>
+    <td align="center"><img src="Autre/docs/screenshots/whitelist-sunset-dark.png" alt="Account allowlist tab, Sunset dark theme" width="260"><br><sub>Account allowlist · Sunset dark</sub></td>
   </tr>
 </table>
 
@@ -172,9 +175,12 @@ Elle fonctionne sur les sites où les spoilers se cachent le plus, et tout se pa
 
 <table>
   <tr>
-    <td align="center"><img src="Autre/docs/screenshots/popup-vicecity.png" alt="Popup, thème Vice City clair" width="260"><br><sub>Popup · Vice City (clair)</sub></td>
-    <td align="center"><img src="Autre/docs/screenshots/popup-dark.png" alt="Popup, thème sombre" width="260"><br><sub>Popup · Sombre</sub></td>
-    <td align="center"><img src="Autre/docs/screenshots/whitelist-vicecity.png" alt="Onglet de la liste blanche de comptes" width="260"><br><sub>Liste blanche de comptes</sub></td>
+    <td align="center"><img src="Autre/docs/screenshots/popup-sunset.png" alt="Popup, thème Sunset" width="260"><br><sub>Popup · Sunset</sub></td>
+    <td align="center"><img src="Autre/docs/screenshots/popup-sunset-dark.png" alt="Popup, thème Sunset sombre" width="260"><br><sub>Popup · Sunset sombre</sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="Autre/docs/screenshots/whitelist-sunset.png" alt="Onglet de la liste blanche de comptes, thème Sunset" width="260"><br><sub>Liste blanche · Sunset</sub></td>
+    <td align="center"><img src="Autre/docs/screenshots/whitelist-sunset-dark.png" alt="Onglet de la liste blanche de comptes, thème Sunset sombre" width="260"><br><sub>Liste blanche · Sunset sombre</sub></td>
   </tr>
 </table>
 
