@@ -1,6 +1,6 @@
 # GTA 6 Spoiler Shield
 
-Extension Chrome (Manifest V3) qui **masque automatiquement tout contenu pouvant spoiler Grand Theft Auto VI** (sortie le 19 novembre 2026) : X/Twitter, Reddit, YouTube (Shorts inclus), TikTok, Instagram, Facebook, Google (résultats, aperçus IA, annonces…) et, en repli générique, n'importe quel autre site.
+Extension Chrome et Firefox (Manifest V3) qui **masque automatiquement tout contenu pouvant spoiler Grand Theft Auto VI** (sortie le 19 novembre 2026) : X/Twitter, Reddit, YouTube (Shorts inclus), TikTok, Instagram, Facebook, Google (résultats, aperçus IA, annonces…) et, en repli générique, n'importe quel autre site.
 
 - Interface en français, mots-clés détectés en 6 langues (fr, en, es, it, de, pt).
 - JavaScript vanilla, **aucune dépendance**, **aucune donnée envoyée sur Internet** : tout est traité localement.
@@ -9,13 +9,25 @@ Extension Chrome (Manifest V3) qui **masque automatiquement tout contenu pouvant
 
 ## Installation (mode développeur)
 
-1. Ouvrez `chrome://extensions`.
+**Compatibilité** : Chrome 121 et plus, Edge, Brave, Opera (Chromium) et Firefox 128 et plus. Un seul dossier `extension/` sert pour les deux navigateurs : le `manifest.json` contient les réglages des deux (`service_worker` pour Chrome, `scripts` pour Firefox, et `browser_specific_settings.gecko` pour Firefox).
+
+### Chrome / Edge / Brave / Opera
+
+1. Ouvrez `chrome://extensions` (Edge : `edge://extensions`).
 2. Activez **Mode développeur** (en haut à droite).
 3. Cliquez **Charger l'extension non empaquetée** et choisissez le dossier `extension/` (celui qui contient `manifest.json`).
 4. Épinglez l'icône « 6 » dans la barre d'outils pour accéder à la popup.
 5. **Rechargez les onglets déjà ouverts** : l'extension ne s'injecte que dans les pages chargées après son installation.
 
 Pour mettre à jour après une modification du code (ex. `keywords.js`) : bouton ↻ sur la carte de l'extension dans `chrome://extensions`, puis rechargez les onglets.
+
+### Firefox
+
+1. Ouvrez `about:debugging#/runtime/this-firefox`.
+2. Cliquez **Charger un module temporaire…** et choisissez le fichier `extension/manifest.json`.
+3. Rechargez les onglets déjà ouverts.
+
+> Le module temporaire disparaît à la fermeture de Firefox : il faut le recharger à chaque démarrage. Une installation permanente demande une signature par Mozilla (`web-ext sign`, avec un compte addons.mozilla.org).
 
 > Les sites Google Workspace (Gmail, Docs, Drive, Agenda, Meet, compte Google) sont exclus dans le manifeste.
 
@@ -119,8 +131,8 @@ Le DOM réel a été inspecté là où il est accessible sans compte : **YouTube
 ## Structure du projet
 
 ```
-extension/             ★ L'extension elle-même (dossier à charger dans Chrome)
-  manifest.json          MV3 : un content script (document_start) + service worker + popup
+extension/             ★ L'extension elle-même (dossier à charger dans Chrome ou Firefox)
+  manifest.json          MV3 : un content script (document_start) + arrière-plan (service worker pour Chrome, script pour Firefox) + popup
   keywords.js            ★ Listes de mots-clés (jeu, personnages, lieux, spoils par langue) + réglages par défaut
   themes/                Thèmes de la popup (variables CSS) ; themes/backup/ = popup d'origine intacte
   theme-init.js          Applique le thème avant l'affichage de la popup
@@ -137,7 +149,7 @@ extension/             ★ L'extension elle-même (dossier à charger dans Chrom
   sites/instagram.js     Instagram (fil, grilles, Reels, stories, profil)
   sites/facebook.js      Facebook (posts, commentaires, Marketplace, Reels)
   sites/google.js        Google (résultats, aperçus IA, annonces, Actualités…)
-  background.js          Compteur total + badge de l'icône
+  background.js          Compteur total + badge de l'icône (commun à Chrome et Firefox)
   popup.html/.css/.js    Interface
   icons/, fonts/         Icônes et police de la popup
 KEYWORDS.md            Liste exhaustive des mots-clés (générée), par catégorie / langue / mode, avec lignes

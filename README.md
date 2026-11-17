@@ -10,13 +10,14 @@
 
 **Browse the internet without GTA 6 spoilers.**
 
-![Version](https://img.shields.io/badge/version-1.2.0-ff2e93)
+![Version](https://img.shields.io/badge/version-1.3.0-ff2e93)
 ![License: MIT](https://img.shields.io/badge/license-MIT-7b3fe4)
-![Chrome](https://img.shields.io/badge/Chrome-110%2B-19c3e6)
+![Chrome](https://img.shields.io/badge/Chrome-121%2B-19c3e6)
+![Firefox](https://img.shields.io/badge/Firefox-128%2B-ff8a3d)
 ![Manifest V3](https://img.shields.io/badge/Manifest-V3-12b5b0)
 
 <p align="center">
-  <img src="Autre/docs/screenshots/banner.png" alt="GTA 6 Spoiler Shield banner: a retro Miami sunset with the extension name" width="100%">
+  <img src="Autre/docs/screenshots/banner.png" alt="GTA 6 Spoiler Shield banner: a sunset over a neon grid with the extension name" width="100%">
 </p>
 
 ## What it does
@@ -81,7 +82,7 @@ You can switch mode at any time from the extension popup.
 
 ## Installation
 
-This extension is **free and distributed directly from GitHub**: there is no store and nothing to pay. You install it yourself in about a minute, in Chrome or any Chromium-based browser (Edge, Brave, Opera…).
+This extension is **free and distributed directly from GitHub**: there is no store and nothing to pay. You install it yourself in about a minute, in Chrome, Firefox or any Chromium-based browser (Edge, Brave, Opera…).
 
 1. **Download** the project: on the GitHub page, click the green **Code** button, then **Download ZIP**.
 2. **Unzip** it into a folder you will **keep** (for example `Documents\GTA6SpoilerShield`). ⚠️ Chrome reads the extension from this folder every time it starts: **do not delete or move it** afterwards.
@@ -92,10 +93,12 @@ This extension is **free and distributed directly from GitHub**: there is no sto
 
 **To update:** download the new ZIP, replace the contents of your folder, click the circular arrow (↻) on the extension's card in `chrome://extensions`, then reload your tabs. Your settings are kept.
 
+**On Firefox** (128 or later): open **`about:debugging#/runtime/this-firefox`**, click **Load Temporary Add-on…** and select the **`manifest.json`** file inside the **`extension`** folder. Firefox removes temporary add-ons when it closes, so you have to load it again at each start. The permanent install needs the extension to be signed by Mozilla.
+
 **Good to know**
 - When Chrome starts, it may show *"Disable developer mode extensions"*. This is normal for any extension installed this way: close the message or choose to keep it. Do not click *Disable*.
 - It works the same as a store extension: it runs every time you open the browser.
-- Firefox and Safari are not supported (Chromium-based browsers only).
+- Firefox 128 and later is supported too (see above). Safari is not supported.
 
 ## Privacy
 
@@ -144,13 +147,14 @@ This is an **unofficial fan project**. It is **not affiliated with, endorsed by 
 
 **Naviguez sur Internet sans spoilers de GTA 6.**
 
-![Version](https://img.shields.io/badge/version-1.2.0-ff2e93)
+![Version](https://img.shields.io/badge/version-1.3.0-ff2e93)
 ![Licence : MIT](https://img.shields.io/badge/licence-MIT-7b3fe4)
-![Chrome](https://img.shields.io/badge/Chrome-110%2B-19c3e6)
+![Chrome](https://img.shields.io/badge/Chrome-121%2B-19c3e6)
+![Firefox](https://img.shields.io/badge/Firefox-128%2B-ff8a3d)
 ![Manifest V3](https://img.shields.io/badge/Manifest-V3-12b5b0)
 
 <p align="center">
-  <img src="Autre/docs/screenshots/banner.png" alt="Bannière de GTA 6 Spoiler Shield : un coucher de soleil rétro façon Miami avec le nom de l'extension" width="100%">
+  <img src="Autre/docs/screenshots/banner.png" alt="Bannière de GTA 6 Spoiler Shield : un coucher de soleil sur une grille néon, avec le nom de l'extension" width="100%">
 </p>
 
 ## Ce que fait l'extension
@@ -215,7 +219,7 @@ Vous pouvez changer de mode à tout moment depuis la popup de l'extension.
 
 ## Installation
 
-Cette extension est **gratuite et distribuée directement depuis GitHub** : pas de boutique, rien à payer. Vous l'installez vous-même en environ une minute, dans Chrome ou tout navigateur basé sur Chromium (Edge, Brave, Opera…).
+Cette extension est **gratuite et distribuée directement depuis GitHub** : pas de boutique, rien à payer. Vous l'installez vous-même en environ une minute, dans Chrome, Firefox ou tout navigateur basé sur Chromium (Edge, Brave, Opera…).
 
 1. **Téléchargez** le projet : sur la page GitHub, cliquez sur le bouton vert **Code**, puis **Download ZIP**.
 2. **Décompressez** l'archive dans un dossier que vous allez **garder** (par exemple `Documents\GTA6SpoilerShield`). ⚠️ Chrome relit l'extension depuis ce dossier à chaque démarrage : **ne le supprimez pas et ne le déplacez pas** ensuite.
@@ -226,10 +230,12 @@ Cette extension est **gratuite et distribuée directement depuis GitHub** : pas 
 
 **Pour mettre à jour :** téléchargez le nouveau ZIP, remplacez le contenu de votre dossier, cliquez sur la flèche circulaire (↻) de la carte de l'extension dans `chrome://extensions`, puis rechargez vos onglets. Vos réglages sont conservés.
 
+**Sur Firefox** (128 ou plus) : ouvrez **`about:debugging#/runtime/this-firefox`**, cliquez sur **Charger un module temporaire…** et choisissez le fichier **`manifest.json`** dans le dossier **`extension`**. Firefox supprime les modules temporaires à la fermeture : il faut donc les recharger à chaque démarrage. Une installation permanente demande que l'extension soit signée par Mozilla.
+
 **Bon à savoir**
 - Au démarrage, Chrome peut afficher *« Désactiver les extensions en mode développeur »*. C'est normal pour toute extension installée ainsi : fermez le message ou choisissez de la conserver. Ne cliquez pas sur *Désactiver*.
 - Elle fonctionne comme une extension du Store : elle se lance à chaque ouverture du navigateur.
-- Firefox et Safari ne sont pas pris en charge (navigateurs basés sur Chromium uniquement).
+- Firefox 128 et plus est aussi pris en charge (voir plus haut). Safari n'est pas pris en charge.
 
 ## Confidentialité
 
